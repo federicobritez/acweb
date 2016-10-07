@@ -1,0 +1,64 @@
+
+Requisitos 
+	-1 Usuarios se loguean con nombre y clave. Validaciones
+
+	-2 Un nuevo usuario puede registrarse desde la página. 
+
+	-3 Recuperan contraseña desde el email.
+
+	-4 Usuarios solo pueden ver sus reservas y sus consumos.
+
+	-5 Usuario pueden reservas,confirmar y eliminar  servicios.
+
+	-6 Usuario si confirma debe pagar con tarjeta de credito.
+
+	-7 El sistema debe entregar comprobante y factura una vez acreditado el pago.
+
+	-8 El sistema debe reflejar los cambios en ambas aplicaciones (escritoria y web).
+
+	-9 La aplicación web debe notificar al usuario el estado de la transacción. 
+		Mensaje de respuesta a las acciones del usuario.
+
+	-10 El dominio debe contar con una dirección de email para poder recibir
+	consulta de los clientes.
+
+	-11 El cliente (añoranzas chaqueñas) debería estar en las redes sociales. 
+	Fotos, experiencias de usuario, calendario, promociones para temporada baja,
+	promocion por temporada de pesca, etc.
+
+	-12 Mapa del Sitio 
+
+	-13 Orientación de ayuda o FAQ.
+
+	
+
+Implementaciones:
+	1 - Corregir la DB para agregar campos o tablas referidas a registro web de usuario
+
+	2 - Formulario en Pagina Web para registrarse
+
+	3 - Hacer obligario el campo email en el formulario del punto 2,
+
+	4 - Crear vista en DB para que solo puedan ver: Servicios, Horarios, Habitaciones, Reservas .
+	Solo servicios con págo con tarjeta de crédito.
+
+	5 y 6 - Formulario para que los usuario hagan eso. Usar AJAX y Notify
+
+	7 - Usar libreria jquery-print y modularizar el proceso de facturación para reciclar codigo
+
+	8 - Deben compartir la misma DB
+
+	9 - PNotify y tratamiendo de respuestas AJAX
+
+	10- Buscar un hosting que nos de una par de cuentas de email gratis
+
+	11- Asociar los botones de facebook y de twiter a algún emprendimiento parecido
+
+	12- NO se como se hace eso
+
+	13- Tratar de poner aclaraciones en los formularios acerca de su uso. 
+
+
+
+
+
