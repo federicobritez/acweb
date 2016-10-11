@@ -77,7 +77,7 @@
 
 
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-md-4 col-sm-5" id="login">
         <form class="form-horizontal" action="{{ path('login', {'page': ''}) }}" method="post" >
           <fieldset>
             <legend>Login Test </legend>
@@ -102,11 +102,101 @@
               <div class="col-lg-10 col-lg-offset-2">
                 <button type="reset" class="btn btn-default">Cancel</button>
                 <button type="submit" class="btn btn-primary">Submit</button>
+                <hr>
+                <button type="button" class="btn btn-info" onclick="swicht()">Registrarce</button>
               </div>
             </div>
           </fieldset>
         </form>
     </div>
+    <div class="col-md-8 col-sm-7" id="register" >
+        <div class="box-static box-transparent box-bordered padding-30">
+            <div class="box-title margin-bottom-30">
+                <legend>Crear cuenta</legend>
+            </div>
+            <form class="nomargin sky-form" action="#" method="post" enctype="multipart/form-data">
+                <fieldset>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-lg-2 control-label">
+                                <label>Nombres *</label>
+                                <label class="input margin-bottom-10">
+                                    <i class="ico-append fa fa-user"></i>
+                                    <input required="" type="text">
+                                    <b class="tooltip tooltip-bottom-right">Nombres</b>
+                                </label>
+                            </div>
+                            <div class="col-lg-2 control-label">
+                                <label for="register:last_name">Apellidos *</label>
+                                <label class="input margin-bottom-10">
+                                    <i class="ico-append fa fa-user"></i>
+                                    <input required="" type="text">
+                                    <b class="tooltip tooltip-bottom-right">Apellidos</b>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-lg-2 control-label">
+                                <label for="register:email">Email *</label>
+                                <label class="input margin-bottom-10">
+                                    <i class="ico-append fa fa-envelope"></i>
+                                    <input required="" type="text">
+                                    <b class="tooltip tooltip-bottom-right">Email</b>
+                                </label>
+                            </div>
+                            <div class="col-lg-2 control-label">
+                                <label for="register:phone">Teléfono</label>
+                                <label class="input margin-bottom-10">
+                                    <i class="ico-append fa fa-phone"></i>
+                                    <input type="text">
+                                    <b class="tooltip tooltip-bottom-right">Teléfono (opcional)</b>
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-lg-2 control-label">
+                                <label for="register:pass1">Contraseña *</label>
+                                <label class="input margin-bottom-10">
+                                    <i class="ico-append fa fa-lock"></i>
+                                    <input required="" type="password" class="err">
+                                    <b class="tooltip tooltip-bottom-right">Min. 6 caracteres</b>
+                                </label>
+                            </div>
+                            <div class="col-lg-2 control-label">
+                                <label for="register:pass2">Confirmar Contraseña *</label>
+                                <label class="input margin-bottom-10">
+                                    <i class="ico-append fa fa-lock"></i>
+                                    <input required="" type="password" class="err">
+                                    <b class="tooltip tooltip-bottom-right">Type the password again</b>
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr />
+                    <label>
+                        <input class="checked-agree" type="checkbox" name="checkbox"><i></i>Acepto los <a href="#" data-toggle="modal" data-target="#termsModal">Términos y condiciones de servicio</a>
+                    </label>
+                    <br>
+                    <label>
+                        <input type="checkbox" name="checkbox"><i></i>Quiero recibir noticias y ofertas especiales</label>
+                </fieldset>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary"> REGISTRAR</button>
+                        <hr>
+                        <button type="button" class="btn btn-info" onclick="swicht2()">Ingresar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>                    
+
 </div>
 
 </body>
@@ -222,7 +312,22 @@
         // Enable map zooming with mouse scroll when the user clicks the map
     $('.map').on('click', onMapClickHandler);
     </script>
-
+    <!--Ocualtar registo-->
+    <script type="text/javascript">
+        $('#register').hide();
+    </script>
+    <script type="text/javascript">
+        function swicht(){
+            $('#register').show();
+            $('#login').hide();
+        }
+    </script>
+    <script type="text/javascript">
+        function swicht2(){
+            $('#login').show();
+            $('#register').hide();
+        }
+    </script>
 </body>
 
 </html>
