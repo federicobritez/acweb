@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\ServiciosReservables" table="servicios_reservables">
+    <indexes>
+      <index name="fk_servicios_reservables_servicio1_idx" columns="servicio_id"/>
+    </indexes>
+    <id name="servicio" association-key="true"/>
+    <field name="tiempoConfirmacion" type="time" column="tiempo_confirmacion" nullable="true"/>
+    <field name="minimoSenia" type="float" column="minimo_senia" precision="10" scale="0" nullable="true"/>
+    <one-to-one field="servicio" target-entity="Servicio" fetch="LAZY">
+      <join-columns>
+        <join-column name="servicio_id" referenced-column-name="id"/>
+      </join-columns>
+    </one-to-one>
+  </entity>
+</doctrine-mapping>

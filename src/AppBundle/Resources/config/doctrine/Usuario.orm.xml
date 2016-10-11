@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\Usuario" table="usuario">
+    <indexes>
+      <index name="fk_usuario_perfil1_idx" columns="perfil_id"/>
+      <index name="fk_usuario_cliente1_idx" columns="cliente_id"/>
+    </indexes>
+    <unique-constraints>
+      <unique-constraint name="usuario_UNIQUE" columns="usuario"/>
+      <unique-constraint name="idusuario_UNIQUE" columns="idusuario"/>
+    </unique-constraints>
+    <id name="idusuario" type="integer" column="idusuario">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="usuario" type="string" column="usuario" length="45" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="clave" type="string" column="clave" length="45" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <many-to-one field="perfil" target-entity="Perfil" fetch="LAZY">
+      <join-columns>
+        <join-column name="perfil_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="cliente" target-entity="Cliente" fetch="LAZY">
+      <join-columns>
+        <join-column name="cliente_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

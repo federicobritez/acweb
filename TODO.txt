@@ -34,23 +34,28 @@ Requisitos
 
 Implementaciones:
 	1 - Corregir la DB para agregar campos o tablas referidas a registro web de usuario
-
+		 - Se agrega un campo que asocia un usuario con un cliente, este puede ser nulo a fin de manter las funciones del administrador y conserge.
+		 - Se debe crear un usuario para la base de datos que solo pueda seleccionar, insertar, updatear pero no borrar. 
+	
 	2 - Formulario en Pagina Web para registrarse
+		- Usaremos un template bootstrap para darle el formato parecido a la pagina de administracion https://bootswatch.com/flatly/#tables
 
 	3 - Hacer obligario el campo email en el formulario del punto 2,
-
+		
 	4 - Crear vista en DB para que solo puedan ver: Servicios, Horarios, Habitaciones, Reservas .
 	Solo servicios con págo con tarjeta de crédito.
+		- Pendiente..!!
 
 	5 y 6 - Formulario para que los usuario hagan eso. Usar AJAX y Notify
 
 	7 - Usar libreria jquery-print y modularizar el proceso de facturación para reciclar codigo
 
 	8 - Deben compartir la misma DB
+		- Ok , misimo parametros de conexión distinto usuario . Ver archivo de configuracion app/config/parameter.yml
 
 	9 - PNotify y tratamiendo de respuestas AJAX
 
-	10- Buscar un hosting que nos de una par de cuentas de email gratis
+X	10- Buscar un hosting que nos de una par de cuentas de email gratis: tigrimigri.com
 
 	11- Asociar los botones de facebook y de twiter a algún emprendimiento parecido
 

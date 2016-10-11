@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\HorariosReserva" table="horarios_reserva">
+    <indexes>
+      <index name="fk_horarios_reserva_horarios_servicio1_idx" columns="horarios_servicio_id"/>
+      <index name="fk_horarios_reserva_reserva1_idx" columns="reserva_id"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <many-to-one field="reserva" target-entity="Reserva" fetch="LAZY">
+      <join-columns>
+        <join-column name="reserva_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="horariosServicio" target-entity="HorariosServicio" fetch="LAZY">
+      <join-columns>
+        <join-column name="horarios_servicio_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

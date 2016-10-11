@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\Reserva" table="reserva">
+    <indexes>
+      <index name="fk_reserva_estado_reserva1_idx" columns="estado_reserva_id"/>
+      <index name="fk_reserva_cliente1_idx" columns="cliente_id"/>
+      <index name="fk_reserva_servicio1_idx" columns="servicio_id"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="fechaReserva" type="datetime" column="fecha_reserva" nullable="false"/>
+    <field name="fechaDesde" type="datetime" column="fecha_desde" nullable="true"/>
+    <field name="fechaHasta" type="datetime" column="fecha_hasta" nullable="true"/>
+    <field name="cantPersonas" type="integer" column="cant_personas" nullable="false">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="valorTotal" type="float" column="valor_total" precision="10" scale="0" nullable="true"/>
+    <many-to-one field="servicio" target-entity="Servicio" fetch="LAZY">
+      <join-columns>
+        <join-column name="servicio_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="estadoReserva" target-entity="EstadoReserva" fetch="LAZY">
+      <join-columns>
+        <join-column name="estado_reserva_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="cliente" target-entity="Cliente" fetch="LAZY">
+      <join-columns>
+        <join-column name="cliente_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

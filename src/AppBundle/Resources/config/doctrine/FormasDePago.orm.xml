@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\FormasDePago" table="formas_de_pago">
+    <indexes>
+      <index name="fk_forma_de_pago_servicio1_idx" columns="servicio_id"/>
+      <index name="fk_formas_de_pago_tipo_pago1_idx" columns="tipo_pago_id"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <many-to-one field="servicio" target-entity="Servicio" fetch="LAZY">
+      <join-columns>
+        <join-column name="servicio_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="tipoPago" target-entity="TipoPago" fetch="LAZY">
+      <join-columns>
+        <join-column name="tipo_pago_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

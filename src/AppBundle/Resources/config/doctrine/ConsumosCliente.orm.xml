@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\ConsumosCliente" table="consumos_cliente">
+    <indexes>
+      <index name="fk_consumos_serv_otros_servicio1_idx" columns="servicio_id"/>
+      <index name="fk_consumos_serv_otros_cliente1_idx" columns="cliente_id"/>
+      <index name="fk_consumos_serv_otros_tipo_pago1_idx" columns="tipo_pago_id"/>
+      <index name="fk_consumos_cliente_reserva1_idx" columns="reserva_id"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="montoAbonado" type="float" column="monto_abonado" precision="10" scale="0" nullable="true"/>
+    <field name="saldo" type="float" column="saldo" precision="10" scale="0" nullable="true"/>
+    <field name="fecha" type="datetime" column="fecha" nullable="true"/>
+    <many-to-one field="tipoPago" target-entity="TipoPago" fetch="LAZY">
+      <join-columns>
+        <join-column name="tipo_pago_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="servicio" target-entity="Servicio" fetch="LAZY">
+      <join-columns>
+        <join-column name="servicio_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="cliente" target-entity="Cliente" fetch="LAZY">
+      <join-columns>
+        <join-column name="cliente_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="reserva" target-entity="Reserva" fetch="LAZY">
+      <join-columns>
+        <join-column name="reserva_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

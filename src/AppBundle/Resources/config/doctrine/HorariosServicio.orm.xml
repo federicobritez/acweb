@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\HorariosServicio" table="horarios_servicio">
+    <indexes>
+      <index name="fk_horarios_servicio_servicio1_idx" columns="servicio_id"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="horaInicio" type="time" column="hora_inicio" nullable="false"/>
+    <field name="horaFin" type="time" column="hora_fin" nullable="false"/>
+    <many-to-one field="servicio" target-entity="Servicio" fetch="LAZY">
+      <join-columns>
+        <join-column name="servicio_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>
