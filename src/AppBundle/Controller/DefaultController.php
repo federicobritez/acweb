@@ -86,7 +86,6 @@ class DefaultController extends Controller
 
                 $this->get('session')->set('usuario_nombre', $user->getUsuario());
                 $this->get('session')->set('usuario_template', $user->getPerfil()->getVista()->getNombrePlantilla());
-                ;
 
                 $cliente = $user->getCliente();
                 if($cliente != null){
@@ -137,16 +136,73 @@ class DefaultController extends Controller
         $estadosReservas = $em->getRepository('AppBundle:EstadoReserva');
 
 
-        /*  
+        /*  Los reservas impagas
         */
+        // Reservas no abonados por el cliente- No esta en ConsumoCliente
+        $qb = $em->createQueryBuilder();
+        $qb->select('rr')->from('AppBundle:Reserva', 'rr')->leftJoin('AppBundle:ConsumosCliente', 'cc','WITH','rr.id = cc.reserva')->andWhere("cc.reserva IS NULL")->andWhere("rr.cliente=:idcliente")->setParameter("idcliente",$cliente->getId());
+
+        $reservasImpagas = $qb->getQuery()->getResult();
+
+        /*  Los Consumos Reservables del cliente
+        */
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('cc')->from('AppBundle:ConsumosCliente', 'cc')->where('cc.cliente=:idcliente')->andWhere('cc.servicio IS NOT NULL')->orderBy('cc.fecha','DESC')->setParameter('idcliente',$cliente->getId());
+
+        $consumosReservables = $qb->getQuery()->getResult();
+
+        /*  Los Consumos No Reservables del cliente
+        */
+        $qb = $em->createQueryBuilder();
+        $qb->select('cc')->from('AppBundle:ConsumosCliente', 'cc')->where('cc.cliente=:idcliente')->andWhere('cc.servicio is NULL')->orderBy('cc.fecha','DESC')->setParameter('idcliente',$cliente->getId());
+        $consumosNoReservables = $qb->getQuery()->getResult();
+
+
 
         return $this->render(sprintf('acweb/%s.html.twig', "usuarioPanel"),
             array('cliente'=> $cliente,
                   'reservasFuturas'=> $reservasFuturas,
                   'reservasAnteriores'=> $reservasAnteriores,
+                  'reservasImpagas' => $reservasImpagas,
+                  'consumosReservables'=> $consumosReservables,
+                  'consumosNoReservables' => $consumosNoReservables,
                   'estadosReservas' => $estadosReservas));
+    }
+
+
+    /**
+     * Render AcWeb page. Carga el panel de Usurio con información de sus consumos, reservas, facturas, etc
+     *
+     * @Route("/usuarioReservasServicios", name="usuario_reservas_servicios" )
+     *
+     * @param Request $request
+     *
+     *
+     * @return Response
+     */
+    public function usuarioReservasServiciosAction(Request $request){
+
+        $em = $this->getDoctrine()->getManager();
+
+        /*  Los servicios Reservables
+        */
+
+        $query = $em->createQuery('SELECT sr FROM AppBundle:ServiciosReservables sr');
+        $serviciosReservables = $query->getResult();
+
+        /*  Los horarios de Servicios
+        */
+        $query = $em->createQuery('SELECT sr FROM AppBundle:HorariosServicios sr');
+        $HorariosServicios = $query->getResult();
+
+        
+
+        return $this->render(sprintf('acweb/%s.html.twig', "usuarioReservasServicios"),array('serviciosReservables'=>$serviciosReservables));
 
     }
+
+
 
 
 
