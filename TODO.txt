@@ -64,6 +64,17 @@ X	10- Buscar un hosting que nos de una par de cuentas de email gratis: tigrimigr
 	13- Tratar de poner aclaraciones en los formularios acerca de su uso. 
 
 
+Vistas:
+
+	1- Hacer los templates para el panel de Usuario
+	2- Implementar el teme https://bootswatch.com/flatly/#tables en el panel de usuario
+	3- Usar badges para por ejemplo mostrar cant facturas pendientes, cant Reservas realizas, o cant de tipos de pagos disponibles.
 
 
 
+
+Cargas de base de datos:
+	1 - Cargar un poco mas de clientes
+	2 - Cargar las formas de pago disponibles para cada servicio
+	3 - Cargar Consumos de servicio reservables y no reservables
+	4 - Cargar mas usuarios web

@@ -172,7 +172,7 @@ class DefaultController extends Controller
 
 
     /**
-     * Render AcWeb page. Carga el panel de Usurio con información de sus consumos, reservas, facturas, etc
+     * Render AcWeb page. Carga el panel de Usurio con los servicios que puede reservas
      *
      * @Route("/usuarioReservasServicios", name="usuario_reservas_servicios" )
      *
@@ -193,14 +193,44 @@ class DefaultController extends Controller
 
         /*  Los horarios de Servicios
         */
-        $query = $em->createQuery('SELECT sr FROM AppBundle:HorariosServicios sr');
-        $HorariosServicios = $query->getResult();
+        $query = $em->createQuery('SELECT sr FROM AppBundle:HorariosServicio sr');
+        $horariosServicio = $query->getResult();
 
-        
+        /*  Las habitaciones 
+        */  
+        $habitaciones = $em->getRepository('AppBundle:Habitaciones')->findBy( array('estadoHabitacion' => 0));
 
-        return $this->render(sprintf('acweb/%s.html.twig', "usuarioReservasServicios"),array('serviciosReservables'=>$serviciosReservables));
+
+        return $this->render(sprintf('acweb/%s.html.twig', "usuarioReservasServicios"),
+            array('serviciosReservables'=>$serviciosReservables,
+                  'horariosServicios'=> $horariosServicio,
+                  'habitaciones' => $habitaciones));
+    }
+
+    /**
+     * Render AcWeb page. Recibe los datos del servicio comprado. Genera la factura
+     *
+     * @Route("/usuarioFacturar", name="usuario_facturar" )
+     *
+     * @param Request $request
+     *
+     *
+     * @return Response
+     */
+    public function usuarioFacturarAction(Request $request){
+        $reserva_id = $request->get('reserva_id');
+        $tipoPago_id = $request->get('tipo_pago_id');
+        $coutas = $request->get('cant_cuotas');
+
+
+
+        return $this->render(sprintf('acweb/%s.html.twig', "usuarioFacturar"));
+
 
     }
+
+
+
 
 
 
