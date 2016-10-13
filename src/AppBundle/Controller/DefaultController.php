@@ -210,23 +210,189 @@ class DefaultController extends Controller
     /**
      * Render AcWeb page. Recibe los datos del servicio comprado. Genera la factura
      *
-     * @Route("/usuarioFacturar", name="usuario_facturar" )
+     * @Route("/usuarioVerFactura", name="usuario_ver_factura" )
      *
      * @param Request $request
      *
      *
      * @return Response
      */
-    public function usuarioFacturarAction(Request $request){
-        $reserva_id = $request->get('reserva_id');
-        $tipoPago_id = $request->get('tipo_pago_id');
-        $coutas = $request->get('cant_cuotas');
+    public function usuarioVerFacturaAction(Request $request){
+
+
+        $em = $this->getDoctrine()->getManager();
+        
+        $reserva_id = 35;//$request->get('reserva_id');
+        $tipoPago_id = 6;//$request->get('tipo_pago_id');
+        $coutas = 6;//$request->get('cant_cuotas');
+
+
+        /*  El cliente
+        */
+        $cliente = $em->getRepository('AppBundle:Cliente')->find($this->get('session')->get('cliente_id'));
 
 
 
-        return $this->render(sprintf('acweb/%s.html.twig', "usuarioFacturar"));
+        $reserva = $em->getRepository('AppBundle:Reserva')->find($reserva_id);
+
+        $tipoPago = $em->getRepository('AppBundle:TipoPago')->find($tipoPago_id);
+
+        $saldo =  array();
+
+        $saldo["subtotal"] = $this->calcularValorReserva($reserva);
+
+        $interes = ($tipoPago->getInteres()/100)* $saldo["subtotal"];
+                
+        $saldo["interes"] = $interes;
+
+        $saldo["iva"] = 0.21 * $saldo["subtotal"];
+
+        $saldo["total"] = $saldo["subtotal"] + $saldo["interes"]  + $saldo["iva"];
 
 
+
+        $serverTime = new \DateTime(date("Y-m-d H:i:s"));
+
+
+
+
+        return $this->render(sprintf('acweb/%s.html.twig', "usuarioVerFactura"),
+                                array('reserva' => $reserva, 
+                                      'cliente' => $cliente,
+                                      'tipoPago'=> $tipoPago,
+                                      'detalleSaldo' => $saldo,
+                                      'serverTime' => $serverTime));
+
+
+    }
+
+
+    public function calcularValorReserva($reserva){
+
+        /*El valor se calcula:
+            Total = ((V.unitarioServicio)*CantPersonasReserva)*Cantidad de Dias  
+        */
+        if( $reserva == null){
+            return -1;
+        }
+
+        //Cantidad de dias :
+        $intervalo = $reserva->getFechaDesde()->diff($reserva->getFechaHasta());
+
+        $dias = intval($intervalo->format('%R%a'))+1; //Sumamos un dia mas porque 
+
+        $precioUnitario = $reserva->getServicio()->getValorUnitario();
+        $cantPersonas = $reserva->getCantPersonas();
+
+        return $precioUnitario*$dias*$cantPersonas;
+
+    }
+    
+    /**
+    * Ajax Pagos
+    *
+    * @Route("/ajaxServicios/pagorReserva", name="ajax_pagar_reserva")
+    *
+    * @param Request $request
+    *
+    * @return Response
+    */
+
+    public function ajaxPagarReservaAction(Request $request){
+
+        $em = $this->getDoctrine()->getManager();           
+        $id_reserva = $request->get("id_reserva");
+        $id_tipopago = $request->get("id_tipopago");
+        $montoTotal = $request->get("monto_abonado");
+        $monto_abonado = $request->get("monto_abonado");
+
+        $respuesta="";  
+
+        /*Obtengo la reserva*/
+        $reserva = $this->getDoctrine()->getRepository('AppBundle:Reserva')->find($id_reserva);
+
+        if($reserva == null){
+            $respuesta= "ERROR";
+        }
+        else{
+            $tipoPago = $this->getDoctrine()->getRepository('AppBundle:TipoPago')->find($id_tipopago);
+
+            $consumosCliente = new ConsumosCliente();
+            $consumosCliente->setCliente($reserva->getCliente());
+            $consumosCliente->setServicio($reserva->getServicio());
+            $consumosCliente->setMontoAbonado($monto_abonado);
+            $consumosCliente->setSaldo($montoTotal-$monto_abonado);
+            $consumosCliente->setTipoPago($tipoPago);
+            $consumosCliente->setFecha(new \DateTime(date("Y-m-d H:i:s")));
+            $consumosCliente->setReserva($reserva);
+
+            $em->persist($consumosCliente);
+
+            $em->flush();
+
+            $respuesta= "OK";
+        }
+
+       return new JsonResponse(array('mje' => $respuesta));
+    }
+
+    /**
+    * Ajax Reservas
+    *
+    * @Route("/ajaxServicios/editarCliente", name="ajax_cliente_editar")
+    *
+    * @param Request $request
+    *
+    * @return Response
+    */
+
+    public function ajaxEditarClienteAction(Request $request){
+
+        $em = $this->getDoctrine()->getManager();           
+
+        $idCliente = $request->get("id_cliente");
+
+        $nombre = $request->get("nombre");
+        $apellido = $request->get("apellido");
+        $dni = $request->get("dni");
+        $telefono1 = $request->get("telefono1");
+        $telefono2 = $request->get("telefono2");
+        $correo = $request->get("correo");
+        $pais = $request->get("pais");
+        $provincia = $request->get("provincia");
+        $localidad = $request->get("localidad");
+        
+        $respuesta="";
+
+        if($idCliente == null ){
+            $cliente = new Cliente();
+        }
+        else{
+            $cliente = $this->getDoctrine()->getRepository('AppBundle:Cliente')->find($idCliente);  
+        }
+
+         
+        if($cliente == null){
+            $respuesta= "ERROR";
+        }
+        else{
+
+            $cliente->setNombre($nombre);
+            $cliente->setApellido($apellido);
+            $cliente->setDni($dni);
+            $cliente->setTelefono1($telefono1);
+            $cliente->setTelefono2($telefono2);
+            $cliente->setCorreo($correo);
+            $cliente->setPais($pais);
+            $cliente->setProvincia($provincia);
+            $cliente->setCiudad($localidad);
+
+            $em->persist($cliente); 
+            $em->flush();
+            $respuesta= "OK";
+        }
+
+       return new JsonResponse(array('mje' => $respuesta));
     }
 
 
