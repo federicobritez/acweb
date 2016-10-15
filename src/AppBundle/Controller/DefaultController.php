@@ -319,7 +319,7 @@ class DefaultController extends Controller
         right join ecoturismo.habitaciones hh ON rh.habitaciones_id = hh.id
         WHERE rh.habitaciones_id is null;
 
-        Select * from ecoturismo.habitaciones hh 
+        Select hh.id from ecoturismo.habitaciones hh 
         left join ecoturismo.reservas_habitaciones rh ON  hh.id = rh.habitaciones_id
         left join ecoturismo.reserva rr ON  rh.reserva_id = rr.id AND rr.fecha_desde >= "2016-03-17"
         WHERE rh.habitaciones_id IS NULL;
@@ -328,9 +328,24 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $qb = $em->createQueryBuilder();
 
-        $qb->select('hh')->from('AppBundle:Habitaciones','hh')->leftJoin('AppBundle:ReservasHabitaciones','rh','WITH','hh.id = rh.habitaciones')->leftJoin('AppBundle:Reserva','rr','WITH','rr.fechaDesde >= :fecha')->where('rh.habitaciones IS NULL')->setParameter('fecha','2016-03-17');
+        //$qb->select('hh')->from('AppBundle:Habitaciones','hh')->leftJoin('AppBundle:ReservasHabitaciones','rh','WITH','hh.id = rh.habitaciones')->leftJoin('AppBundle:Reserva','rr','WITH','rr.fechaDesde >= :fecha')->add('where', $qb->expr()->isNull('rr.id'))->setParameter('fecha','2016-03-28');
 
-        $habitacionesDisponibles = $qb->getQuery()->getResult();
+        $sql = ' Select hh.id from ecoturismo.habitaciones hh 
+        left join ecoturismo.reservas_habitaciones rh ON  hh.id = rh.habitaciones_id
+        left join ecoturismo.reserva rr ON  rh.reserva_id = rr.id AND rr.fecha_desde >= :fecha
+        WHERE rr.id IS NULL; ';
+
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute(array("fecha" => $fecha));
+        $resulset = $stmt->fetchAll();
+        $idsHabitaciones = $resulset;
+
+        $aIds = array();
+        foreach ($idsHabitaciones as $key => $value) {  
+              array_push($aIds, intval($value['id']));
+        }
+
+        $habitacionesDisponibles = $em->getRepository('AppBundle:Habitaciones')->findBy(array('id' => $aIds));
 
         return $habitacionesDisponibles;
     }
@@ -350,7 +365,7 @@ class DefaultController extends Controller
 
     public function ajaxEstadoReservaAction(Request $request){
 
-        $em = $this->getDoctrine()->getManager();     
+      $em = $this->getDoctrine()->getManager();     
 
       $id_estado = $request->get("id_estado");
       $id_reserva = $request->get("id_reserva");
