@@ -32,7 +32,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
+use Doctrine\ORM\Query\ResultSetMapping;
 
 use AppBundle\Entity\Cliente;
 use AppBundle\Entity\Reserva;
@@ -196,9 +201,9 @@ class DefaultController extends Controller
         $query = $em->createQuery('SELECT sr FROM AppBundle:HorariosServicio sr');
         $horariosServicio = $query->getResult();
 
-        /*  Las habitaciones 
+        /*  Las habitaciones , disponibles para hoy
         */  
-        $habitaciones = $em->getRepository('AppBundle:Habitaciones')->findBy( array('estadoHabitacion' => 0));
+        $habitaciones = $this->getHabitacionesDisponibles(date("Y-m-d"));
 
 
         return $this->render(sprintf('acweb/%s.html.twig', "usuarioReservasServicios"),
@@ -266,6 +271,14 @@ class DefaultController extends Controller
 
     }
 
+    /**
+    * Libreria de funciones : Calcular Valor de una Reserva
+    *
+    *
+    * @param Reserva $request
+    *
+    * @return var float
+    */
 
     public function calcularValorReserva($reserva){
 
@@ -287,7 +300,81 @@ class DefaultController extends Controller
         return $precioUnitario*$dias*$cantPersonas;
 
     }
+
+    /**
+    * Libreria de funciones : Devuelve Habitaciones sin ocupar para una fecha específica
+    *
+    *
+    * @param string fecha $fecha (Y-m-d)
+    *
+    * @return array de  Habitaciones 
+    */
+
+
+    public function getHabitacionesDisponibles($fecha){
+
+        /*
+        Select hh.* from ecoturismo.reserva rr 
+        right join ecoturismo.reservas_habitaciones  rh ON  rr.id = rh.reserva_id AND rr.fecha_desde >= "2016-03-17"
+        right join ecoturismo.habitaciones hh ON rh.habitaciones_id = hh.id
+        WHERE rh.habitaciones_id is null;
+
+        Select * from ecoturismo.habitaciones hh 
+        left join ecoturismo.reservas_habitaciones rh ON  hh.id = rh.habitaciones_id
+        left join ecoturismo.reserva rr ON  rh.reserva_id = rr.id AND rr.fecha_desde >= "2016-03-17"
+        WHERE rh.habitaciones_id IS NULL;
+
+        */
+        $em = $this->getDoctrine()->getManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('hh')->from('AppBundle:Habitaciones','hh')->leftJoin('AppBundle:ReservasHabitaciones','rh','WITH','hh.id = rh.habitaciones')->leftJoin('AppBundle:Reserva','rr','WITH','rr.fechaDesde >= :fecha')->where('rh.habitaciones IS NULL')->setParameter('fecha','2016-03-17');
+
+        $habitacionesDisponibles = $qb->getQuery()->getResult();
+
+        return $habitacionesDisponibles;
+    }
+
+
+
+
+    /**
+    * Ajax Reservas
+    *
+    * @Route("/ajaxServicios/estadoReserva", name="ajax_cambio_estado_reserva")
+    *
+    * @param Request $request
+    *
+    * @return Response
+    */
+
+    public function ajaxEstadoReservaAction(Request $request){
+
+        $em = $this->getDoctrine()->getManager();     
+
+      $id_estado = $request->get("id_estado");
+      $id_reserva = $request->get("id_reserva");
+      $respuesta="";    
+      /*Obtengo la reserva*/
+      $reserva = $this->getDoctrine()->getRepository('AppBundle:Reserva')->find($id_reserva);
+
+
+      if($reserva == null){
+        $respuesta= "ERROR";
+      }
+      else{
+
+        $estadoReserva = $this->getDoctrine()->getRepository('AppBundle:EstadoReserva')->find($id_estado);
+        $reserva->setEstadoReserva($estadoReserva);
+        $em->persist($reserva); $em->flush();
+        $respuesta= "OK";
+      }
+
+
+       return new JsonResponse(array('mje' => $respuesta));
+    }
     
+
     /**
     * Ajax Pagos
     *
@@ -394,6 +481,63 @@ class DefaultController extends Controller
 
        return new JsonResponse(array('mje' => $respuesta));
     }
+
+    /**
+    * Ajax Reservas
+    *
+    * @Route("/ajaxServicios/habitacionesDisponibles", name="ajax_habitaciones_disponibles")
+    *
+    * @param Request $request
+    *
+    * @return Response
+    */
+
+    public function ajaxHabitacionesDisponibesAction(Request $request){
+
+      $fechaArribo = $request->get("fecha_inicio");
+      //$fechaSalida = $request->get("fecha_fin");
+
+      
+      $habitacionesDisponibles = $this->getHabitacionesDisponibles($fechaArribo);
+
+      $encoders = array(new JsonEncoder());
+      $normalizers = array(new ObjectNormalizer());
+
+      $serializer = new Serializer($normalizers, $encoders);
+
+      $jsonHabitaciones = $serializer->serialize($habitacionesDisponibles, 'json');
+      
+
+      return new JsonResponse(array('habitaciones' => $jsonHabitaciones));
+    }
+
+    /**
+    * Ajax Reservas
+    *
+    * @Route("/ajaxServicios/horarioServicio", name="ajax_horario_servicio")
+    *
+    * @param Request $request
+    *
+    * @return Response
+    */
+    public function ajaxHorarioServicioAction(Request $request){
+
+      $idServicio = $request->get("id_servicio");
+
+      $horarios  = $this->getDoctrine()->getRepository('AppBundle:HorariosServicio')->findBy(array('servicio_id'=>$idServicio));
+
+      $encoders = array(new JsonEncoder());
+      $normalizers = array(new ObjectNormalizer());
+
+      $serializer = new Serializer($normalizers, $encoders);
+
+      $jsonHorarios = $serializer->serialize($horarios, 'json');
+
+      return new JsonResponse(array('horarios' => $jsonHabitaciones));  
+    }
+
+
+
 
 
 

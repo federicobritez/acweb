@@ -91,17 +91,13 @@
             <legend>Panel de Usuario Test </legend>
             
             <div class="btn-group btn-group-justified">
-                <a href="#" class="btn btn-default">Reservas</a>
-                <a href="#" class="btn btn-default">Facturas</a>
-                <a href="#" class="btn btn-default">Consumos</a>
+                <a href="{{ path('usuario_panel', {'page': ''}) }}" class="btn btn-default">Mis Reservas</a>
+                <a href="{{ path('usuario_reservas_servicios', {'page': ''}) }}" class="btn btn-default">Nueva Reserva</a>
+                <a href="{{ path('usuario_ver_factura', {'page': ''}) }}" class="btn btn-default">Facturas</a>
+                <a href="{{ path('usuario_panel', {'page': ''}) }}" class="btn btn-default">Consumos</a>
             </div>
 
         </fieldset>
-
-            <legend>Factura B: </legend>
-
-            <a class="btn btn-default" role= "menuitem" data-toggle="modal" data-target=".bs-example-modal-sm">Eliminar</a>
-            <a class="btn btn-default" role="menuitem" data-toggle="modal" data-target=".bs-example2-modal-sm">Pagar</a>
 
         {% endblock %}
       </div>
@@ -152,12 +148,13 @@
     </footer>
     {% endblock %}
 
+    {% block script %}
     <!-- jQuery -->
     <script src="{{ asset('assets/vendors/jquery/dist/jquery.min.js') }}"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="{{ asset('assets/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-
+    {% endblock %}
 
 
 </body>
