@@ -78,7 +78,7 @@ class DefaultController extends Controller
         $nombre = $request->get('inputUsuario');
         $pass = $request->get('inputPassword');
 
-        $user = $em->getRepository('AppBundle:Usuario')->findOneBy(array('usuario'=>$nombre));
+        $user =  $this->getUsuario(array('usuario' => $nombre));
 
         if($user != null ){
 
@@ -123,7 +123,8 @@ class DefaultController extends Controller
 
         /*  El cliente
         */
-        $cliente = $em->getRepository('AppBundle:Cliente')->find($this->get('session')->get('cliente_id'));
+  
+        $cliente = $this->getCliente(array('id'=> $this->get('session')->get('cliente_id')));
 
         /*  Las Reservas
         */
@@ -207,7 +208,7 @@ class DefaultController extends Controller
 
 
         return $this->render(sprintf('acweb/%s.html.twig', "usuarioReservasServicios"),
-            array('serviciosReservables'=>$serviciosReservables,
+            array('serviciosReservables'=>array_splice($serviciosReservables,6),
                   'horariosServicios'=> $horariosServicio,
                   'habitaciones' => $habitaciones));
     }
@@ -350,6 +351,71 @@ class DefaultController extends Controller
         return $habitacionesDisponibles;
     }
 
+
+    public function getServicios($id=""){
+
+      return $this->getDoctrine()->getRepository('AppBundle:Servicio')->find($id);
+
+    }
+
+    public function getHorariosServicios($id){
+
+      
+      $query = $this->getDoctrine()->createQuery('SELECT hs FROM AppBundle:HorariosServicio WHERE hs.servicioId ='.$id.' ORDER BY hs.hora_inicio, hs.hora_fin asc' );$query->getResult();
+
+      return $query->getResult();
+    }
+
+    public function getCliente($array_filtro=array()){
+
+      $em = $this->getDoctrine()->getManager();
+      
+      return $em->getRepository('AppBundle:Cliente')->findOneBy($array_filtro);
+      
+    }
+
+
+    public function getServiciosReservables($array_filtro=array()){
+      
+      return $this->getDoctrine()->getRepository('AppBundle:ServiciosReservables')->findBy($array_filtro,array('id' => 'ASC'));
+
+    }
+
+    public function getEstadoReserva($array_filtro=array()){
+
+      $estadoReserva = $this->getDoctrine()->getRepository('AppBundle:EstadoReserva')->findBy($array_filtro,array('id' => 'ASC'));
+      return $estadoReserva;
+    }
+
+    public function getUsuario($array_filtro=array()){
+
+      $em = $this->getDoctrine()->getManager();
+      return  $em->getRepository('AppBundle:Usuario')->findOneBy($array_filtro);
+      
+    }
+
+    /**
+    * Ajax Reservas
+    *
+    * @Route("/ajaxServicios/estadoReserva", name="ajax_reservar_servicio")
+    *
+    * @param Request $request
+    *
+    * @return Response
+    */
+
+    public function ajaxReservarServicioAction(Request $request){
+      $idServicio = 1 ;
+      $idHorarioServicio= 1;
+      $fechaDesde =1 ;
+      $fechaHasta = 1 ; 
+      $cantPersonas =1 ; 
+
+      $habitaciones = 1; 
+
+
+
+    }    
 
 
 
@@ -539,7 +605,7 @@ class DefaultController extends Controller
 
       $idServicio = $request->get("id_servicio");
 
-      $horarios  = $this->getDoctrine()->getRepository('AppBundle:HorariosServicio')->findBy(array('servicio_id'=>$idServicio));
+      $horarios = $this->getHorariosServicios($idServicio);
 
       $encoders = array(new JsonEncoder());
       $normalizers = array(new ObjectNormalizer());
@@ -550,6 +616,37 @@ class DefaultController extends Controller
 
       return new JsonResponse(array('horarios' => $jsonHabitaciones));  
     }
+
+    /**
+    * Ajax Reservas : Valida si un servicio está disponible para esa fecha y horario.
+    *
+    * @Route("/ajaxServicios/horarioServicio", name="ajax_diponibilidad_servicio")
+    *
+    * @param Request $request
+    *
+    * @return Response
+    */
+    public function ajaxDisponibilidadServicioAction(Request $request){
+
+      $idServicio = $request->get("id_servicio");
+
+      $horarios = $this->getHorariosServicios();
+
+      $encoders = array(new JsonEncoder());
+      $normalizers = array(new ObjectNormalizer());
+
+      $serializer = new Serializer($normalizers, $encoders);
+
+      $jsonHorarios = $serializer->serialize($horarios, 'json');
+
+      return new JsonResponse(array('horarios' => $jsonHabitaciones));  
+    }
+
+
+
+
+
+
 
 
 
