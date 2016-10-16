@@ -47,8 +47,10 @@ Implementaciones:
 		- Pendiente..!!
 
 	5 y 6 - Formulario para que los usuario hagan eso. Usar AJAX y Notify
+		Las funcines Ajax ya están escritas.
 
 	7 - Usar libreria jquery-print y modularizar el proceso de facturación para reciclar codigo
+
 
 	8 - Deben compartir la misma DB
 		- Ok , misimo parametros de conexión distinto usuario . Ver archivo de configuracion app/config/parameter.yml
@@ -66,8 +68,8 @@ X	10- Buscar un hosting que nos de una par de cuentas de email gratis: tigrimigr
 
 Vistas:
 
-	1- Hacer los templates para el panel de Usuario
-	2- Implementar el teme https://bootswatch.com/flatly/#tables en el panel de usuario
+	1- Hacer los templates para el panel de Usuario - [FALTAN RETOQUES]
+	2- Implementar el teme https://bootswatch.com/flatly/#tables en el panel de usuario []
 	3- Usar badges para por ejemplo mostrar cant facturas pendientes, cant Reservas realizas, o cant de tipos de pagos disponibles.
 
 

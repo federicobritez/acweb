@@ -1,83 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'panel_usuario_base.html.twig' %}
+{% block title %} {{ parent() }} {% endblock %}
+{% block navbar %} {{ parent() }} {% endblock %}
+{% block status_bar %} {% endblock %}
+{% block body %} {{ parent() }} {% endblock %}
 
-<!-- ECorp :  SOlo a modo de prueba -->
-<head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Añoranzas Chaqueñas - Turismo Ecológico</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="{{ asset('assets/vendors/bootstrap/dist/css/bootstrap.min.css') }}"  rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href=" {{ asset('assets/css/stylish-portfolio.css') }}"  rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="{{ asset('assets/font-awesome/css/font-awesome.min.css') }}"    rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
-<body>
-
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Brand</a>
-    </div>
-
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="{{ path('login', {'page': ''}) }}">LogOut</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
+{% block contenido %} 
 
 <div class="row">
-    <div class="col-md-4 col-sm-5" id="login">
+    <div class="col-md-6 col-sm-5" id="login">
         <form class="form-horizontal" action="{{ path('login', {'page': ''}) }}" method="post" >
           <fieldset>
             <legend>Login Test </legend>
@@ -101,15 +32,15 @@
             <div class="form-group">
               <div class="col-lg-10 col-lg-offset-2">
                 <button type="reset" class="btn btn-default">Cancel</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Login</button>
                 <hr>
-                <button type="button" class="btn btn-info" onclick="swicht()">Registrarce</button>
+                <button type="button" class="btn btn-info" onclick="swicht()">Registrarse</button>
               </div>
             </div>
           </fieldset>
         </form>
     </div>
-    <div class="col-md-8 col-sm-7" id="register" >
+    <div class="col-md-8 col-sm-10" id="register" >
         <div class="box-static box-transparent box-bordered padding-30">
             <div class="box-title margin-bottom-30">
                 <legend>Crear cuenta</legend>
@@ -118,7 +49,7 @@
                 <fieldset>
                     <div class="row">
                         <div class="form-group">
-                            <div class="col-lg-2 control-label">
+                            <div class="col-lg-3 control-label">
                                 <label>Nombres *</label>
                                 <label class="input margin-bottom-10">
                                     <i class="ico-append fa fa-user"></i>
@@ -126,7 +57,7 @@
                                     <b class="tooltip tooltip-bottom-right">Nombres</b>
                                 </label>
                             </div>
-                            <div class="col-lg-2 control-label">
+                            <div class="col-lg-3 control-label">
                                 <label for="register:last_name">Apellidos *</label>
                                 <label class="input margin-bottom-10">
                                     <i class="ico-append fa fa-user"></i>
@@ -138,7 +69,7 @@
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            <div class="col-lg-2 control-label">
+                            <div class="col-lg-3 control-label">
                                 <label for="register:email">Email *</label>
                                 <label class="input margin-bottom-10">
                                     <i class="ico-append fa fa-envelope"></i>
@@ -146,7 +77,7 @@
                                     <b class="tooltip tooltip-bottom-right">Email</b>
                                 </label>
                             </div>
-                            <div class="col-lg-2 control-label">
+                            <div class="col-lg-3 control-label">
                                 <label for="register:phone">Teléfono</label>
                                 <label class="input margin-bottom-10">
                                     <i class="ico-append fa fa-phone"></i>
@@ -159,7 +90,7 @@
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            <div class="col-lg-2 control-label">
+                            <div class="col-lg-3 control-label">
                                 <label for="register:pass1">Contraseña *</label>
                                 <label class="input margin-bottom-10">
                                     <i class="ico-append fa fa-lock"></i>
@@ -167,12 +98,12 @@
                                     <b class="tooltip tooltip-bottom-right">Min. 6 caracteres</b>
                                 </label>
                             </div>
-                            <div class="col-lg-2 control-label">
+                            <div class="col-lg-3 control-label">
                                 <label for="register:pass2">Confirmar Contraseña *</label>
                                 <label class="input margin-bottom-10">
                                     <i class="ico-append fa fa-lock"></i>
                                     <input required="" type="password" class="err">
-                                    <b class="tooltip tooltip-bottom-right">Type the password again</b>
+                                    <b class="tooltip tooltip-bottom-right">Ingrese el password otra vez</b>
                                 </label>
                             </div>
 
@@ -188,9 +119,9 @@
                 </fieldset>
                 <div class="row">
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary"> REGISTRAR</button>
+                        <button type="submit" class="btn btn-primary"> Aceptar</button>
                         <hr>
-                        <button type="button" class="btn btn-info" onclick="swicht2()">Ingresar</button>
+                        <button type="button" class="btn btn-info" onclick="swicht2()">Login</button>
                     </div>
                 </div>
             </form>
@@ -199,45 +130,13 @@
 
 </div>
 
-</body>
+{% endblock %}
 
-<!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-10 col-lg-offset-1 text-center">
-                    <p>Añoranzas Chaqueñas, Bajos del Tacuarí
-                        <br>Puerto Vilelas, CP H3503</p>
-                    <ul class="list-unstyled">
-                        <li><i class="fa fa-phone fa-fw"></i> (362) 154-4251474</li>
-                        <li><i class="fa fa-envelope-o fa-fw"></i> <a href="mailto:name@example.com">admin@añoranzaschaqueñas.com</a>
-                        </li>
-                    </ul>
-                    <br>
-                    <ul class="list-inline">
-                        <li>
-                            <a href="#"><i class="fa fa-facebook fa-fw fa-3x"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-twitter fa-fw fa-3x"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-google fa-fw fa-3x"></i></a>
-                        </li>
-                    </ul>
-                    <hr class="small">
-                    <p class="text-muted">Copyright &copy; ECORP 2016</p>
-                </div>
-            </div>
-        </div>
-        <a id="to-top" href="#top" class="btn btn-dark btn-lg"><i class="fa fa-chevron-up fa-fw fa-1x"></i></a>
-    </footer>
 
-    <!-- jQuery -->
-    <script src="{{ asset('assets/vendors/jquery/dist/jquery.min.js') }}"></script>
+{% block footer %}  {{ parent() }}  {% endblock %}
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{{ asset('assets/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
+{% block script %}{{ parent() }}  
 
     <!-- Custom Theme JavaScript -->
     <script>
@@ -311,23 +210,22 @@
         }
         // Enable map zooming with mouse scroll when the user clicks the map
     $('.map').on('click', onMapClickHandler);
+
     </script>
-    <!--Ocualtar registo-->
+    <!--Ecorp Ocualtar registo-->
     <script type="text/javascript">
         $('#register').hide();
-    </script>
-    <script type="text/javascript">
+    
         function swicht(){
             $('#register').show();
             $('#login').hide();
         }
-    </script>
-    <script type="text/javascript">
+    
         function swicht2(){
             $('#login').show();
             $('#register').hide();
         }
     </script>
-</body>
 
-</html>
+
+{% endblock %}

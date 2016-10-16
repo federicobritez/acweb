@@ -9,8 +9,9 @@
             
 
         <legend>Reservación de Servicios: </legend>
-        {{dump(serviciosReservables)}}
+        {{dump(servicios)}}
         
+        <div class="bs-docs-section">
           <div class="row">
             <div class="col-lg-7">
             <p>Haga sus reservas comodamente desde su celular, tablet o computadora en cualquier momento y sitio donde se encuentre</p>
@@ -23,6 +24,39 @@
                 <button type="submit" class="btn btn-success btn-block" data-dismiss="modal" onclick="requestHabitacionesDisponibles();">Habitaciones Disponibles</button>
             </div>
           </div>
+          <div class="row">
+              <div class="col-lg-10">
+                  <ul class="nav nav-tabs">
+
+                      <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                          Alojamiento <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#dropdown1" data-toggle="tab">Posada</a></li>
+                          <li class="divider"></li>
+                          <li><a href="#dropdown2" data-toggle="tab">Camping</a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                          Actividades Nauticas <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#dropdown1" data-toggle="tab">Guia de Pesca</a></li>
+                          <li class="divider"></li>
+                          <li><a href="#dropdown2" data-toggle="tab">Paseo Nautico</a></li>
+                          <li class="divider"></li>
+                          <li><a href="#dropdown2" data-toggle="tab">Pesca</a></li>
+                        </ul>
+                      </li>
+                      <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">Restaurant</a></li>
+                      <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false" >Cabalgata</a></li>
+                    </ul>
+              </div>
+          </div>
+        </div>  
+          
             
           
                
@@ -30,76 +64,314 @@
                               
     <div class="bs-docs-section">
         <div class="row">
-            <div class="col-lg-12">
-                {% for item in serviciosReservables %}
+            <div class="col-lg-11">
+                <!-- RESTAURANT -->
                 <div class="panel panel-primary">
-                  <div class="panel-heading">
-                    <h3 class="panel-title">{{item.servicio.nombre}}</h3>
-                  </div>
-                  <div class="panel-body ">
-                    <div class="col-lg-11">
-                            <div class="well bs-component">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{servicios['restaurant'].servicio.nombre}}</h3>
+                    </div>
+                    <div class="panel-body ">
+                        <div class="col-lg-11">
+                            <div class="well">
                               <form class="form-horizontal">
-                                <fieldset>
-                                    
-
-                                      <div class="bs-component col-lg-2   ">
-                                        <label for="inputCant" class="control-label">Personas</label>
-
-                                        <input type="text" class="form-control" id="inputCant" placeholder="1">
-                                      </div>
-
-                                      <div class="bs-component  col-lg-4">
+                                    <div class="form-group col-lg-4">
                                         <label for="inputPassword" class="control-label">Fecha</label>
-                                        <div class="input-prepend input-group">
-                                            <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                        <div class="input-group col-lg-10">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
                                             <input type="text" style="width: 200px" name="reservation2" id="reservation2" class="form-control" value="03/18/2016 - 03/23/2016" />
                                         </div>
-                                       </div>
+                                    </div>
 
-                                       <div class="bs-component col-lg-4">
+                                    <div class="form-group col-lg-4">
                                         <label for="select" class="control-label">Horarios</label>
-                                        
-                                          <!--<select class="form-control" id="select">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                          </select>
-                                          <br>-->
+                                        <div class="input-group col-lg-10">
                                           <select class="form-control">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                            {%for  item in horarios['restaurant'] %}
+                                            <option>{{item.horaInicio|date("h:m:s")}} - {{item.horaFin|date("h:m:s")}}</option>
+                                            {% endfor %}
                                           </select>
-
-                                       </div>
+                                        </div>
                                     </div>
+
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputCant" class="control-label">Personas</label>
+                                        <div class="input-group col-lg-8">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-user"></i></span>
+                                            <input type="text" class="form-control" id="inputCant" placeholder="1">
+                                        </div>
+                                    </div>
+                            
+
                                     
-                                 
-                                  <div class="row ">
-                                  <div class="form-group">
-                                    <div class="col-lg-10 col-lg-offset-8">
-                                      <button type="reset" class="btn btn-default">Reset</button>
-                                      <button type="submit" class="btn btn-primary">Reservar</button>
-                                    </div>
-                                  </div>
-                                  </div>
-                                </fieldset>
+                                        <div class="form-group">
+                                        <div class="col-lg-10 col-lg-offset-8">
+                                            <button type="reset" class="btn btn-default">Reset</button>
+                                            <button type="submit" class="btn btn-primary">Reservar</button>
+                                        </div>
+                                        </div>
                               </form>
-
-                  </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            </div>
-                {% endfor %}
-            </div>
-        </div>  
-    </div>
+                <!-- /RESTAURANT  -->
 
+
+                <!-- CABALGATA -->
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{servicios['cabalgata'].servicio.nombre}}</h3>
+                    </div>
+                    <div class="panel-body ">
+                        <div class="col-lg-11">
+                            <div class="well">
+                              <form class="form-horizontal">
+                                    <div class="form-group col-lg-4">
+                                        <label for="inputPassword" class="control-label">Fecha</label>
+                                        <div class="input-group col-lg-10">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                            <input type="text" style="width: 200px" name="reservation2" id="reservation2" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-4">
+                                        <label for="select" class="control-label">Horarios</label>
+                                        <div class="input-group col-lg-10">
+                                          <select class="form-control">
+                                            {%for  item in horarios['cabalgata'] %}
+                                            <option>{{item.horaInicio|date("h:m:s")}} - {{item.horaFin|date("h:m:s")}}</option>
+                                            {% endfor %}
+                                          </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputCant" class="control-label">Personas</label>
+                                        <div class="input-group col-lg-8">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-user"></i></span>
+                                            <input type="text" class="form-control" id="inputCant" placeholder="1">
+                                        </div>
+                                    </div>
+                            
+
+                                    
+                                        <div class="form-group">
+                                        <div class="col-lg-10 col-lg-offset-8">
+                                            <button type="reset" class="btn btn-default">Reset</button>
+                                            <button type="submit" class="btn btn-primary">Reservar</button>
+                                        </div>
+                                        </div>
+                              </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /CABALGATA -->
+
+                <!-- POSADA -->
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{servicios['posada'].servicio.nombre}}</h3>
+                    </div>
+                    <div class="panel-body ">
+                        <div class="col-lg-11">
+                            <div class="well">
+                              <form class="form-horizontal">
+                                    <div class="form-group col-lg-4">
+                                        <label for="inputPassword" class="control-label">Fecha</label>
+                                        <div class="input-group col-lg-10">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                            <input type="text" style="width: 200px" name="reservation2" id="reservation2" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputCant" class="control-label">Personas</label>
+                                        <div class="input-group col-lg-8">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-user"></i></span>
+                                            <input type="text" class="form-control" id="inputCant" placeholder="1">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8">
+                                                <label for="inputPassword" class="control-label">Habitaciones</label>
+                                        <table class="table table-striped table-hover ">
+                                          <thead>
+                                            <tr>
+                                              <th>#</th><th>Camas</th><th>Valor</th><th><span class="nobr">Selección  </span></th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            {% set i = 1 %}
+                                            {%  for item in habitaciones%}
+                                            <tr >
+                                                <td><p>{{item.id}}</p></td>
+                                                <td><p>{{item.cantCamasSimples}} Simple   y   {{item.cantCamasDoble}} Doble <p></td>
+                                                <td>${{item.valorHabitacion}}</td>
+                                                <td class="a-center ">
+                                                    <input type="checkbox" class="flat" name="habitaciones[]" value="{{item.id}}">
+                                                </td>
+                                            </tr>
+                                            {% set i = i+1 %}
+                                            {%endfor %}
+                                          </tbody>
+                                        </table>
+                                    </div>
+                                        <div class="form-group">
+                                        <div class="col-lg-10 col-lg-offset-8">
+                                            <button type="reset" class="btn btn-default">Reset</button>
+                                            <button type="submit" class="btn btn-primary">Reservar</button>
+                                        </div>
+                                        </div>
+                              </form>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                </div>
+                <!-- /POSADA -->
+
+                <!-- GUIA PESCA -->
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{servicios['guia_pesca'].servicio.nombre}}</h3>
+                    </div>
+                    <div class="panel-body ">
+                        <div class="col-lg-11">
+                            <div class="well">
+                              <form class="form-horizontal">
+                                    <div class="form-group col-lg-4">
+                                        <label for="inputPassword" class="control-label">Fecha</label>
+                                        <div class="input-group col-lg-10">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                            <input type="text" style="width: 200px" name="reservation2" id="reservation2" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-4">
+                                        <label for="select" class="control-label">Horarios</label>
+                                        <div class="input-group col-lg-10">
+                                          <select class="form-control">
+                                            {%for  item in horarios['guia_pesca'] %}
+                                            <option>{{item.horaInicio|date("h:m:s")}} - {{item.horaFin|date("h:m:s")}}</option>
+                                            {% endfor %}
+                                          </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputCant" class="control-label">Personas</label>
+                                        <div class="input-group col-lg-8">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-user"></i></span>
+                                            <input type="text" class="form-control" id="inputCant" placeholder="1">
+                                        </div>
+                                    </div>
+                            
+
+                                    
+                                        <div class="form-group">
+                                        <div class="col-lg-10 col-lg-offset-8">
+                                            <button type="reset" class="btn btn-default">Reset</button>
+                                            <button type="submit" class="btn btn-primary">Reservar</button>
+                                        </div>
+                                        </div>
+                              </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /GUIA PESCA  -->
+
+                <!-- PASEO NAUTICO -->
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{servicios['paseo_nautico'].servicio.nombre}}</h3>
+                    </div>
+                    <div class="panel-body ">
+                        <div class="col-lg-11">
+                            <div class="well">
+                              <form class="form-horizontal">
+                                    <div class="form-group col-lg-4">
+                                        <label for="inputPassword" class="control-label">Fecha</label>
+                                        <div class="input-group col-lg-10">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                            <input type="text" style="width: 200px" name="reservation2" id="reservation2" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-4">
+                                        <label for="select" class="control-label">Horarios</label>
+                                        <div class="input-group col-lg-10">
+                                          <select class="form-control">
+                                            {%for  item in horarios['paseo_nautico'] %}
+                                            <option>{{item.horaInicio|date("h:m:s")}} - {{item.horaFin|date("h:m:s")}}</option>
+                                            {% endfor %}
+                                          </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputCant" class="control-label">Personas</label>
+                                        <div class="input-group col-lg-8">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-user"></i></span>
+                                            <input type="text" class="form-control" id="inputCant" placeholder="1">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-10 col-lg-offset-8">
+                                            <button type="reset" class="btn btn-default">Reset</button>
+                                            <button type="submit" class="btn btn-primary">Reservar</button>
+                                        </div>
+                                    </div>
+                              </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /PASEO NAUTICO -->
+
+                <!-- PESCA-->
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{servicios['pesca'].servicio.nombre}}</h3>
+                    </div>
+                    <div class="panel-body ">
+                        <div class="col-lg-11">
+                            <div class="well">
+                              <form class="form-horizontal">
+                                    <div class="form-group col-lg-4">
+                                        <label for="inputPassword" class="control-label">Fecha</label>
+                                        <div class="input-group col-lg-10">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                            <input type="text" style="width: 200px" name="reservation2" id="reservation2" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group col-lg-3">
+                                        <label for="inputCant" class="control-label">Personas</label>
+                                        <div class="input-group col-lg-8">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-user"></i></span>
+                                            <input type="text" class="form-control" id="inputCant" placeholder="1">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-10 col-lg-offset-8">
+                                            <button type="reset" class="btn btn-default">Reset</button>
+                                            <button type="submit" class="btn btn-primary">Reservar</button>
+                                        </div>
+                                    </div>
+                              </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /PESCA -->
+
+
+            </div>
+        </div>
+    </div>  
             
 
             <div class="modal bs-example-modal-sm">

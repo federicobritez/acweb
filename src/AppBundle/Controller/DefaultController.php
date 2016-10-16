@@ -86,7 +86,7 @@ class DefaultController extends Controller
 
                 if($this->get('session') == null){
                    $session = new Session();
-                    $session->start();
+                   $session->start();
                 }
 
                 $this->get('session')->set('usuario_nombre', $user->getUsuario());
@@ -96,6 +96,7 @@ class DefaultController extends Controller
                 if($cliente != null){
                     $this->get('session')->set('cliente_nombre', $cliente->getNombre());
                     $this->get('session')->set('cliente_id', $cliente->getId());
+
                 }
 
                 return $this->redirectToRoute('usuario_panel');
@@ -132,9 +133,13 @@ class DefaultController extends Controller
         $qb->select('rr')->from('AppBundle:Reserva', 'rr')->andWhere("rr.cliente=:idcliente")->andWhere("rr.fechaDesde>=:hoy")->setParameter("idcliente",$cliente->getId())->setParameter("hoy", date("Y-m-d 00:00"))->orderBy('rr.fechaDesde','DESC');
         $reservasFuturas = $qb->getQuery()->getResult();
 
+
         $qb = $em->createQueryBuilder();
         $qb->select('rr')->from('AppBundle:Reserva', 'rr')->andWhere("rr.cliente=:idcliente")->andWhere("rr.fechaDesde<:hoy")->setParameter("idcliente",$cliente->getId())->setParameter("hoy", date("Y-m-d 00:00"))->orderBy('rr.fechaDesde','DESC');
         $reservasAnteriores = $qb->getQuery()->getResult();
+
+        $this->get('session')->set('cant_reservas_hist', count($reservasAnteriores));
+
 
 
         /*  Los estados de las Reserva
@@ -157,6 +162,8 @@ class DefaultController extends Controller
         $qb->select('cc')->from('AppBundle:ConsumosCliente', 'cc')->where('cc.cliente=:idcliente')->andWhere('cc.servicio IS NOT NULL')->orderBy('cc.fecha','DESC')->setParameter('idcliente',$cliente->getId());
 
         $consumosReservables = $qb->getQuery()->getResult();
+
+        $this->get('session')->set('cant_consumos', count($consumosReservables));
 
         /*  Los Consumos No Reservables del cliente
         */
@@ -197,10 +204,26 @@ class DefaultController extends Controller
         $query = $em->createQuery('SELECT sr FROM AppBundle:ServiciosReservables sr');
         $serviciosReservables = $query->getResult();
 
+        $aServicios = array();
+        foreach ($serviciosReservables as $item) {
+            $nombre = str_replace(" ","_",strtolower($item->getServicio()->getNombre()));
+            $aServicios[$nombre] = $item;
+        }
+
         /*  Los horarios de Servicios
         */
         $query = $em->createQuery('SELECT sr FROM AppBundle:HorariosServicio sr');
-        $horariosServicio = $query->getResult();
+        $horariosServicios = $query->getResult();
+
+
+        $aHorarios =array();
+        foreach ($horariosServicios as $item) {
+          $nombre = str_replace(" ","_",strtolower($item->getServicio()->getNombre()));
+          if(! array_key_exists($nombre, $aHorarios)){ $aHorarios[$nombre]  = array(); }
+          array_push($aHorarios[$nombre], $item);
+        }
+
+
 
         /*  Las habitaciones , disponibles para hoy
         */  
@@ -208,8 +231,8 @@ class DefaultController extends Controller
 
 
         return $this->render(sprintf('acweb/%s.html.twig', "usuarioReservasServicios"),
-            array('serviciosReservables'=>array_splice($serviciosReservables,6),
-                  'horariosServicios'=> $horariosServicio,
+            array('servicios'=>$aServicios,
+                  'horarios'=> $aHorarios,
                   'habitaciones' => $habitaciones));
     }
 
