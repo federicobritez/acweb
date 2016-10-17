@@ -33,11 +33,12 @@
                     <td>{{item.tipoPago.descripcion}}</td>
                     <td>${{item.montoAbonado}}</td>
                     <td>
-                        <select class="form-control" id="id_consumo_{{item.id}}">                          
-                          <option selected value="op1">Opcion1</option>
-                          <option value ="op2">Opcion2</option>
-                        </select>
-
+                        <form action="{{ path('usuario_ver_factura') }}" method="post">
+                            <input type="hidden" name="reserva_id" value="{{item.reserva.id}}">
+                            <input type="hidden" name="tipo_pago_id" value="{{item.tipoPago.id}}">
+                            <input type="hidden" name="cant_cuotas" value="{{item.tipoPago.cantCuotas}}">
+                            <button type="submit"  class="">Ver</button>
+                        </form>
                     </td>
                 </tr>
                 {% set i = i+1 %}

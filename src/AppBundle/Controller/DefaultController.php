@@ -266,9 +266,9 @@ class DefaultController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $reserva_id = 35;//$request->get('reserva_id');
-        $tipoPago_id = 6;//$request->get('tipo_pago_id');
-        $coutas = 6;//$request->get('cant_cuotas');
+        $reserva_id = $request->get('reserva_id');
+        $tipoPago_id = $request->get('tipo_pago_id');
+        $coutas = $request->get('cant_cuotas');
 
         /*  El cliente
         */
