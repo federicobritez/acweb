@@ -309,7 +309,19 @@ class DefaultController extends Controller
         return $this->render(sprintf('acweb/%s.html.twig', "usuarioListaFacturas"),
                                 array('consumos' => $consumosCliente));
     }
-
+    /**
+     * Render AcWeb page. Consultas por mail
+     *
+     * @Route("/usuarioConsultas", name="usuario_consultas" )
+     *
+     * @param Request $request
+     *
+     *
+     * @return Response
+     */
+    public function usuarioConsultas(Request $request){
+      return $this->render(sprintf('acweb/%s.html.twig', "usuarioConsultas"));
+    }
     /**
     * Libreria de funciones : Calcular Valor de una Reserva
     *
