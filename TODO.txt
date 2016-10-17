@@ -41,15 +41,16 @@ Implementaciones:
 		- Usaremos un template bootstrap para darle el formato parecido a la pagina de administracion https://bootswatch.com/flatly/#tables
 
 	3 - Hacer obligario el campo email en el formulario del punto 2,
+
 		
 	4 - Crear vista en DB para que solo puedan ver: Servicios, Horarios, Habitaciones, Reservas .
 	Solo servicios con págo con tarjeta de crédito.
-		- Pendiente..!!
+		- No se necesita por ahora
 
 	5 y 6 - Formulario para que los usuario hagan eso. Usar AJAX y Notify
 		Las funcines Ajax ya están escritas.
 
-	7 - Usar libreria jquery-print y modularizar el proceso de facturación para reciclar codigo
+	7 - Usar libreria jquery-print y modularizar el proceso de facturación para reciclar codigo [URGENTE]
 
 
 	8 - Deben compartir la misma DB
@@ -68,9 +69,10 @@ X	10- Buscar un hosting que nos de una par de cuentas de email gratis: tigrimigr
 
 Vistas:
 
-	1- Hacer los templates para el panel de Usuario - [FALTAN RETOQUES]
-	2- Implementar el teme https://bootswatch.com/flatly/#tables en el panel de usuario []
-	3- Usar badges para por ejemplo mostrar cant facturas pendientes, cant Reservas realizas, o cant de tipos de pagos disponibles.
+	1- Hacer los templates para el panel de Usuario - [CASI LISTO- FALTAN LOGOS e imagenes]
+	2- Implementar el teme https://bootswatch.com/flatly/#tables en el panel de usuario [LISTO ]
+	3- Usar badges para por ejemplo mostrar cant facturas pendientes, cant Reservas realizas, o cant de tipos de pagos disponibles. [LISTO]
+	4- Facturas-  Debe haber un listado de facturas y luego ve cada una. [PENDIENTE] 
 
 
 
