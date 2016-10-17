@@ -330,7 +330,35 @@ class DefaultController extends Controller
         return $this->render(sprintf('acweb/%s.html.twig', "usuarioListaFacturas"),
                                 array('consumos' => $consumosCliente));
     }
+
+
+
     /**
+     * Render AcWeb page. Consultas por mail
+     *
+     * @Route("/usuarioEnviarEmail", name="usuario_enviar_email" )
+     *
+     * @param Request $request
+     *
+     *
+     * @return Response
+     */
+    public function usuarioEnviarEmail(Request $request){
+      $asunto       =  $request->get('asunto');
+      $emailCliente =  $request->get('email');
+      $mensaje      =  $request->get('mensaje');
+
+      $nombreCliente = $this->get('session')->get('cliente_nombre');
+      $idCliente = $this->get('session')->get('cliente_id');
+      
+      $this->sendEmailAction($nombreCliente, $idCliente, 'ac.ecoturismo@gmail.com', $asunto, $mensaje);
+
+      return $this->render(sprintf('acweb/%s.html.twig', "usuarioConsultas"));
+    }
+
+
+
+/**
      * Render AcWeb page. Consultas por mail
      *
      * @Route("/usuarioConsultas", name="usuario_consultas" )
@@ -343,6 +371,7 @@ class DefaultController extends Controller
     public function usuarioConsultas(Request $request){
       return $this->render(sprintf('acweb/%s.html.twig', "usuarioConsultas"));
     }
+
     /**
     * Libreria de funciones : Calcular Valor de una Reserva
     *
@@ -732,13 +761,13 @@ class DefaultController extends Controller
       Envio de Email
     */
 
-    public function sendEmailAction($nombreCliente, $idCliente, $emailCliente, $consulta)
+    public function sendEmailAction($nombreCliente, $idCliente, $emailCliente, $asunto,$mensaje)
     {
       $message = \Swift_Message::newInstance()
-        ->setSubject('[Consulta] Cliente :')
-        ->setFrom('cliente-acweb@acweb.com')
-        ->setTo('ac.ecoturismo@gmail.com')
-        ->setBody('You should see me from the profiler!')
+        ->setSubject('[Consulta] Cliente:'.$idCliente.' - '.$asunto)
+        ->setFrom('ac.ecoturismo@gmail.com')
+        ->setTo($emailCliente)
+        ->setBody($mensaje)
       ;
 
       $this->get('mailer')->send($message);
