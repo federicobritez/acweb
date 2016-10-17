@@ -227,6 +227,27 @@ class DefaultController extends Controller
     }
 
     /**
+     * Render AcWeb page. Carga el panel de Usurio con los servicios que puede reservas
+     *
+     * @Route("/usuarioReservar", name="usuario_reservar" ,defaults={"page"="null"} )
+     *
+     * @param Request $request
+     *
+     *
+     * @return Response
+     */
+    public function usuarioReservarAction(Request $request, $page="null"){
+      if($page == "null"){
+          return $this->redirectToRoute("usuario_panel");
+      }
+
+      if($page == "posada"){
+        
+      }
+    }
+
+
+    /**
      * Render AcWeb page. Recibe los datos del servicio comprado. Genera la factura
      *
      * @Route("/usuarioVerFactura", name="usuario_ver_factura" )
@@ -461,6 +482,7 @@ class DefaultController extends Controller
       return  $em->getRepository('AppBundle:Usuario')->findOneBy($array_filtro);
       
     }
+
 
     /**
     * Ajax Reservas
@@ -706,8 +728,21 @@ class DefaultController extends Controller
       return new JsonResponse(array('horarios' => $jsonHabitaciones));  
     }
 
+    /*
+      Envio de Email
+    */
 
+    public function sendEmailAction($nombreCliente, $idCliente, $emailCliente, $consulta)
+    {
+      $message = \Swift_Message::newInstance()
+        ->setSubject('[Consulta] Cliente :')
+        ->setFrom('cliente-acweb@acweb.com')
+        ->setTo('ac.ecoturismo@gmail.com')
+        ->setBody('You should see me from the profiler!')
+      ;
 
+      $this->get('mailer')->send($message);
+    }
 
 
 
