@@ -77,11 +77,9 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $nombre = $request->get('inputUsuario');
         $pass = $request->get('inputPassword');
-
         $user =  $this->getUsuario(array('usuario' => $nombre));
 
         if($user != null ){
-
             if($user->getClave() == $pass){
 
                 if($this->get('session') == null){
@@ -96,14 +94,10 @@ class DefaultController extends Controller
                 if($cliente != null){
                     $this->get('session')->set('cliente_nombre', $cliente->getNombre());
                     $this->get('session')->set('cliente_id', $cliente->getId());
-
                 }
-
                 return $this->redirectToRoute('usuario_panel');
             }       
-
-    }
-    
+        } 
         return $this->render(sprintf('acweb/%s.html.twig', "login"));
     }
 
@@ -124,7 +118,6 @@ class DefaultController extends Controller
 
         /*  El cliente
         */
-  
         $cliente = $this->getCliente(array('id'=> $this->get('session')->get('cliente_id')));
 
         /*  Las Reservas
@@ -138,14 +131,12 @@ class DefaultController extends Controller
         $qb->select('rr')->from('AppBundle:Reserva', 'rr')->andWhere("rr.cliente=:idcliente")->andWhere("rr.fechaDesde<:hoy")->setParameter("idcliente",$cliente->getId())->setParameter("hoy", date("Y-m-d 00:00"))->orderBy('rr.fechaDesde','DESC');
         $reservasAnteriores = $qb->getQuery()->getResult();
 
+        // Paso por session la cantidad de ReservasAnteriores
         $this->get('session')->set('cant_reservas_hist', count($reservasAnteriores));
 
-
-
-        /*  Los estados de las Reserva
+        /*  Los estados de las Reserva Solo CONFIRMAR - CANCELAR - Y 
         */
-        $estadosReservas = $em->getRepository('AppBundle:EstadoReserva');
-
+        $estadosReservas = $em->getRepository('AppBundle:EstadoReserva')->findBy(array('id' => array(1,3, 4)));;
 
         /*  Los reservas impagas
         */
@@ -170,8 +161,6 @@ class DefaultController extends Controller
         $qb = $em->createQueryBuilder();
         $qb->select('cc')->from('AppBundle:ConsumosCliente', 'cc')->where('cc.cliente=:idcliente')->andWhere('cc.servicio is NULL')->orderBy('cc.fecha','DESC')->setParameter('idcliente',$cliente->getId());
         $consumosNoReservables = $qb->getQuery()->getResult();
-
-
 
         return $this->render(sprintf('acweb/%s.html.twig', "usuarioPanel"),
             array('cliente'=> $cliente,
@@ -249,19 +238,15 @@ class DefaultController extends Controller
      */
     public function usuarioVerFacturaAction(Request $request){
 
-
         $em = $this->getDoctrine()->getManager();
-        
+
         $reserva_id = 35;//$request->get('reserva_id');
         $tipoPago_id = 6;//$request->get('tipo_pago_id');
         $coutas = 6;//$request->get('cant_cuotas');
 
-
         /*  El cliente
         */
         $cliente = $em->getRepository('AppBundle:Cliente')->find($this->get('session')->get('cliente_id'));
-
-
 
         $reserva = $em->getRepository('AppBundle:Reserva')->find($reserva_id);
 
@@ -279,12 +264,7 @@ class DefaultController extends Controller
 
         $saldo["total"] = $saldo["subtotal"] + $saldo["interes"]  + $saldo["iva"];
 
-
-
         $serverTime = new \DateTime(date("Y-m-d H:i:s"));
-
-
-
 
         return $this->render(sprintf('acweb/%s.html.twig', "usuarioVerFactura"),
                                 array('reserva' => $reserva, 
@@ -292,8 +272,42 @@ class DefaultController extends Controller
                                       'tipoPago'=> $tipoPago,
                                       'detalleSaldo' => $saldo,
                                       'serverTime' => $serverTime));
+    }
 
+    /**
+     * Render AcWeb page. Lista los consumos pagados por el cliente
+     *
+     * @Route("/usuarioListarFactura", name="usuario_listar_factura" )
+     *
+     * @param Request $request
+     *
+     *
+     * @return Response
+     */
+    public function usuarioListarFacturaAction(Request $request){
 
+        $em = $this->getDoctrine()->getManager();
+
+        $consumosCliente = $em->createQuery('SELECT cc FROM AppBundle:ConsumosCliente cc WHERE cc.cliente ='.$this->get('session')->get('cliente_id').' ORDER BY cc.fecha DESC')->getResult();
+
+        /*
+        $saldo =  array();
+
+        $saldo["subtotal"] = $this->calcularValorReserva($reserva);
+
+        $interes = ($tipoPago->getInteres()/100)* $saldo["subtotal"];
+                
+        $saldo["interes"] = $interes;
+
+        $saldo["iva"] = 0.21 * $saldo["subtotal"];
+
+        $saldo["total"] = $saldo["subtotal"] + $saldo["interes"]  + $saldo["iva"];
+        */
+
+        $serverTime = new \DateTime(date("Y-m-d H:i:s"));
+
+        return $this->render(sprintf('acweb/%s.html.twig', "usuarioListaFacturas"),
+                                array('consumos' => $consumosCliente));
     }
 
     /**
@@ -439,7 +453,7 @@ class DefaultController extends Controller
     /**
     * Ajax Reservas
     *
-    * @Route("/ajaxServicios/estadoReserva", name="ajax_reservar_servicio")
+    * @Route("/ajaxServicios/reservarServicio", name="ajax_reservar_servicio")
     *
     * @param Request $request
     *
@@ -481,20 +495,16 @@ class DefaultController extends Controller
       /*Obtengo la reserva*/
       $reserva = $this->getDoctrine()->getRepository('AppBundle:Reserva')->find($id_reserva);
 
-
       if($reserva == null){
         $respuesta= "ERROR";
       }
       else{
-
         $estadoReserva = $this->getDoctrine()->getRepository('AppBundle:EstadoReserva')->find($id_estado);
         $reserva->setEstadoReserva($estadoReserva);
         $em->persist($reserva); $em->flush();
         $respuesta= "OK";
       }
-
-
-       return new JsonResponse(array('mje' => $respuesta));
+      return new JsonResponse(array('mje' => $respuesta));
     }
     
 

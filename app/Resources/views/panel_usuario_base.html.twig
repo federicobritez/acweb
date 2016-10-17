@@ -26,6 +26,11 @@
     <link href="{{ asset('assets/font-awesome/css/font-awesome.min.css') }}"    rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
+    <!-- PNotify -->
+    <link href="{{ asset('assets/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -62,7 +67,7 @@
             <li><a href="{{ path('usuario_panel', {'page': ''}) }}">Mis Reservas</a></li>
             <li><a href="{{ path('usuario_panel', {'page': ''}) }}">Mis Consumos</a></li>
             <li><a href="{{ path('usuario_reservas_servicios', {'page': ''}) }}">Nueva Reserva</a></li>
-            <li><a href="{{ path('usuario_ver_factura', {'page': ''}) }}">Facturas</a></li>
+            <li><a href="{{ path('usuario_listar_factura', {'page': ''}) }}">Facturas</a></li>
             <li class="divider"></li>
             <li><a href="#">Editar Información de Usuario</a></li>
             <li class="divider"></li>
@@ -92,19 +97,19 @@
     <div class="col-lg-12 col-sm-5">
       {%block status_bar%}
         <fieldset>
-            <legend>Panel de Usuario Test </legend>
+            <legend>Panel de Usuario</legend>
 
             <ul class="nav nav-pills">
               <li class="active"><a href="{{ path('usuario_panel', {'page': ''}) }}">Mis Reservas <span class="badge">{{app.session.get('cant_reservas_hist')}}</span></a></li>
               <li class=""><a href="{{ path('usuario_panel', {'page': ''}) }}">Mis Consumos <span class="badge">3</span></a></li>
               <li><a href="{{ path('usuario_reservas_servicios', {'page': ''}) }}">Nueva Reserva <span class="badge"></span></a></li>
-              <li><a href="{{ path('usuario_ver_factura', {'page': ''}) }}">Facturas <span class="badge">3</span></a></li>   
+              <li><a href="{{ path('usuario_listar_factura', {'page': ''}) }}">Facturas <span class="badge">3</span></a></li>   
             </ul>
             <!--
             <div class="btn-group btn-group-justified">
                 <a href="{{ path('usuario_panel', {'page': ''}) }}" class="btn btn-default">Mis Reservas</a>
                 <a href="{{ path('usuario_reservas_servicios', {'page': ''}) }}" class="btn btn-default">Nueva Reserva</a>
-                <a href="{{ path('usuario_ver_factura', {'page': ''}) }}" class="btn btn-default">Facturas</a>
+                <a href="{{ path('usuario_listar_factura', {'page': ''}) }}" class="btn btn-default">Facturas</a>
                 <a href="{{ path('usuario_panel', {'page': ''}) }}" class="btn btn-default">Consumos</a>
             </div>-->
 
@@ -165,6 +170,11 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="{{ asset('assets/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
+    <!-- PNotify -->
+    <script src="{{ asset('assets/vendors/pnotify/dist/pnotify.js') }}"></script>
+    <script src="{{ asset('assets/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
+    <script src="{{ asset('assets/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
     {% endblock %}
 
 
