@@ -227,7 +227,8 @@ class DefaultController extends Controller
 
         /*  Las habitaciones , disponibles para hoy
         */  
-        $habitaciones = $this->getHabitacionesDisponibles(date("Y-m-d"));
+        //$habitaciones = $this->getHabitacionesDisponibles(date("Y-m-d"),date("Y-m-d"));
+        $habitaciones = $this->getHabitacionesDisponibles("2016-03-18","2016-03-21");
 
 
         return $this->render(sprintf('acweb/%s.html.twig', "usuarioReservasServicios"),
@@ -335,7 +336,7 @@ class DefaultController extends Controller
     */
 
 
-    public function getHabitacionesDisponibles($fecha){
+    public function getHabitacionesDisponibles($fechaInicio, $fechaFin){
 
         /*
         Select hh.* from ecoturismo.reserva rr 
@@ -356,11 +357,11 @@ class DefaultController extends Controller
 
         $sql = ' Select hh.id from ecoturismo.habitaciones hh 
         left join ecoturismo.reservas_habitaciones rh ON  hh.id = rh.habitaciones_id
-        left join ecoturismo.reserva rr ON  rh.reserva_id = rr.id AND rr.fecha_desde >= :fecha
+        left join ecoturismo.reserva rr ON  rh.reserva_id = rr.id AND  rr.fecha_desde BETWEEN :fechaInicio AND :fechaFin
         WHERE rr.id IS NULL; ';
 
         $stmt = $em->getConnection()->prepare($sql);
-        $stmt->execute(array("fecha" => $fecha));
+        $stmt->execute(array("fechaInicio" => $fechaInicio , "fechaFin"=>$fechaFin));
         $resulset = $stmt->fetchAll();
         $idsHabitaciones = $resulset;
 
@@ -369,7 +370,25 @@ class DefaultController extends Controller
               array_push($aIds, intval($value['id']));
         }
 
-        $habitacionesDisponibles = $em->getRepository('AppBundle:Habitaciones')->findBy(array('id' => $aIds));
+        $sql = ' Select hh.id from ecoturismo.habitaciones hh 
+        left join ecoturismo.reservas_habitaciones rh ON  hh.id = rh.habitaciones_id
+        left join ecoturismo.reserva rr ON  rh.reserva_id = rr.id AND  rr.fecha_hasta BETWEEN :fechaInicio AND :fechaFin
+        WHERE rr.id IS NULL; ';
+
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute(array("fechaInicio" => $fechaInicio , "fechaFin"=>$fechaFin));
+        $resulset = $stmt->fetchAll();
+        $idsHabitaciones = $resulset;
+
+        $bIds = array();
+        foreach ($idsHabitaciones as $key => $value) {  
+              array_push($bIds, intval($value['id']));
+        }
+
+        $xIds = array_intersect($aIds, $bIds);
+
+
+        $habitacionesDisponibles = $em->getRepository('AppBundle:Habitaciones')->findBy(array('id' => $xIds));
 
         return $habitacionesDisponibles;
     }
@@ -599,10 +618,10 @@ class DefaultController extends Controller
     public function ajaxHabitacionesDisponibesAction(Request $request){
 
       $fechaArribo = $request->get("fecha_inicio");
-      //$fechaSalida = $request->get("fecha_fin");
+      $fechaSalida = $request->get("fecha_fin");
 
-      
-      $habitacionesDisponibles = $this->getHabitacionesDisponibles($fechaArribo);
+      //Se le agregan comillas dobles a los valores para ser tomados como string
+      $habitacionesDisponibles = $this->getHabitacionesDisponibles("$fechaArribo","$fechaSalida");
 
       $encoders = array(new JsonEncoder());
       $normalizers = array(new ObjectNormalizer());

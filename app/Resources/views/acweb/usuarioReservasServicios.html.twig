@@ -9,19 +9,18 @@
             
 
         <legend>Reservación de Servicios: </legend>
-        {{dump(servicios)}}
         
         <div class="bs-docs-section">
           <div class="row">
-            <div class="col-lg-7">
-            <p>Haga sus reservas comodamente desde su celular, tablet o computadora en cualquier momento y sitio donde se encuentre</p>
-            <p><small>Seleccione los servicios y configure el horario disponible</small></p>
-            <p>Podrá abonar sus reservas con tarjeta de crédito <strong>con un simple click</strong>.</p>
-            <p>Si tiene alguna duda puede contactarse con Añoranzas Chaqueñas enviando un <a href="#"> mensaje por aqui </a></p>
+            <div class="col-lg-12">
+                <blockquote>
+                    <p>Haga sus reservas comodamente desde su celular, tablet o computadora en cualquier momento y sitio donde se encuentre</p>
+                    <p>Seleccione los servicios y configure el horario disponible</p>
+                    <p>Podrá abonar sus reservas con tarjeta de crédito <strong>con un simple click</strong>.</p>
+                    <p>Si tiene alguna duda puede contactarse con Añoranzas Chaqueñas enviando un <a href="#"> mensaje por aqui </a></p>
+                </blockquote>
 
-             <a class="btn btn-default" role= "menuitem" data-toggle="modal" data-target=".bs-example-modal-sm">Modal Test</a>
-                <a class="btn btn-default" role="menuitem" data-toggle="modal" data-target=".bs-example2-modal-sm">Modal </a>
-                <button type="submit" class="btn btn-success btn-block" data-dismiss="modal" onclick="requestHabitacionesDisponibles();">Habitaciones Disponibles</button>
+                
             </div>
           </div>
           <div class="row">
@@ -69,7 +68,7 @@
                                                     <label for="inputPassword" class="control-label">Fecha</label>
                                                     <div class="input-group col-lg-10">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                                        <input type="text" style="width: 200px" name="reservation2" id="reservation2" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                                        <input type="text" style="width: 200px" name="fecha_restaurant" id="fecha_restaurant" class="form-control" value="03/18/2016 - 03/23/2016" />
                                                     </div>
                                                 </div>
 
@@ -120,7 +119,7 @@
                                                     <label for="inputPassword" class="control-label">Fecha</label>
                                                     <div class="input-group col-lg-10">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                                        <input type="text" style="width: 200px" name="reservation2" id="reservation2" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                                        <input type="text" style="width: 200px" name="fecha_cabalgata" id="fecha_cabalgata" class="form-control" value="03/18/2016 - 03/23/2016" />
                                                     </div>
                                                 </div>
 
@@ -172,7 +171,7 @@
                                                     <label for="inputPassword" class="control-label">Fecha</label>
                                                     <div class="input-group col-lg-10">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                                        <input type="text" style="width: 200px" name="reservation2" id="reservation2" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                                        <input type="text" style="width: 200px" name="fecha_posada" id="fecha_posada" class="form-control" value="03/18/2016 - 03/23/2016" />
                                                     </div>
                                                 </div>
 
@@ -182,28 +181,23 @@
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-user"></i></span>
                                                         <input type="text" class="form-control" id="inputCant" placeholder="1">
                                                     </div>
+
                                                 </div>
-                                                <div class="col-lg-8">
-                                                            <label for="inputPassword" class="control-label">Habitaciones</label>
-                                                    <table class="table table-striped table-hover ">
+
+                                                <div class="col-lg-8 ">
+                                                    <button type="button" class="btn btn-info" onclick="requestHabitacionesDisponibles();">Buscar Habitaciones</button>
+                                                </div>
+
+                                                <div class="col-lg-8" id="div_habitaciones">
+                                                    <label for="inputPassword" class="control-label">Habitaciones</label>
+                                                    <table class="table table-striped table-hover" id="tb_habitaciones">
                                                       <thead>
                                                         <tr>
                                                           <th>#</th><th>Camas</th><th>Valor</th><th><span class="nobr">Selección  </span></th>
                                                         </tr>
                                                       </thead>
                                                       <tbody>
-                                                        {% set i = 1 %}
-                                                        {%  for item in habitaciones%}
-                                                        <tr >
-                                                            <td><p>{{item.id}}</p></td>
-                                                            <td><p>{{item.cantCamasSimples}} Simple   y   {{item.cantCamasDoble}} Doble <p></td>
-                                                            <td>${{item.valorHabitacion}}</td>
-                                                            <td class="a-center ">
-                                                                <input type="checkbox" class="flat" name="habitaciones[]" value="{{item.id}}">
-                                                            </td>
-                                                        </tr>
-                                                        {% set i = i+1 %}
-                                                        {%endfor %}
+                                                        <!-- Las Habitaciones que ajax responda-->
                                                       </tbody>
                                                     </table>
                                                 </div>
@@ -226,7 +220,7 @@
                             <!-- GUIA PESCA -->
                             <div class="panel panel-primary">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">{{servicios['guia_pesca'].servicio.nombre}}</h3>
+                                    <h3 class="panel-title">Guia de Pesca</h3>
                                 </div>
                                 <div class="panel-body ">
                                     <div class="col-lg-11">
@@ -236,7 +230,7 @@
                                                     <label for="inputPassword" class="control-label">Fecha</label>
                                                     <div class="input-group col-lg-10">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                                        <input type="text" style="width: 200px" name="reservation2" id="reservation2" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                                        <input type="text" style="width: 200px" name="fecha_guia_pesca" id="fecha_guia_pesca" class="form-control" value="03/18/2016 - 03/23/2016" />
                                                     </div>
                                                 </div>
 
@@ -288,7 +282,7 @@
                                                     <label for="inputPassword" class="control-label">Fecha</label>
                                                     <div class="input-group col-lg-10">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                                        <input type="text" style="width: 200px" name="reservation2" id="reservation2" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                                        <input type="text" style="width: 200px" name="fecha_paseo_nautico" id="fecha_paseo_nautico" class="form-control" value="03/18/2016 - 03/23/2016" />
                                                     </div>
                                                 </div>
 
@@ -337,7 +331,7 @@
                                                     <label for="inputPassword" class="control-label">Fecha</label>
                                                     <div class="input-group col-lg-10">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                                        <input type="text" style="width: 200px" name="reservation2" id="reservation2" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                                        <input type="text" style="width: 200px" name="fecha_pesca" id="fecha_pesca" class="form-control" value="03/18/2016 - 03/23/2016" />
                                                     </div>
                                                 </div>
 
@@ -362,6 +356,52 @@
                             </div>
                             <!-- /PESCA -->
                         </div>
+                        <div class="tab-pane fade" id="camping">
+                            <!-- CAMPING-->
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">{{servicios['camping'].servicio.nombre}}</h3>
+                                </div>
+                                <div class="panel-body ">
+                                    <div class="col-lg-11">
+                                        <div class="well">
+                                          <form class="form-horizontal">
+                                                <div class="form-group col-lg-4">
+                                                    <label for="inputPassword" class="control-label">Fecha</label>
+                                                    <div class="input-group col-lg-10">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                                        <input type="text" style="width: 200px" name="fecha_camping" id="fecha_camping" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group col-lg-3">
+                                                    <label for="inputCant" class="control-label">Personas</label>
+                                                    <div class="input-group col-lg-8">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-user"></i></span>
+                                                        <input type="text" class="form-control" id="inputCant" placeholder="1">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-lg-3">
+                                                    <label for="inputCant" class="control-label">Carpas</label>
+                                                    <div class="input-group col-lg-8">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-house"></i></span>
+                                                        <input type="text" class="form-control" id="inputCant" placeholder="1">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-10 col-lg-offset-8">
+                                                        <button type="reset" class="btn btn-default">Reset</button>
+                                                        <button type="submit" class="btn btn-primary">Reservar</button>
+                                                    </div>
+                                                </div>
+                                          </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /CAMPING -->
+                        </div>
                     </div>
               </div>
           </div>
@@ -372,7 +412,9 @@
                
 
                     
-            
+            <a class="btn btn-default" role= "menuitem" data-toggle="modal" data-target=".bs-example-modal-sm">Modal Test</a>
+                <a class="btn btn-default" role="menuitem" data-toggle="modal" data-target=".bs-example2-modal-sm">Modal </a>
+                <button type="submit" class="btn btn-success btn-block" data-dismiss="modal" onclick="requestHabitacionesDisponibles();">Habitaciones Disponibles</button>
 
             <div class="modal bs-example-modal-sm">
               <div class="modal-dialog">
@@ -403,7 +445,7 @@
     <!-- bootstrap-daterangepicker -->
     <script src="{{ asset('/assets/js/moment/moment.min.js') }}"></script>
     <script src="{{ asset('/assets/js/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap-daterangepicker/daterangepicker.css" />
+    
 
     <!-- Custom Theme JavaScript -->
     <script>
@@ -483,29 +525,78 @@
 
     <script type="text/javascript">
         
-        $('#reservation2').daterangepicker({
+        $('#fecha_posada').daterangepicker({
             locale: {   format: 'DD/MM/YYYY'}   ,
-            startDate: "10/10/2016",
-            endDate: "10/11/2016"
+            startDate:  "{{ "now"|date("d/m/Y") }}",
+            endDate: "{{"+7 day"|date("d/m/Y") }}"
         });
+        $('#fecha_restaurant').daterangepicker({
+            locale: {   format: 'DD/MM/YYYY'}   ,
+            startDate:  "{{ "now"|date("d/m/Y") }}",
+            endDate: "{{"now"|date("d/m/Y") }}"
+        });
+        $('#fecha_camping').daterangepicker({
+            locale: {   format: 'DD/MM/YYYY'}   ,
+            startDate:  "{{ "now"|date("d/m/Y") }}",
+            endDate: "{{"+7 day"|date("d/m/Y") }}"
+        });
+        $('#fecha_paseo_nautico').daterangepicker({
+            locale: {   format: 'DD/MM/YYYY'}   ,
+            startDate:  "{{ "now"|date("d/m/Y") }}",
+            endDate: "{{"now"|date("d/m/Y") }}"
+        });
+        $('#fecha_guia_pesca').daterangepicker({
+            locale: {   format: 'DD/MM/YYYY'}   ,
+            startDate:  "{{ "now"|date("d/m/Y") }}",
+            endDate: "{{"now"|date("d/m/Y") }}"
+        });
+        $('#fecha_cabalgata').daterangepicker({
+            locale: {   format: 'DD/MM/YYYY'}   ,
+            startDate:  "{{ "now"|date("d/m/Y") }}",
+            endDate: "{{"now"|date("d/m/Y") }}"
+        });
+        $('#fecha_pesca').daterangepicker({
+            locale: {   format: 'DD/MM/YYYY'}   ,
+            startDate:  "{{ "now"|date("d/m/Y") }}",
+            endDate: "{{"+ 1 day"|date("d/m/Y") }}"
+        });
+
     </script>
 
     <!-- Ecorp Consulta habitaciones disponibles-->
 
     <script>
         // Ejecuta la eliminicación de la reserva y responde sobre el estado
-     function requestHabitacionesDisponibles(o){
+     function requestHabitacionesDisponibles(){
 
-        var fecha  = "2016-03-17";
+        
+        var fecha_inicio  =  $('#fecha_posada').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        var fecha_fin  =  $('#fecha_posada').data('daterangepicker').endDate.format('YYYY-MM-DD');
+        console.debug(fecha_inicio);
+        console.debug(fecha_fin);
         // Consulta Ajax
         $.ajax({
             type:"POST",
             url: "{{ path('ajax_habitaciones_disponibles') }}",
-            data: {'fecha_incio':fecha },
+            data: {'fecha_incio':fecha_inicio ,'fecha_fin':fecha_fin},
             dataType: 'json',
-             success: function (response){              
+            success: function (response){              
 
-                console.debug(response);
+                console.debug(response.habitaciones);
+
+                var json_habitaciones = $.parseJSON(response.habitaciones);
+
+                console.debug(json_habitaciones);
+
+                $('#tb_habitaciones tbody > tr').empty();
+                for( i in json_habitaciones){
+                    var h = json_habitaciones[i];
+
+                    $('#tb_habitaciones').append('<tr><td><p>'+h.id+'</p></td><td><p>'+h.cantCamasSimples+' Simple  y   '+h.cantCamasDoble+' Doble <p></td><td>$ '+h.valorHabitacion+' </td><td class="a-center "><input type="checkbox" class="flat" name="habitaciones[]" value="'+h.id+'"></td></tr>');    
+                }
+
+                
+                
                 //Respuesta
                 /*if(response.mje ==  "OK"){
                     new PNotify({
