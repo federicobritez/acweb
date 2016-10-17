@@ -16,11 +16,13 @@
 
     <!-- Custom CSS -->
     <link href=" {{ asset('assets/css/stylish-portfolio.css') }}"  rel="stylesheet">
+    <link href="{{ asset('assets/css/freelancer.min.css') }}" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="{{ asset('assets/font-awesome/css/font-awesome.min.css') }}"    rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -59,7 +61,7 @@
     </nav>
 
     <!-- Header -->
-    <header id="top" class="header">
+    <aside id="top" class="header">
         <div class="text-vertical-center">
                     <style type="text/css">
                     .centerImage
@@ -76,7 +78,7 @@
             <br>
             <a href="#about" class="btn btn-dark btn-lg">Conocer más</a>
         </div>
-    </header>
+    </aside>
 
     <!-- About -->
     <section id="about" class="about">
@@ -107,9 +109,9 @@
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-tree fa-stack-1x text-primary"></i>
                             </span>
-                                <h4>
+                                <h3>
                                     <strong>Camping</strong>
-                                </h4>
+                                </h3>
                                 <p>Cuenta con parcelas definidas para carpas, es un bosque donde puedes acampar...</p>
                                 <a href="#portfolioModal5" data-toggle="modal" class="btn btn-light">Leer Más</a>
                             </div>
@@ -120,9 +122,9 @@
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-coffee fa-stack-1x text-primary"></i>
                             </span>
-                                <h4>
+                                <h3>
                                     <strong>Restaurante</strong>
-                                </h4>
+                                </h3>
                                 <p>Ofrece los platos más representativos de la cocina chaqueña...</p>
                                 <a href="#portfolioModal6" data-toggle="modal" class="btn btn-light">Leer Más</a>
                             </div>
@@ -133,9 +135,9 @@
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-home fa-stack-1x text-primary"></i>
                             </span>
-                                <h4>
+                                <h3>
                                     <strong>Posada</strong>
-                                </h4>
+                                </h3>
                                 <p>Está diseñada como una antigua casa de campo, donde se destaca su decoración sencilla y cálida...</p>
                                 <a href="#portfolioModal7" data-toggle="modal" class="btn btn-light">Leer Más</a>
                             </div>
@@ -146,9 +148,9 @@
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-binoculars fa-stack-1x text-primary"></i>
                             </span>
-                                <h4>
+                                <h3>
                                     <strong>Pesca</strong>
-                                </h4>
+                                </h3>
                                 <p>Este servicio ofrece la posibilidad de conocer el Paraná. El acompañamiento de un guía especializado asegura...</p>
                                 <a href="#portfolioModal8" data-toggle="modal" class="btn btn-light">Leer Más</a>
                             </div>
@@ -179,9 +181,7 @@
                         <div class="col-md-6">
                                 <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
                                     <div class="caption">
-                                        <div class="caption-content">
-                                            <i class="fa fa-search-plus fa-3x"></i>
-                                        </div>
+                                        <div class="caption-content"></div>
                                     </div>
                                     <img class="img-portfolio img-responsive" src="{{ asset('assets/img/portfolio-1.jpg') }}">
                                 </a>
@@ -189,9 +189,7 @@
                         <div class="col-md-6">
                                 <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
                                     <div class="caption">
-                                        <div class="caption-content">
-                                            <i class="fa fa-search-plus fa-3x"></i>
-                                        </div>
+                                        <div class="caption-content"></div>
                                     </div>
                                     <img class="img-portfolio img-responsive" src="{{ asset('assets/img/portfolio-2.jpg') }}">
                                 </a>
@@ -199,9 +197,7 @@
                         <div class="col-md-6">
                                 <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
                                     <div class="caption">
-                                        <div class="caption-content">
-                                            <i class="fa fa-search-plus fa-3x"></i>
-                                        </div>
+                                        <div class="caption-content"></div>
                                     </div>
                                     <img class="img-portfolio img-responsive" src="{{ asset('assets/img/portfolio-3.jpg') }}">
                                 </a>
@@ -209,16 +205,14 @@
                         <div class="col-md-6">
                                 <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
                                     <div class="caption">
-                                        <div class="caption-content">
-                                            <i class="fa fa-search-plus fa-3x"></i>
-                                        </div>
+                                        <div class="caption-content"></div>
                                     </div>
                                     <img class="img-portfolio img-responsive" src="{{ asset('assets/img/portfolio-4.jpg') }}">
                                 </a>
                         </div>
                     </div>
                     <!-- /.row (nested) -->
-                    <a href="#" class="btn btn-dark">Ver más imágenes</a>
+                    <a href="#portfolioModal9" data-toggle="modal"" class="btn btn-dark">Ver más imágenes</a>
                 </div>
                 <!-- /.col-lg-10 -->
             </div>
@@ -239,7 +233,7 @@
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
-                            <h1>Museo</h1>
+                            <h4>Museo</h4>
                             <hr class="star-primary">
                             <img src="{{ asset('assets/img/portfolio-1.jpg') }}" class="img-responsive img-centered" alt="">
                             <p>Conozca un basta colección de esculturas de arte, recolectadas por Don Javier a lo largo de los años.</p>
@@ -262,7 +256,7 @@
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
-                            <h1>Parrilla</h1>
+                            <h4>Parrilla</h4>
                             <hr class="star-primary">
                             <img src="{{ asset('assets/img/portfolio-2.jpg') }}" class="img-responsive img-centered" alt="">
                             <p>Disfrute de nuestras parrillas y compre la merjor carne en nuestra proveeduría </p>
@@ -285,7 +279,7 @@
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
-                            <h1>Cabalgata</h1>
+                            <h4>Cabalgata</h4>
                             <hr class="star-primary">
                             <img src="{{ asset('assets/img/portfolio-3.jpg') }}" class="img-responsive img-centered" alt="">
                             <p>Anímise a aventurace en la experiencia de motar a caballo, recorrer distintos senderos, reconociendo huellas, identificación 
@@ -309,7 +303,7 @@
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
-                            <h1>Piscina</h1>
+                            <h4>Piscina</h4>
                             <hr class="star-primary">
                             <img src="{{ asset('assets/img/portfolio-4.jpg') }}" class="img-responsive img-centered" alt="">
                             <p>Cada posada de nuestro lugar cuenta con una piscina para disfrutar los días de calor y pasarla bien en familia</p>
@@ -332,7 +326,7 @@
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
-                            <h1>Camping</h1>
+                            <h4>Camping</h4>
                             <hr class="star-primary">
                             <img src="{{ asset('assets/img/camp.jpg') }}" class="img-responsive img-centered" alt="">
                             <p>Cuenta con parcelas definidas para carpas, es un bosque donde puedes acampar, sanitarios, servicios de electricidad, agua caliente y acceso a la pileta de natación, restaurante, museo, área de juegos y cancha de futbol.</p>
@@ -355,7 +349,7 @@
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
-                            <h1>Restaurante</h1>
+                            <h4>Restaurante</h4>
                             <hr class="star-primary">
                             <img src="{{ asset('assets/img/restaurante-01.jpg') }}" class="img-responsive img-centered" alt="">
                             <p>Ofrece los platos más representativos de la cocina chaqueña rescatando el sabor de la comida de las abuelas, que lo identifica dentro de uno de los mejores en esta especialidad. El restaurante además cuenta con una espectacular área de juegos. También tiene cancha de fútbol y amplio lugar para estacionar.</p>
@@ -378,7 +372,7 @@
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
-                            <h1>Posada</h1>
+                            <h4>Posada</h4>
                             <hr class="star-primary">
                             <img src="{{ asset('assets/img/posada-01.jpg') }}" class="img-responsive img-centered" alt="">
                             <p>Está diseñada como una antigua casa de campo, donde se destaca su decoración sencilla y cálida. Cuenta con:
@@ -408,10 +402,105 @@
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
-                            <h1>Pesca</h1>
+                            <h4>Pesca</h4>
                             <hr class="star-primary">
                             <img src="{{ asset('assets/img/pescador-01.jpg') }}" class="img-responsive img-centered" alt="">
                             <p>Este servicio ofrece la posibilidad de conocer el Paraná. El acompañamiento de un guía especializado asegura que solamente se pueda realizar  pesca deportiva y se deberá cumplir con las normas establecidas por la Dirección de Fauna y Áreas Protegidas de la Provincia del Chaco (documentación, tamaño de pescado y veda).  En caso de no contar con la documentación requerida no se podrá realizar esta actividad.</p>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portfolio-modal modal fade" id="portfolioModal9" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h4>Galería</h4>
+                            <hr class="star-primary">
+                            <div class="container">
+                                <div id="main_area">
+                                    <!-- Slider -->
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="col-xs-12" id="slider">
+                                                <!-- Top part of the slider -->
+                                                <div class="row">
+                                                    <div class="col-sm-12" id="carousel-bounding-box">
+                                                        <div class="carousel slide" id="myCarousel">
+                                                            <!-- Carousel items -->
+                                                            <div class="carousel-inner">
+                                                                <div class="active item" data-slide-number="0">
+                                                                    <img src="{{ asset('assets/img/rio-01.jpg') }}"></div>
+
+                                                                <div class="item" data-slide-number="1">
+                                                                    <img src="{{ asset('assets/img/rio-02.jpg') }}"></div>
+
+                                                                <div class="item" data-slide-number="2">
+                                                                    <img src="{{ asset('assets/img/03.jpg') }}"></div>
+
+                                                                <div class="item" data-slide-number="3">
+                                                                    <img src="{{ asset('assets/img/04.jpg') }}"></div>
+
+                                                                <div class="item" data-slide-number="4">
+                                                                    <img src="{{ asset('assets/img/05.jpg') }}"></div>
+
+                                                                <div class="item" data-slide-number="5">
+                                                                    <img src="{{ asset('assets/img/09.jpg') }}"></div>
+                                                                
+                                                                <div class="item" data-slide-number="6">
+                                                                    <img src="{{ asset('assets/img/07.jpg') }}"></div>
+                                                                
+                                                                <div class="item" data-slide-number="7">
+                                                                    <img src="{{ asset('assets/img/08.jpg') }}"></div>
+                                                                
+                                                                <div class="item" data-slide-number="8">
+                                                                    <img src="{{ asset('assets/img/09.jpg') }}"></div>
+                                                                
+                                                                <div class="item" data-slide-number="9">
+                                                                    <img src="{{ asset('assets/img/10.jpg') }}"></div>
+                                                                
+                                                                <div class="item" data-slide-number="10">
+                                                                    <img src="{{ asset('assets/img/11.jpg') }}"></div>
+                                                                
+                                                                <div class="item" data-slide-number="11">
+                                                                    <img src="{{ asset('assets/img/12.jpg') }}"></div>
+                                                                
+                                                                <div class="item" data-slide-number="12">
+                                                                    <img src="{{ asset('assets/img/13.jpg') }}"></div>
+
+                                                                <div class="item" data-slide-number="13">
+                                                                    <img src="{{ asset('assets/img/14.jpg') }}"></div>
+
+                                                                <div class="item" data-slide-number="14">
+                                                                    <img src="{{ asset('assets/img/15.jpg') }}"></div>
+                                                                <!-- Carousel nav -->
+                                                                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                                                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                                                </a>
+                                                                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                                                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                                                </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        <!--/Slider-->
+                                    </div>
+                                </div>
+                            </div>
                             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
                         </div>
                     </div>
