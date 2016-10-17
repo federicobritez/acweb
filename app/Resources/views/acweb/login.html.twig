@@ -11,7 +11,7 @@
     <div class="col-md-6 col-sm-5" id="login">
         <form class="form-horizontal" action="{{ path('login', {'page': ''}) }}" method="post" >
           <fieldset>
-            <legend>Login Test </legend>
+            <legend>Entrar </legend>
             <div class="form-group" >
               <label for="inputUsuario" class="col-lg-2 control-label">Usuario</label>
               <div class="col-lg-10">
@@ -19,9 +19,9 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+              <label for="inputPassword" class="col-lg-2 control-label">Contraseña</label>
               <div class="col-lg-10">
-                <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="Password">
+                <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="Contraseña">
                 <div class="checkbox">
                   <label>
                     <input type="checkbox"> Recordar
@@ -31,8 +31,8 @@
             </div>
             <div class="form-group">
               <div class="col-lg-10 col-lg-offset-2">
-                <button type="reset" class="btn btn-default">Cancel</button>
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="reset" class="btn btn-default">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Ingresar</button>
                 <hr>
                 <button type="button" class="btn btn-info" onclick="swicht()">Registrarse</button>
               </div>
@@ -53,7 +53,7 @@
                                 <label>Nombres *</label>
                                 <label class="input margin-bottom-10">
                                     <i class="ico-append fa fa-user"></i>
-                                    <input required="" type="text">
+                                    <input required="" type="text" placeholder="nombre">
                                     <b class="tooltip tooltip-bottom-right">Nombres</b>
                                 </label>
                             </div>
@@ -61,7 +61,7 @@
                                 <label for="register:last_name">Apellidos *</label>
                                 <label class="input margin-bottom-10">
                                     <i class="ico-append fa fa-user"></i>
-                                    <input required="" type="text">
+                                    <input required="" type="text" placeholder="apellido">
                                     <b class="tooltip tooltip-bottom-right">Apellidos</b>
                                 </label>
                             </div>
@@ -73,7 +73,7 @@
                                 <label for="register:email">Email *</label>
                                 <label class="input margin-bottom-10">
                                     <i class="ico-append fa fa-envelope"></i>
-                                    <input required="" type="text">
+                                    <input required="" type="text" placeholder="email">
                                     <b class="tooltip tooltip-bottom-right">Email</b>
                                 </label>
                             </div>
@@ -81,7 +81,7 @@
                                 <label for="register:phone">Teléfono</label>
                                 <label class="input margin-bottom-10">
                                     <i class="ico-append fa fa-phone"></i>
-                                    <input type="text">
+                                    <input type="text" placeholder="teléfono">
                                     <b class="tooltip tooltip-bottom-right">Teléfono (opcional)</b>
                                 </label>
                             </div>
@@ -94,7 +94,7 @@
                                 <label for="register:pass1">Contraseña *</label>
                                 <label class="input margin-bottom-10">
                                     <i class="ico-append fa fa-lock"></i>
-                                    <input required="" type="password" class="err">
+                                    <input required="" type="password" class="err" placeholder="contraseña">
                                     <b class="tooltip tooltip-bottom-right">Min. 6 caracteres</b>
                                 </label>
                             </div>
@@ -102,7 +102,7 @@
                                 <label for="register:pass2">Confirmar Contraseña *</label>
                                 <label class="input margin-bottom-10">
                                     <i class="ico-append fa fa-lock"></i>
-                                    <input required="" type="password" class="err">
+                                    <input required="" type="password" class="err" placeholder="contraseña">
                                     <b class="tooltip tooltip-bottom-right">Ingrese el password otra vez</b>
                                 </label>
                             </div>
@@ -121,7 +121,7 @@
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-primary"> Aceptar</button>
                         <hr>
-                        <button type="button" class="btn btn-info" onclick="swicht2()">Login</button>
+                        <button type="button" class="btn btn-info" onclick="swicht2()">Ingreso</button>
                     </div>
                 </div>
             </form>

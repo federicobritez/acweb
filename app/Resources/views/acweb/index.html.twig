@@ -41,10 +41,10 @@
                 <a href="#top" onclick=$("#menu-close").click();>Menu</a>
             </li>
             <li>
-                <a href="#top" onclick=$("#menu-close").click();>Login</a>
+                <a href="{{ path('login') }}" onclick=$("#menu-close").click();>Login</a>
             </li>
             <li>
-                <a href="#about" onclick=$("#menu-close").click();>Registrarse</a>
+                <a href="{{ path('login') }}" onclick=$("#menu-close").click();>Registrarse</a>
             </li>
             <li>
                 <a href="#services" onclick=$("#menu-close").click();>Servcios</a>
@@ -111,7 +111,7 @@
                                     <strong>Camping</strong>
                                 </h4>
                                 <p>Cuenta con parcelas definidas para carpas, es un bosque donde puedes acampar...</p>
-                                <a href="#" class="btn btn-light">Leer Más</a>
+                                <a href="#portfolioModal5" data-toggle="modal" class="btn btn-light">Leer Más</a>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
@@ -124,7 +124,7 @@
                                     <strong>Restaurante</strong>
                                 </h4>
                                 <p>Ofrece los platos más representativos de la cocina chaqueña...</p>
-                                <a href="#" class="btn btn-light">Leer Más</a>
+                                <a href="#portfolioModal6" data-toggle="modal" class="btn btn-light">Leer Más</a>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
@@ -137,7 +137,7 @@
                                     <strong>Posada</strong>
                                 </h4>
                                 <p>Está diseñada como una antigua casa de campo, donde se destaca su decoración sencilla y cálida...</p>
-                                <a href="#" class="btn btn-light">Leer Más</a>
+                                <a href="#portfolioModal7" data-toggle="modal" class="btn btn-light">Leer Más</a>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
@@ -147,10 +147,10 @@
                                 <i class="fa fa-binoculars fa-stack-1x text-primary"></i>
                             </span>
                                 <h4>
-                                    <strong>Cabalgatas</strong>
+                                    <strong>Pesca</strong>
                                 </h4>
-                                <p>Se recorre distintos senderos, se charla sobre cuidado ambiental, se hace reconocimiento de huellas...</p>
-                                <a href="#" class="btn btn-light">Leer Más</a>
+                                <p>Este servicio ofrece la posibilidad de conocer el Paraná. El acompañamiento de un guía especializado asegura...</p>
+                                <a href="#portfolioModal8" data-toggle="modal" class="btn btn-light">Leer Más</a>
                             </div>
                         </div>
                     </div>
@@ -177,32 +177,44 @@
                 <div class="col-lg-10 col-lg-offset-1 text-center">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="portfolio-item">
-                                <a href="#">
+                                <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
+                                    <div class="caption">
+                                        <div class="caption-content">
+                                            <i class="fa fa-search-plus fa-3x"></i>
+                                        </div>
+                                    </div>
                                     <img class="img-portfolio img-responsive" src="{{ asset('assets/img/portfolio-1.jpg') }}">
                                 </a>
-                            </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="portfolio-item">
-                                <a href="#">
+                                <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
+                                    <div class="caption">
+                                        <div class="caption-content">
+                                            <i class="fa fa-search-plus fa-3x"></i>
+                                        </div>
+                                    </div>
                                     <img class="img-portfolio img-responsive" src="{{ asset('assets/img/portfolio-2.jpg') }}">
                                 </a>
-                            </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="portfolio-item">
-                                <a href="#">
+                                <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
+                                    <div class="caption">
+                                        <div class="caption-content">
+                                            <i class="fa fa-search-plus fa-3x"></i>
+                                        </div>
+                                    </div>
                                     <img class="img-portfolio img-responsive" src="{{ asset('assets/img/portfolio-3.jpg') }}">
                                 </a>
-                            </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="portfolio-item">
-                                <a href="#">
+                                <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
+                                    <div class="caption">
+                                        <div class="caption-content">
+                                            <i class="fa fa-search-plus fa-3x"></i>
+                                        </div>
+                                    </div>
                                     <img class="img-portfolio img-responsive" src="{{ asset('assets/img/portfolio-4.jpg') }}">
                                 </a>
-                            </div>
                         </div>
                     </div>
                     <!-- /.row (nested) -->
@@ -214,15 +226,207 @@
         </div>
         <!-- /.container -->
     </section>
-
+    <!-- Portfolio Modals -->
+    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h1>Museo</h1>
+                            <hr class="star-primary">
+                            <img src="{{ asset('assets/img/portfolio-1.jpg') }}" class="img-responsive img-centered" alt="">
+                            <p>Conozca un basta colección de esculturas de arte, recolectadas por Don Javier a lo largo de los años.</p>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h1>Parrilla</h1>
+                            <hr class="star-primary">
+                            <img src="{{ asset('assets/img/portfolio-2.jpg') }}" class="img-responsive img-centered" alt="">
+                            <p>Disfrute de nuestras parrillas y compre la merjor carne en nuestra proveeduría </p>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h1>Cabalgata</h1>
+                            <hr class="star-primary">
+                            <img src="{{ asset('assets/img/portfolio-3.jpg') }}" class="img-responsive img-centered" alt="">
+                            <p>Anímise a aventurace en la experiencia de motar a caballo, recorrer distintos senderos, reconociendo huellas, identificación 
+                            de la flora y fauna del lugar. </p>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h1>Piscina</h1>
+                            <hr class="star-primary">
+                            <img src="{{ asset('assets/img/portfolio-4.jpg') }}" class="img-responsive img-centered" alt="">
+                            <p>Cada posada de nuestro lugar cuenta con una piscina para disfrutar los días de calor y pasarla bien en familia</p>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h1>Camping</h1>
+                            <hr class="star-primary">
+                            <img src="{{ asset('assets/img/camp.jpg') }}" class="img-responsive img-centered" alt="">
+                            <p>Cuenta con parcelas definidas para carpas, es un bosque donde puedes acampar, sanitarios, servicios de electricidad, agua caliente y acceso a la pileta de natación, restaurante, museo, área de juegos y cancha de futbol.</p>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h1>Restaurante</h1>
+                            <hr class="star-primary">
+                            <img src="{{ asset('assets/img/restaurante-01.jpg') }}" class="img-responsive img-centered" alt="">
+                            <p>Ofrece los platos más representativos de la cocina chaqueña rescatando el sabor de la comida de las abuelas, que lo identifica dentro de uno de los mejores en esta especialidad. El restaurante además cuenta con una espectacular área de juegos. También tiene cancha de fútbol y amplio lugar para estacionar.</p>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portfolio-modal modal fade" id="portfolioModal7" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h1>Posada</h1>
+                            <hr class="star-primary">
+                            <img src="{{ asset('assets/img/posada-01.jpg') }}" class="img-responsive img-centered" alt="">
+                            <p>Está diseñada como una antigua casa de campo, donde se destaca su decoración sencilla y cálida. Cuenta con:
+                            <ul>
+                                <li>Una amplia galería con vista al parque y una cómoda sala de estar con televisión satelital, sillones, almohadones y servicio de wi-fi. </li>
+                                <li>Un amplio y confortable quincho para disfrutar de las tardes al aire libre.</li>
+                                <li>Habitaciones dobles y triples con baño privado, agua caliente, aire acondicionado y ropa de cama </li>
+                                <li>Pileta de natación.</li>
+                            </ul>
+                            </p>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portfolio-modal modal fade" id="portfolioModal8" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h1>Pesca</h1>
+                            <hr class="star-primary">
+                            <img src="{{ asset('assets/img/pescador-01.jpg') }}" class="img-responsive img-centered" alt="">
+                            <p>Este servicio ofrece la posibilidad de conocer el Paraná. El acompañamiento de un guía especializado asegura que solamente se pueda realizar  pesca deportiva y se deberá cumplir con las normas establecidas por la Dirección de Fauna y Áreas Protegidas de la Provincia del Chaco (documentación, tamaño de pescado y veda).  En caso de no contar con la documentación requerida no se podrá realizar esta actividad.</p>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Call to Action -->
     <aside class="call-to-action bg-primary">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h3>No pierdas la oportunidad</h3>
-                    <a href="#" class="btn btn-lg btn-light">¡Registrarme!</a>
-                    <a href="#" class="btn btn-lg btn-dark">¡Ingresar!</a>
+                    <a href="{{ path('login') }}" class="btn btn-lg btn-light">¡Registrarme!</a>
+                    <a href="{{ path('login') }}" class="btn btn-lg btn-dark">¡Ingresar!</a>
                 </div>
             </div>
         </div>
@@ -269,6 +473,7 @@
         </div>
         <a id="to-top" href="#top" class="btn btn-dark btn-lg"><i class="fa fa-chevron-up fa-fw fa-1x"></i></a>
     </footer>
+    
 
     <!-- jQuery -->
     <script src="{{ asset('assets/vendors/jquery/dist/jquery.min.js') }}"></script>
