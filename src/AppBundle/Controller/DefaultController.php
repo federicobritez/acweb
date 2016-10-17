@@ -229,21 +229,26 @@ class DefaultController extends Controller
     /**
      * Render AcWeb page. Carga el panel de Usurio con los servicios que puede reservas
      *
-     * @Route("/usuarioReservar", name="usuario_reservar" ,defaults={"page"="null"} )
+     * @Route("/usuarioReservar/{page}", name="usuario_reservar" ,defaults={"page"="null"} )
      *
      * @param Request $request
-     *
+     * @param string  $page    Page name
      *
      * @return Response
      */
     public function usuarioReservarAction(Request $request, $page="null"){
+
       if($page == "null"){
           return $this->redirectToRoute("usuario_panel");
       }
 
       if($page == "posada"){
+          return $this->render(sprintf('acweb/%s.html.twig', "debug"),
+            array('request'=>$request));
         
       }
+
+      return $this->redirectToRoute("usuario_panel");
     }
 
 
@@ -765,8 +770,8 @@ class DefaultController extends Controller
     {
       $message = \Swift_Message::newInstance()
         ->setSubject('[Consulta] Cliente:'.$idCliente.' - '.$asunto)
-        ->setFrom('ac.ecoturismo@gmail.com')
-        ->setTo($emailCliente)
+        ->setFrom("$emailCliente")
+        ->setTo("ac.ecoturismo@gmail.com")
         ->setBody($mensaje)
       ;
 

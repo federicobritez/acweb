@@ -63,7 +63,7 @@
                                 <div class="panel-body ">
                                     <div class="col-lg-11">
                                         <div class="well">
-                                          <form class="form-horizontal" id="form_restaurant" method="POST" action="{{ path('usuario_reservar', {'page': ''}) }}">
+                                          <form class="form-horizontal" id="form_restaurant" method="POST" action="{{ path('usuario_reservar', {'page': 'null'}) }}">
                                                 <div class="form-group col-lg-4">
                                                     <label for="inputPassword" class="control-label">Fecha</label>
                                                     <div class="input-group col-lg-10">
@@ -114,7 +114,7 @@
                                 <div class="panel-body ">
                                     <div class="col-lg-11">
                                         <div class="well">
-                                          <form class="form-horizontal" id="form_cabalgata" method="POST" action="{{ path('usuario_reservar', {'page': 'cabalgata'}) }}>
+                                          <form class="form-horizontal" id="form_cabalgata" method="POST" action="{{ path('usuario_reservar', {'page': 'cabalgata'}) }}">
                                                 <div class="form-group col-lg-4">
                                                     <label for="inputPassword" class="control-label">Fecha</label>
                                                     <div class="input-group col-lg-10">
@@ -166,7 +166,7 @@
                                 <div class="panel-body ">
                                     <div class="col-lg-11">
                                         <div class="well">
-                                          <form class="form-horizontal" id="form_posada" method="POST" action="{{ path('usuario_reservar', {'page': 'posada'}) }}>
+                                          <form class="form-horizontal" id="form_posada" method="POST" action="{{ path('usuario_reservar', {'page': 'posada'}) }}">
                                                 <div class="form-group col-lg-4">
                                                     <label for="inputPassword" class="control-label">Fecha</label>
                                                     <div class="input-group col-lg-10">
@@ -179,7 +179,7 @@
                                                     <label for="inputCant" class="control-label">Personas</label>
                                                     <div class="input-group col-lg-8">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-user"></i></span>
-                                                        <input type="text" class="form-control" id="inputCant" placeholder="1">
+                                                        <input type="text" class="form-control" id="inputCant" name="personas" placeholder="1">
                                                     </div>
 
                                                 </div>

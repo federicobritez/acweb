@@ -1,0 +1,16 @@
+{% extends 'panel_usuario_base.html.twig' %}
+{% block title %} {{ parent() }} {% endblock %}
+{% block navbar %} {{ parent() }} {% endblock %}
+{% block status_bar %} {{ parent() }} {% endblock %}
+{% block body %} {{ parent() }} {% endblock %}
+
+
+{% block contenido %}
+
+<legend>Debug: </legend>
+
+{{dump(request)}}
+
+
+{%endblock%}
+{% block footer %}  {{ parent() }}  {% endblock %}
