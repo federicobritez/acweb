@@ -1,0 +1,271 @@
+{% extends 'panel_usuario_base.html.twig' %}
+{% block title %} {{ parent() }} {% endblock %}
+{% block navbar %} {{ parent() }} {% endblock %}
+{% block status_bar %} {{ parent() }} {% endblock %}
+{% block body %} {{ parent() }} {% endblock %}
+
+
+{% block contenido %}
+
+<form id="form_nuevo_cliente">
+                        <div class="form-horizontal form-label-left" >
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Nombres <span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input id="nombre" type="text" data-validate-length-range="2" data-validate-words="1" required="required" class="form-control col-md-7 col-xs-12" name="nombre" value="{{cliente.nombre}}"/>
+                                </div>
+                            </div>
+
+                              
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name" >Apellido<span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input type="text" id="apellido" data-validate-length-range="3" data-validate-words="1" required="required"  class="form-control col-md-7 col-xs-12" name="apellido" value="{{cliente.apellido}}"/>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label for="dni" class="control-label col-md-3 col-sm-3 col-xs-12" >DNI/CI<span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input id="dni" data-validate-minmax="100000,99000000" required="required" class="form-control col-md-7 col-xs-12" type="number" name="dni" value="{{cliente.dni}}">
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label for="telefon1" class="control-label col-md-3 col-sm-3 col-xs-12" name="tel">Telefono1</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input  data-validate-length-range="8,20" class="form-control col-md-7 col-xs-12" type="phone" name="telefono1" value="{{cliente.telefono1}}">
+                                </div>
+                            </div>
+
+                              
+                            <div class="item form-group">
+                                <label for="telefon1" class="control-label col-md-3 col-sm-3 col-xs-12" name="tel2">Telefono2</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input  data-validate-length-range="8,20" class="form-control col-md-7 col-xs-12" type="phone" name="telefono2" value="{{cliente.telefono2}}">
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label for="telefon1" class="control-label col-md-3 col-sm-3 col-xs-12" name="correo1">CorreoElectronico<span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input id="middle-name" class="form-control col-md-7 col-xs-12 optional" type="email" name="correo" value="{{cliente.correo}}">
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label for="pais" class="control-label col-md-3 col-sm-3 col-xs-12" name="pais-label">Pais<span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <select class="form-control has-feedback-left required" placeholder="País" name="pais" >
+                                    <option selected>{{cliente.pais}}</option>
+                                    <option value="AR">Argentina</option> 
+                                    <option value="BR">Brazil</option> 
+                                    <option value="BL">Bolivia</option> 
+                                    <option value="CH">Chile</option>
+                                    <option value="PA">Paraguay</option> 
+                                    <option value="UR">Uruguay</option> 
+                                    <option value="UR">Uruguay</option> 
+                                  </select>
+                                </div>   
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Provincia<span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <select class="form-control has-feedback-left required" placeholder="Provincia" name="provincia">
+                                     <option  selected>{{cliente.provincia}}</option> 
+                                     <option value="Buenos Aires">Buenos Aires</option> 
+                                     <option value="Catamarca">Catamarca</option> 
+                                     <option value="Chaco">Chaco</option> 
+                                     <option value="Chubut">Chubut</option> 
+                                     <option value="Corrientes">Corrientes</option> 
+                                     <option value="Cordoba">Córdoba</option> 
+                                     <option value="Distrito Federal">Distrito Federal</option> 
+                                     <option value="Entre Rios">Entre Ríos</option> 
+                                     <option value="Formosa">Formosa</option> 
+                                     <option value="Jujuy">Jujuy</option> 
+                                     <option value="La Pampa">La Pampa</option> 
+                                     <option value="La Rioja">La Rioja</option> 
+                                     <option value="Mendoza">Mendoza</option> 
+                                     <option value="Misiones">Misiones</option> 
+                                     <option value="Neuquen">Neuquen</option> 
+                                     <option value="Rio Negro">Río Negro</option> 
+                                     <option value="Salta">Salta</option> 
+                                     <option value="San Juan">San Juan</option> 
+                                     <option value="San Luis">San Luis</option> 
+                                     <option value="Santa Cruz">Santa Cruz</option> 
+                                     <option value="Santa Fe">Santa Fe</option> 
+                                     <option value="Santiago del Estero">Santiago del Estero</option> 
+                                     <option value="Tierra del Fuego">Tierra del Fuego</option> 
+                                     <option value="Tucuman">Tucumán</option> 
+                                  </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Localidad<span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <select class="form-control has-feedback-left" placeholder="Ciudad" name="localidad">
+                                      <option selected>{{cliente.ciudad}}</option>
+                                      <option>Avia Terai</option>
+                                      <option>Charata</option>
+                                      <option>El Sauzalito</option>
+                                      <option>Fuerte Esperanza</option>
+                                      <option>Gancedo</option>
+                                      <option>General Pinedo</option>
+                                      <option>General San Martin</option>
+                                      <option>General Vedia</option>
+                                      <option>Hermoso Campo</option>
+                                      <option>Isla del Cerrito</option>
+                                      <option>Juan Jose Castelli</option>
+                                      <option>Las Breñas</option>
+                                      <option>Machagai</option>
+                                      <option>Mision Nueva Pompeya</option>
+                                      <option>Pampa del Indio</option>
+                                      <option>Puerto Tirol</option>
+                                      <option>Resistencia</option>
+                                      <option>Roque Saenz Peña</option>
+                                      <option>Villa Angela</option>
+                                      <option>Villa Rio Bermejito</option>
+                                  </select>
+                                </div>
+                            </div>    
+                            <div class="form-group">
+                              <div class="col-md-3 col-sm-3 col-xs-3 col-md-offset-4"">
+                              <input type="hidden" name="id_cliente" value="{{cliente.id}}">
+                              <button type="submit" class="btn btn-success btn-block"">Confirmar</button>
+                              </div>
+                            </div>
+
+
+                        </div>
+                      </form><!-- End FORM-->
+
+{%endblock%}
+{% block footer %}  {{ parent() }}  {% endblock %}
+
+{% block script%} {{ parent() }} 
+
+  <!-- validator -->
+  <script src="{{ asset('assets/vendors/validator/validator.js') }}"></script>
+
+  <!-- Validaciones -->
+  <script type="text/javascript">
+       
+    // initialize the validator function
+    validator.message['date'] = 'No es una fecha real';
+    validator.message['complete'] = 'Dato incompleto';
+    validator.message['invalid'] = 'Entrada invalida';
+    validator.message['empty'] = 'No puede ser vacio';
+    validator.message['number'] = 'No es numerico';
+    validator.message['select'] = 'Seleccione una opcion';
+    validator.message['email'] = 'Direccion de email invalida';
+    validator.message['email_repeat'] = 'La direccion no coincide';
+    validator.message['number_min'] = 'muy pequeño';
+    validator.message['number_max'] = 'muy grande';
+    validator.message['checked'] = 'Debe tildar alguna';
+
+    // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+    $('#form_nuevo_cliente')
+      .on('blur', 'input[required], input.optional, select.required', validator.checkField)
+      .on('change', 'select.required', validator.checkField)
+      .on('keypress', 'input[required][pattern]', validator.keypress);
+
+
+    $('#form_nuevo_cliente').submit(function(e){
+      e.preventDefault();
+      var submit = true,
+      validatorResult = validator.checkAll(this);
+        
+      console.debug('Validation Result:');
+      console.debug( validatorResult );
+
+      // Validate the form using generic validaing
+      if( validatorResult ){
+          console.debug("Informacion VALIDA");
+
+          var id_cliente = $('input[name=id_cliente]').val()
+          var nombre = $('input[name=nombre').val();
+          var apellido =  $('input[name=apellido]').val();
+          var dni = $('input[name=dni]').val();
+          var telefono1 = $('input[name=telefono1]').val();
+          var telefono2 = $('input[name=telefono2').val();
+          var correo = $('input[name=correo]').val();
+          var pais = $('select[name="pais"] option:selected' ).text();
+          var provincia = $('select[name="provincia"] option:selected').text();
+          var localidad = $('select[name="localidad"] option:selected').text();
+
+
+          $.ajax({
+            type:"POST",
+            url: "{{ path('ajax_cliente_editar') }}",
+            data: {'id_cliente':id_cliente,
+                   'nombre':  nombre , 
+                   'apellido':apellido,
+                   'dni':dni,
+                   'telefono1':telefono1,
+                   'telefono2':telefono2,
+                   'correo':correo,
+                   'pais':pais,
+                   'provincia':provincia,
+                   'localidad':localidad
+                  },
+            dataType: 'json',
+            success: function (response){              
+                //Respuesta
+                if(response.mje ==  "OK"){
+                    new PNotify({
+                    title: 'Cliente Modificado Efectivamente',
+                    text: 'Se han actualizado los datos del cliente en el servidor',
+                    type: 'success',                    
+                    styling: 'bootstrap3'
+                    });
+                  window.scrollTo(0,0);
+
+                }
+                else{
+                    // Estado Invalido
+                    new PNotify({
+                    title: 'Error: Al intentar modificar un cliente',
+                    text: 'Hubo un problema registrando los cambios. Intentelo mas tarde.',
+                    type: 'error',                    
+                    styling: 'bootstrap3'
+                    });
+                }
+            }
+          });
+
+          console.debug(dni);
+          console.debug(provincia);
+          
+      }
+      else{
+        // Notificación por formulario Incompleto o invalido
+         new PNotify({
+        title: 'Hay Datos incompletos ',
+        text: 'Algunas informaciones son incorrectas o ausentes. Por favor corrijalas y vuelva a interntarlo',
+        type: 'error',
+        hide: false,
+        styling: 'bootstrap3'
+         });  
+         return false;
+      }
+        
+
+      //window.scrollTo(0,0);
+     
+      return true;
+    });
+
+    $('#cancelar').click(function(){
+      var href ="{{ path('usuario_panel', {'page': ''}) }}";
+      window.location.href = href;
+
+    })
+
+
+  </script>
+
+
+
+{% endblock%}
