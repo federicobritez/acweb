@@ -63,21 +63,22 @@
                                 <div class="panel-body ">
                                     <div class="col-lg-11">
                                         <div class="well">
-                                          <form class="form-horizontal" id="form_restaurant" method="POST" action="{{ path('usuario_reservar', {'page': 'null'}) }}">
+                                          <form class="form-horizontal" id="form_restaurant" method="POST" action="{{ path('usuario_reservar', {'page': 'restaurant'}) }}">
+                                                <input type="hidden" name="id_servicio" value="{{servicios['restaurant'].servicio.id}}">
                                                 <div class="form-group col-lg-4">
                                                     <label for="inputPassword" class="control-label">Fecha</label>
                                                     <div class="input-group col-lg-10">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                                        <input type="text" style="width: 200px" name="fecha_restaurant" id="fecha_restaurant" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                                        <input type="text" style="width: 200px" name="fecha" id="fecha_restaurant" class="form-control" value="03/18/2016 - 03/23/2016" />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group col-lg-4">
                                                     <label for="select" class="control-label">Horarios</label>
                                                     <div class="input-group col-lg-10">
-                                                      <select class="form-control">
+                                                      <select class="form-control" name="horario">
                                                         {%for  item in horarios['restaurant'] %}
-                                                        <option>{{item.horaInicio|date("h:m:s")}} - {{item.horaFin|date("h:m:s")}}</option>
+                                                        <option>{{item.horaInicio|date("H:m:s")}} - {{item.horaFin|date("H:m:s")}}</option>
                                                         {% endfor %}
                                                       </select>
                                                     </div>
@@ -87,7 +88,7 @@
                                                     <label for="inputCant" class="control-label">Personas</label>
                                                     <div class="input-group col-lg-8">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-user"></i></span>
-                                                        <input type="text" class="form-control" id="inputCant" placeholder="1">
+                                                        <input type="text" class="form-control" id="inputCant" name="cant" placeholder="1">
                                                     </div>
                                                 </div>
                                     
@@ -115,20 +116,21 @@
                                     <div class="col-lg-11">
                                         <div class="well">
                                           <form class="form-horizontal" id="form_cabalgata" method="POST" action="{{ path('usuario_reservar', {'page': 'cabalgata'}) }}">
+                                                <input type="hidden" name="id_servicio" value="{{servicios['cabalgata'].servicio.id}}">
                                                 <div class="form-group col-lg-4">
                                                     <label for="inputPassword" class="control-label">Fecha</label>
                                                     <div class="input-group col-lg-10">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                                        <input type="text" style="width: 200px" name="fecha_cabalgata" id="fecha_cabalgata" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                                        <input type="text" style="width: 200px" name="fecha" id="fecha_cabalgata" class="form-control" value="03/18/2016 - 03/23/2016" />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group col-lg-4">
                                                     <label for="select" class="control-label">Horarios</label>
                                                     <div class="input-group col-lg-10">
-                                                      <select class="form-control">
+                                                      <select class="form-control" name="horario">
                                                         {%for  item in horarios['cabalgata'] %}
-                                                        <option>{{item.horaInicio|date("h:m:s")}} - {{item.horaFin|date("h:m:s")}}</option>
+                                                        <option>{{item.horaInicio|date("H:m:s")}} - {{item.horaFin|date("H:m:s")}}</option>
                                                         {% endfor %}
                                                       </select>
                                                     </div>
@@ -138,7 +140,7 @@
                                                     <label for="inputCant" class="control-label">Personas</label>
                                                     <div class="input-group col-lg-8">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-user"></i></span>
-                                                        <input type="text" class="form-control" id="inputCant" placeholder="1">
+                                                        <input type="text" class="form-control" id="inputCant" name="cant" placeholder="1">
                                                     </div>
                                                 </div>
                                         
@@ -167,11 +169,12 @@
                                     <div class="col-lg-11">
                                         <div class="well">
                                           <form class="form-horizontal" id="form_posada" method="POST" action="{{ path('usuario_reservar', {'page': 'posada'}) }}">
+                                                <input type="hidden" name="id_servicio" value="{{servicios['posada'].servicio.id}}">
                                                 <div class="form-group col-lg-4">
                                                     <label for="inputPassword" class="control-label">Fecha</label>
                                                     <div class="input-group col-lg-10">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                                        <input type="text" style="width: 200px" name="fecha_posada" id="fecha_posada" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                                        <input type="text" style="width: 200px" name="fecha" id="fecha_posada" class="form-control" value="03/18/2016 - 03/23/2016" />
                                                     </div>
                                                 </div>
 
@@ -179,7 +182,7 @@
                                                     <label for="inputCant" class="control-label">Personas</label>
                                                     <div class="input-group col-lg-8">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-user"></i></span>
-                                                        <input type="text" class="form-control" id="inputCant" name="personas" placeholder="1">
+                                                        <input type="text" class="form-control" id="inputCant" name="cant" placeholder="1">
                                                     </div>
 
                                                 </div>
@@ -225,21 +228,22 @@
                                 <div class="panel-body ">
                                     <div class="col-lg-11">
                                         <div class="well">
-                                          <form class="form-horizontal" id="form_guia_pesca">
+                                          <form class="form-horizontal" id="form_guia_pesca" method="POST" action="{{ path('usuario_reservar', {'page': 'guia_pesca'}) }}">
+                                           <input type="hidden" name="id_servicio" value="{{servicios['guia_pesca'].servicio.id}}">
                                                 <div class="form-group col-lg-4">
                                                     <label for="inputPassword" class="control-label">Fecha</label>
                                                     <div class="input-group col-lg-10">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                                        <input type="text" style="width: 200px" name="fecha_guia_pesca" id="fecha_guia_pesca" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                                        <input type="text" style="width: 200px" name="fecha" id="fecha_guia_pesca" class="form-control" value="03/18/2016 - 03/23/2016" />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group col-lg-4">
                                                     <label for="select" class="control-label">Horarios</label>
                                                     <div class="input-group col-lg-10">
-                                                      <select class="form-control">
+                                                      <select class="form-control" name="horario">
                                                         {%for  item in horarios['guia_pesca'] %}
-                                                        <option>{{item.horaInicio|date("h:m:s")}} - {{item.horaFin|date("h:m:s")}}</option>
+                                                        <option>{{item.horaInicio|date("H:m:s")}} - {{item.horaFin|date("H:m:s")}}</option>
                                                         {% endfor %}
                                                       </select>
                                                     </div>
@@ -249,7 +253,7 @@
                                                     <label for="inputCant" class="control-label">Personas</label>
                                                     <div class="input-group col-lg-8">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-user"></i></span>
-                                                        <input type="text" class="form-control" id="inputCant" placeholder="1">
+                                                        <input type="text" class="form-control" id="inputCant" name="cant" placeholder="1">
                                                     </div>
                                                 </div>
                                         
@@ -277,21 +281,22 @@
                                 <div class="panel-body ">
                                     <div class="col-lg-11">
                                         <div class="well">
-                                          <form class="form-horizontal" id="form_paseo_nautico">
+                                          <form class="form-horizontal" id="form_paseo_nautico" method="POST" action="{{ path('usuario_reservar', {'page': 'paseo_nautico'}) }}">
+                                           <input type="hidden" name="id_servicio" value="{{servicios['paseo_nautico'].servicio.id}}">
                                                 <div class="form-group col-lg-4">
                                                     <label for="inputPassword" class="control-label">Fecha</label>
                                                     <div class="input-group col-lg-10">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                                        <input type="text" style="width: 200px" name="fecha_paseo_nautico" id="fecha_paseo_nautico" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                                        <input type="text" style="width: 200px" name="fecha" id="fecha_paseo_nautico" class="form-control" value="03/18/2016 - 03/23/2016" />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group col-lg-4">
                                                     <label for="select" class="control-label">Horarios</label>
                                                     <div class="input-group col-lg-10">
-                                                      <select class="form-control">
+                                                      <select class="form-control" name="horario">
                                                         {%for  item in horarios['paseo_nautico'] %}
-                                                        <option>{{item.horaInicio|date("h:m:s")}} - {{item.horaFin|date("h:m:s")}}</option>
+                                                        <option>{{item.horaInicio|date("H:m:s")}} - {{item.horaFin|date("H:m:s")}}</option>
                                                         {% endfor %}
                                                       </select>
                                                     </div>
@@ -301,7 +306,7 @@
                                                     <label for="inputCant" class="control-label">Personas</label>
                                                     <div class="input-group col-lg-8">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-user"></i></span>
-                                                        <input type="text" class="form-control" id="inputCant" placeholder="1">
+                                                        <input type="text" class="form-control" id="inputCant" name="cant" placeholder="1">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -326,12 +331,13 @@
                                 <div class="panel-body ">
                                     <div class="col-lg-11">
                                         <div class="well">
-                                          <form class="form-horizontal" id="form_pesca">
+                                          <form class="form-horizontal" id="form_pesca" method="POST" action="{{ path('usuario_reservar', {'page': 'pesca'}) }}">
+                                           <input type="hidden" name="id_servicio" value="{{servicios['pesca'].servicio.id}}">
                                                 <div class="form-group col-lg-4">
                                                     <label for="inputPassword" class="control-label">Fecha</label>
                                                     <div class="input-group col-lg-10">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                                        <input type="text" style="width: 200px" name="fecha_pesca" id="fecha_pesca" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                                        <input type="text" style="width: 200px" name="fecha" id="fecha_pesca" class="form-control" value="03/18/2016 - 03/23/2016" />
                                                     </div>
                                                 </div>
 
@@ -340,7 +346,7 @@
                                                     <label for="inputCant" class="control-label">Personas</label>
                                                     <div class="input-group col-lg-8">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-user"></i></span>
-                                                        <input type="text" class="form-control" id="inputCant" placeholder="1">
+                                                        <input type="text" class="form-control" id="inputCant" name="cant" placeholder="1">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -365,12 +371,13 @@
                                 <div class="panel-body ">
                                     <div class="col-lg-11">
                                         <div class="well">
-                                          <form class="form-horizontal" id="form_camping">
+                                          <form class="form-horizontal" id="form_camping" method="POST" action="{{ path('usuario_reservar', {'page': 'camping'}) }}">
+                                           <input type="hidden" name="id_servicio" value="{{servicios['camping'].servicio.id}}">
                                                 <div class="form-group col-lg-4">
                                                     <label for="inputPassword" class="control-label">Fecha</label>
                                                     <div class="input-group col-lg-10">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                                        <input type="text" style="width: 200px" name="fecha_camping" id="fecha_camping" class="form-control" value="03/18/2016 - 03/23/2016" />
+                                                        <input type="text" style="width: 200px" name="fecha" id="fecha_camping" class="form-control" value="03/18/2016 - 03/23/2016" />
                                                     </div>
                                                 </div>
 
@@ -386,7 +393,7 @@
                                                     <label for="inputCant" class="control-label">Carpas</label>
                                                     <div class="input-group col-lg-8">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user fa fa-house"></i></span>
-                                                        <input type="text" class="form-control" id="inputCant" placeholder="1">
+                                                        <input type="text" class="form-control" id="inputCant" name="cant" placeholder="1">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -407,10 +414,6 @@
           </div>
         </div>  
           
-            
-          
-               
-
                     
             <a class="btn btn-default" role= "menuitem" data-toggle="modal" data-target=".bs-example-modal-sm">Modal Test</a>
                 <a class="btn btn-default" role="menuitem" data-toggle="modal" data-target=".bs-example2-modal-sm">Modal </a>

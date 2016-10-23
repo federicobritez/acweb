@@ -65,7 +65,6 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Opciones <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="{{ path('usuario_panel', {'page': ''}) }}">Mis Reservas</a></li>
-            <li><a href="{{ path('usuario_panel', {'page': ''}) }}">Mis Consumos</a></li>
             <li><a href="{{ path('usuario_reservas_servicios', {'page': ''}) }}">Nueva Reserva</a></li>
             <li><a href="{{ path('usuario_listar_factura', {'page': ''}) }}">Facturas</a></li>
             <li class="divider"></li>
@@ -101,7 +100,6 @@
 
             <ul class="nav nav-pills">
               <li class="active"><a href="{{ path('usuario_panel', {'page': ''}) }}">Mis Reservas <span class="badge">{{app.session.get('cant_reservas_hist')}}</span></a></li>
-              <li class=""><a href="{{ path('usuario_panel', {'page': ''}) }}">Mis Consumos <span class="badge">3</span></a></li>
               <li><a href="{{ path('usuario_reservas_servicios', {'page': ''}) }}">Nueva Reserva <span class="badge"></span></a></li>
               <li><a href="{{ path('usuario_listar_factura', {'page': ''}) }}">Facturas <span class="badge">3</span></a></li>   
             </ul>
