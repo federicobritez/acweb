@@ -238,13 +238,92 @@ class DefaultController extends Controller
      */
     public function usuarioReservarAction(Request $request, $page="null"){
 
+
+      $em = $this->getDoctrine()->getManager();
+
       if($page == "null"){
           return $this->redirectToRoute("usuario_panel");
       }
 
-      if($page == "posada"){
+      if(in_array($page, array("posada","paseo_nautico","camping","pesca","guia_pesca","restaurant","cabalgata"))){
+
+          $arrFechas     = explode("-",$request->get("fecha")); // => "21/10/2016 - 28/10/2016"
+          if(count($arrFechas) >1){
+            $fechaInicio   = trim($arrFechas[0]);
+            $fechaFin      = trim($arrFechas[1]);  
+          }
+          else{
+            $fechaInicio   = trim($arrFechas[0]);
+            $fechaFin   = $fechaInicio;
+          }
+          $cant          = $request->get("cant");
+          $habitaciones  = $request->get("habitaciones");
+          $idServicio    = $request->get("id_servicio");
+          $idHorario     = $request->get("horario");
+          $cliente       = $this->getCliente(array('id'=> $this->get('session')->get('cliente_id')));
+
+          $servicio = $this->getServicios($idServicio);
+
+          $reserva = new Reserva();
+          $reserva->setFechaReserva(new \DateTime(date("Y-m-d H:i:s")));
+          $reserva->setFechaDesde(\DateTime::createFromFormat("d/m/Y",$fechaInicio));
+          $reserva->setFechaHasta(\DateTime::createFromFormat("d/m/Y",$fechaFin));
+          $reserva->setCliente($cliente);
+          $reserva->setCantPersonas($cant);
+          $reserva->setServicio($servicio);
+
+          //$totalValorReservas += $valorReserva;
+            
+
+          /* Seteamos el estado por default que es Esperando Confirmacion*/
+          $estadoReserva = $this->getDoctrine()->getRepository('AppBundle:EstadoReserva')->find(3);
+          $reserva->setEstadoReserva($estadoReserva);
+    
+          $em->persist($reserva);
+          $em->flush();               
+
+          $rha=array();
+          if($habitaciones != null && count($habitaciones) > 0){
+            foreach($habitaciones as $idHabit){
+                    
+                    $habitacion = $this->getDoctrine()->getRepository('AppBundle:Habitaciones')->find($idHabit);
+                    $rh = new ReservasHabitaciones();
+                    $rh->setReserva($reserva);
+                    $rh->setHabitaciones($habitacion);
+                    array_push($rha, $rh);
+                    $em->persist($rh);
+                    $em->flush();
+                }
+          }          
+
+          $horario = null;
+          if($idHorario != null){
+            $horario  = $em->getRepository('AppBundle:HorariosServicio')->find($idHorario);
+          }
+          //
+          $horarios_reserva = null;
+          if($horario != null){
+                $horarios_reserva = new HorariosReserva();
+                $horarios_reserva->setReserva($reserva);
+                $horarios_reserva->setHorariosServicio($horario);
+                
+                //$em->persist($horarios_reserva);
+                //$em->flush();       
+           }
+
+          $valorReserva = $this->calcularValorReserva($reserva);
+          
+          $reserva->setValorTotal($valorReserva);
+          $em->persist($reserva);
+          $em->flush();
+
+          /*
+          $aDatos = array("reserva"=>$reserva, "habitaciones" =>$rha ,"horario"=>$horarios_reserva, "request"=>$request);
+
           return $this->render(sprintf('acweb/%s.html.twig', "debug"),
-            array('request'=>$request));
+                                array('request'=>$aDatos));
+          */
+          return $this->redirectToRoute("usuario_panel");
         
       }
 
@@ -386,7 +465,7 @@ class DefaultController extends Controller
     * @return var float
     */
 
-    public function calcularValorReserva($reserva){
+    public function calcularValorReserva($reserva,$aHabitaciones = null){
 
         /*El valor se calcula:
             Total = ((V.unitarioServicio)*CantPersonasReserva)*Cantidad de Dias  
@@ -401,9 +480,25 @@ class DefaultController extends Controller
         $dias = intval($intervalo->format('%R%a'))+1; //Sumamos un dia mas porque 
 
         $precioUnitario = $reserva->getServicio()->getValorUnitario();
-        $cantPersonas = $reserva->getCantPersonas();
 
-        return $precioUnitario*$dias*$cantPersonas;
+        $idServicio = $reserva->getServicio()->getId();
+
+        $cant = 0;
+
+        switch ($idServicio) {
+          case 2:
+              $habitaciones = $this->getHabitacionesDeReserva($reserva->getId());
+              foreach ($habitaciones as $h) {
+                  $cant += $h->getValorHabitacion();// Contamos las habitaciones, no las personas
+              }
+             break;
+
+          default:
+            $cant = $reserva->getCantPersonas(); // Los demas son valores por persona
+            break;
+        }
+
+        return $precioUnitario*$dias*$cant;
 
     }
 
@@ -515,6 +610,19 @@ class DefaultController extends Controller
       $em = $this->getDoctrine()->getManager();
       return  $em->getRepository('AppBundle:Usuario')->findOneBy($array_filtro);
       
+    }
+
+    public function  getHabitacionesDeReserva($reservaId){
+
+      $rhs = $this->getDoctrine()->getRepository('AppBundle:ReservasHabitaciones')->findBy(array('reserva' => $reservaId));
+      $habitaciones = array();
+      if($rhs !=null){
+
+        foreach ($rhs as $rh) {
+          array_push($habitaciones, $rh->getHabitaciones());
+        }
+      }
+      return $habitaciones;
     }
 
 
