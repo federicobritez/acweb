@@ -1,0 +1,15 @@
+TETS web
+
+1- Desde la pagina de login y registro no se debería por acceder sin antes registrarse o haberse registrado
+2- En caso de que al logearse no concuerde el pass con el usuario debería arrojar un mensaje (usuario o pass incorrectos)
+3- Faltan validaciones en la página de registro 
+4- Al salir de la seción no se cierra la misma
+5- Botones de más en usuariosReservaServicios X
+6- Panel del usuario --> mis reservas y mis consumos tienen lo mismo X
+7- Cantidad de personas en guía de pesca no tiene ninguna función X
+8- Los horarios del restaurante no son precisos
+9- usuarioVerFactura botón imprimir no funcional
+10- usuarioVerFactura botón cancelar y volver no funcional X
+11- Contadores no funcionales
+12- Validaciones en usuarioReservaServicios / control de lo que se ingresa en los campos numéricos
+13- Estado de las reservas en Reservas Programadas falta lógica

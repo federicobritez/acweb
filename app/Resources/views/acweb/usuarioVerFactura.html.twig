@@ -135,7 +135,7 @@
                             <div class="row no-print">
                               <div class="col-xs-6">
                                   <button class="btn btn-default btn-block"  onclick="jQuery('#dvContainer').print()" ><i class="fa fa-print"></i> Imprimir</button>
-                                  <button type="submit" class="btn btn-cancel btn-block" id="btnCancelar">Cancelar y Volver</button>
+                                  <button type="submit" class="btn btn-cancel btn-block"><a href="{{ path('usuario_listar_factura', {'page': ''}) }}" >Cancelar y Volver</a></button>
                                   <button type="submit" class="btn btn-success btn-block" data-dismiss="modal" data-toggle="modal" data-target=".bs-confirmar-modal-sm">
                                     <i class="fa fa-credit-card"></i>Registar Pago</button>
                               </div>
@@ -162,7 +162,7 @@
                                 </div>
                                 <div class="modal-footer">
                                   <button type="submit" class="btn btn-cancel btn-block" data-dismiss="modal">Cancelar</button>
-                                  <button type="submit" class="btn btn-success btn-block" id="confirmar_pago"data-dismiss="modal"
+                                  <button type="submit" class="btn btn-success btn-block" id="confirmar_pago" data-dismiss="modal"
                                   >Confirmar</button>
                                 </div>
                               </div>
