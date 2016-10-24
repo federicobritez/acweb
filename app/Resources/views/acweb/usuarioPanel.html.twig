@@ -18,6 +18,7 @@
                   <th>CantPersonas</th>
                   <th>Valor Neto</th>
                   <th>Estado</th>
+                  <th>Acccion</th>
                 </tr>
               </thead>
               <tbody>
@@ -25,11 +26,19 @@
                 {%  for item in reservasFuturas%}
                 <tr>
                     <td>{{i}}</td>
-                    <td>{{item.servicio.nombre}}</td>
+                    <td><h4>{{item.servicio.nombre}}</h4></td>
                     <td>{{item.fechaDesde.date|date('d/m/Y')}} al {{item.fechaHasta.date|date('d/m/Y')}}</td>
                     <td>{{item.cantPersonas}}</td>
                     <td>${{item.valorTotal}}</td>
                     <td>
+                        {% if item.estadoReserva.descripcion =="CANCELADA"  or item.estadoReserva.descripcion =="VENCIDA" %}
+                            <p class="text-danger">{{item.estadoReserva.descripcion}}</p>
+                        {% elseif item.estadoReserva.descripcion =="ESPERANDO_CONFIRMACION" %}
+                            <p class="text-warning">{{item.estadoReserva.descripcion}}</p>
+                        {% else %}
+                            <p class="text-success">{{item.estadoReserva.descripcion}}</p>
+                        {% endif%}
+                        <!--
                         <select class="form-control" onchange="updateEstadoReserva(this)" id="id_reserva_{{item.id}}"> 
                           {% for estado in estadosReservas %}
                             {%  if estado.id == item.estadoReserva.id %}
@@ -39,7 +48,14 @@
                             {% endif%}
                           {% endfor%}
                         </select>
-
+                        -->
+                    </td>
+                    <td> 
+                        <form method="post" action="{{ path('usuario_pago_reservar', {'page': 'null'}) }}"">
+                            <input type="hidden" name="id_reserva"  value="{{item.id}}">
+                            <a class="btn btn-warning" role= "menuitem" data-toggle="modal" data-target=".bs-cancelar-modal-sm" onclick="setInfoReserva({{item.id}})">Cancelar</a>
+                            <button class="btn btn-success">Confirmar</button>
+                        </form>
                     </td>
                 </tr>
                 {% set i = i+1 %}
@@ -75,6 +91,29 @@
                 {%endfor %}
               </tbody>
             </table> 
+
+
+            <div class="modal bs-cancelar-modal-sm">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">¿Desea cancelar la reserva?</h4>
+                  </div>
+                  <!--
+                  <div class="modal-body">
+                    <p>La reserva no será </p>
+                  </div>-->
+                  <div class="modal-footer">
+                    <form method="post" action="{{ path('usuario_reservar', {'page': 'cancelar'}) }}"">
+                        <input type="hidden" name="id_reserva" id="id_reserva_cancel_hidden" value="">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Volver</button>
+                        <button type="submit" class="btn btn-primary">Cancelar Reserva</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
 {% endblock %}
 
 {% block footer %}  {{ parent() }}  {% endblock %}
@@ -156,6 +195,11 @@
 
     <!-- ECORP Cambio de estado de Reserva-->
     <script >
+
+        function setInfoReserva(id_reserva){
+            $('#id_reserva_cancel_hidden').val(id_reserva);
+            console.debug($('#id_reserva_cancel_hidden'));
+        }
       /*
           Actualizción de Estado de Reserva
       */

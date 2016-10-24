@@ -5,18 +5,18 @@
       <index name="fk_forma_de_pago_servicio1_idx" columns="servicio_id"/>
       <index name="fk_formas_de_pago_tipo_pago1_idx" columns="tipo_pago_id"/>
     </indexes>
-    <id name="id" type="integer" column="id">
-      <generator strategy="IDENTITY"/>
-    </id>
-    <many-to-one field="servicio" target-entity="Servicio" fetch="LAZY">
+    <id name="id" type="integer" column="id"/>
+    <id name="tipoPago" association-key="true"/>
+    <id name="servicio" association-key="true"/>
+    <one-to-one field="servicio" target-entity="Servicio" fetch="LAZY">
       <join-columns>
         <join-column name="servicio_id" referenced-column-name="id"/>
       </join-columns>
-    </many-to-one>
-    <many-to-one field="tipoPago" target-entity="TipoPago" fetch="LAZY">
+    </one-to-one>
+    <one-to-one field="tipoPago" target-entity="TipoPago" fetch="LAZY">
       <join-columns>
         <join-column name="tipo_pago_id" referenced-column-name="id"/>
       </join-columns>
-    </many-to-one>
+    </one-to-one>
   </entity>
 </doctrine-mapping>

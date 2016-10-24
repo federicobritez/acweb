@@ -24,6 +24,20 @@ class FormasDePago
 
 
     /**
+     * Set id
+     *
+     * @param integer $id
+     *
+     * @return FormasDePago
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -40,7 +54,7 @@ class FormasDePago
      *
      * @return FormasDePago
      */
-    public function setServicio(\AppBundle\Entity\Servicio $servicio = null)
+    public function setServicio(\AppBundle\Entity\Servicio $servicio)
     {
         $this->servicio = $servicio;
 
@@ -64,7 +78,7 @@ class FormasDePago
      *
      * @return FormasDePago
      */
-    public function setTipoPago(\AppBundle\Entity\TipoPago $tipoPago = null)
+    public function setTipoPago(\AppBundle\Entity\TipoPago $tipoPago)
     {
         $this->tipoPago = $tipoPago;
 

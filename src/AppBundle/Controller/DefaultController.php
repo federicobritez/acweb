@@ -103,6 +103,25 @@ class DefaultController extends Controller
 
 
     /**
+     * Render AcWeb page. 
+     *
+     * @Route("/usuarioEditarCliente", name="usuario_editar_cliente" )
+     *
+     * @param Request $request
+     *
+     *
+     * @return Response
+     */
+    public function usuarioEditarClienteAction(Request $request){
+        /*  El cliente
+        */
+        $cliente = $this->getCliente(array('id'=> $this->get('session')->get('cliente_id')));
+
+        return $this->render(sprintf('acweb/%s.html.twig', "usuarioEditarCliente"),
+                              array("cliente" => $cliente));
+    }
+
+    /**
      * Render AcWeb page. Carga el panel de Usurio con información de sus consumos, reservas, facturas, etc
      *
      * @Route("/usuario", name="usuario_panel" )
@@ -241,6 +260,18 @@ class DefaultController extends Controller
 
       $em = $this->getDoctrine()->getManager();
 
+      if($page == "cancelar"){
+          $idReserva = $request->get("id_reserva");
+          $reserva = $this->getReserva(array("id"=>$idReserva));
+          if($reserva !=null){
+              $reserva->setEstadoReserva($this->getEstadoReserva(array('id' => 4)));
+          }
+          $em->persist($reserva);
+          $em->flush();
+
+      }
+
+
       if($page == "null"){
           return $this->redirectToRoute("usuario_panel");
       }
@@ -329,6 +360,49 @@ class DefaultController extends Controller
 
       return $this->redirectToRoute("usuario_panel");
     }
+
+
+    /**
+     * Render AcWeb page. 
+     *
+     * @Route("/usuarioPagoReserva/{page}", name="usuario_pago_reservar" ,defaults={"page"="null"} )
+     *
+     * @param Request $request
+     * @param string  $page    Page name
+     *
+     * @return Response
+     */
+    public function usuarioPagoReservaAction(Request $request, $page="null"){
+
+
+        if($page == "pagar"){
+          $tipoPago       = 0;
+          $cuota          = 0;
+          $nombreApellido = 0;
+          $numeroTarjeta  = 0;
+          $mesVencimiento = 0;
+          $anioVencimiento= 0;
+          $codSeguridad   = 0;
+
+          return $this->render(sprintf('acweb/%s.html.twig', "debug"),
+                                array('request'=>$request));
+        }
+
+        $idReserva = $request->get("id_reserva");
+
+        $reserva = $this->getReserva(array("id"=>$idReserva));
+        $servicio = $reserva->getServicio();
+
+        $formasPago = $this->getFormasPagoServicio(array("servicio" => $servicio->getId()));
+
+
+
+        return $this->render(sprintf('acweb/%s.html.twig', "usuarioPagoReserva"),
+                                array('formasDePago'=>$formasPago,
+                                      'reserva'=> $reserva));
+
+    }
+
 
 
     /**
@@ -599,10 +673,22 @@ class DefaultController extends Controller
 
     }
 
+    public function getFormasPagoServicio($array_filtro=array()){
+      
+      return $this->getDoctrine()->getRepository('AppBundle:FormasDePago')->findBy($array_filtro,array('tipoPago' => 'ASC'));
+
+    }
+
     public function getEstadoReserva($array_filtro=array()){
 
-      $estadoReserva = $this->getDoctrine()->getRepository('AppBundle:EstadoReserva')->findBy($array_filtro,array('id' => 'ASC'));
+      $estadoReserva = $this->getDoctrine()->getRepository('AppBundle:EstadoReserva')->findOneBy($array_filtro,array('id' => 'ASC'));
       return $estadoReserva;
+    }
+
+    public function getReserva($array_filtro=array()){
+
+      $Reserva = $this->getDoctrine()->getRepository('AppBundle:Reserva')->findOneBy($array_filtro,array('id' => 'ASC'));
+      return $Reserva;
     }
 
     public function getUsuario($array_filtro=array()){

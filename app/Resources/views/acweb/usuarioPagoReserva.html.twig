@@ -1,0 +1,133 @@
+{% extends 'panel_usuario_base.html.twig' %}
+{% block title %} {{ parent() }} {% endblock %}
+{% block navbar %} {{ parent() }} {% endblock %}
+{% block status_bar %} {{ parent() }} {% endblock %}
+{% block body %} {{ parent() }} {% endblock %}
+
+
+{% block contenido %}
+
+<legend>Pago de Reserva:</legend>
+
+<div class="bs-docs-section">
+	<div class="row">
+		<div class="col-lg-12">
+        	<blockquote>
+            	<p>Ud. esta por confirmar una reserva, para poder terminar el proceso es necesario abonar la misma.</p>
+                <p>A continuación solicitaremos que ingrese la forma de pago que Ud. prefiere y los datos de sus tarjeta de crédito.</p>
+			</blockquote>
+		</div>
+    </div>
+    <div class="row">
+		<div class="col-lg-8">
+		<form class="form-horizontal" method="post" action="{{ path('usuario_pago_reservar', {'page': 'pagar'}) }}">
+			<h3>Formas de pago</h3>
+			<fieldset>
+				 <div class="form-group">
+					<label for="select" class="col-lg-2 control-label">Metodo de Pago</label>
+			      	<div class="col-lg-10">
+				        <select class="form-control" id="tipo_pago" name="tipoPago" onChange="setCantCuotas(this)">
+				          	{% for item in formasDePago%}
+				          		<option value="{{item.TipoPago.id}}_{{item.TipoPago.cantCuotas}}">{{item.TipoPago.descripcion}}</option>
+				          	{% endfor %}
+			        	</select>
+			     	</div>
+			     </div>
+			     
+			     <div class="form-group">
+					<label for="select" class="col-lg-2 control-label">Cuotas</label>
+			      	<div class="col-lg-10">
+				        <select class="form-control" name="cuotas" id="cuotas">
+			        	</select>
+			     	</div>
+				</div>
+
+				<div class="form-group">
+					<label for="select" class="col-lg-2 control-label">Nombre y Apellido</label>
+			      	<div class="col-lg-10">
+				        <input id="nombre" type="text" data-validate-length-range="2" data-validate-words="1" required="required" class="form-control" name="nombre" value=""/>
+			     	</div>
+				</div>
+
+				<div class="form-group">
+					<label for="select" class="col-lg-2 control-label">Número de la Tarjeta</label>
+			      	<div class="col-lg-5">
+				      	<input id="num_tarjeta" type="number" data-validate-length-range="2" data-validate-words="1" required="required" class="form-control" name="num_tarjeta" value=""/>
+			     	</div>
+				</div>
+				<div class="form-group">
+					<label for="select" class="col-lg-2 control-label">Vencimiento</label>
+					<div class="row">
+				      	<div class="col-lg-3">
+					      	<select class="form-control" name="vencimiento_mes" id="vencimiento_mes">
+					      		<option value="" disabled selected>Mes</option>
+					      		<option value="1" >Enero</option>
+					      		<option value="2" >Febrero</option>
+					      		<option value="3" >Marzo</option>
+					      		<option value="4" >Abril</option>
+					      		<option value="5" >Mayo</option>
+					      		<option value="6" >Junio</option>
+					      		<option value="7" >Julio</option>
+					      		<option value="8" >Agosto</option>
+					      		<option value="9" >Septiembre</option>
+					      		<option value="10" >Octubre</option>
+					      		<option value="11" >Nombre</option>
+					      		<option value="12" >Diciembre</option>
+				        	</select>
+				        </div>
+				        <div class="col-lg-2">
+				        	<select class="form-control" name="vencimiento_anio" id="vencimiento_anio">
+					      		<option value="" disabled selected>Año</option>
+					      		{% set anio = "now"|date("Y") %}
+					      		{% for i in range(anio,anio+15) %}
+					      			<option value="{{i}}" >{{i}}</option>	
+					      		{% endfor %}
+				        	</select>
+				     	</div>
+			     	</div>
+				</div>
+				<div class="form-group">
+					<label for="select" class="col-lg-2 control-label">Cod Seguridad</label>
+			      	<div class="col-lg-4">
+				      	<input id="cod_seguridad" type="number" data-validate-length-range="2" data-validate-words="1" required="required" class="form-control" name="cod_seguridad" value=""/>
+			     	</div>
+				</div>
+
+				<div class="form-group">
+			      <div class="col-lg-10 col-lg-offset-2">
+			        <button type="reset" class="btn btn-default">Cancel</button>
+			        <button type="submit" class="btn btn-primary">Pagar</button>
+			      </div>
+			    </div>
+			</fieldset>
+		</form>
+		</div>
+	</div>
+</div>
+
+
+
+
+{%endblock%}
+{% block footer %}  {{ parent() }}  {% endblock %}
+{% block script %}{{ parent() }}  
+	<script type="text/javascript">
+		
+		function setCantCuotas(o){
+
+			idTp_cantCoutas = $('#tipo_pago').val().split("_");
+			console.debug(idTp_cantCoutas);
+			cantMax = parseInt(idTp_cantCoutas[1]);
+			console.debug(cantMax);
+
+			$('#cuotas').empty();
+			for(i=1 ; i<=cantMax; i++){
+				console.debug(i);
+				$('#cuotas').append($('<option>', {
+				    value: i,
+				    text: i
+				}));
+			}
+		}
+	</script>
+{% endblock %}
