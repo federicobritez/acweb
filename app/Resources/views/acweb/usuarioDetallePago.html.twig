@@ -1,0 +1,71 @@
+{% extends 'panel_usuario_base.html.twig' %}
+{% block title %} {{ parent() }} {% endblock %}
+{% block navbar %} {{ parent() }} {% endblock %}
+{% block status_bar %} {{ parent() }} {% endblock %}
+{% block body %} {{ parent() }} {% endblock %}
+
+
+{% block contenido %}
+
+<legend>Detalle de Pago: </legend>
+
+
+<div class="bs-docs-section">
+	<div class="row">
+		<div class="col-lg-12">
+        	<div class="alert alert-success" role="alert">
+			  <h4 class="alert-heading">Su reserva ha sido confirmada!</h4>
+			  <p>El pago de la reserva ha sido aceptado. Gracias por usar nuestros servicios y confiar en nuestra empresa</p>
+			  
+			</div>
+		</div>
+    </div>
+    <div class="row">
+		<div class="col-lg-8 well">
+			<form class="form-horizontal" method="post" action="{{ path('usuario_ver_factura') }}">
+				
+				<fieldset>
+				 	<div class="form-group row">
+						<label class="col-lg-3 control-label">Servicio:</label>
+				      	<div class="col-sm-6">
+					        <p class="form-control-static mb-0">{{consumosCliente.servicio.nombre}}</p>
+				     	</div>
+			     	</div>
+			     	<div class="form-group row">
+						<label class="col-lg-3 control-label">Fecha Reservada:</label>
+				      	<div class="col-sm-6">
+					        <p class="form-control-static mb-0">{{consumosCliente.reserva.fechaDesde.date|date('d/m/Y')}}  hasta {{consumosCliente.reserva.fechaHasta.date|date('d/m/Y')}}</p>
+				     	</div>
+			     	</div>
+			     	<div class="form-group row">
+						<label class="col-lg-3 control-label">Monto Abonado :</label>
+				      	<div class="col-sm-6">
+					        <p class="form-control-static mb-0">${{consumosCliente.montoAbonado|number_format(2)}}</p>
+				     	</div>
+			     	</div>
+			     	<div class="form-group row">
+						<label class="col-lg-3 control-label">Metodo de Pago :</label>
+				      	<div class="col-sm-6">
+					        <p class="form-control-static mb-0">{{consumosCliente.TipoPago.descripcion}}</p>
+				     	</div>
+			     	</div>
+			     	<div class="form-group row">
+			      		<div class="col-sm-10 col-sm-offset-2">
+			      			<input type="hidden" name="id_consumo" value="{{consumosCliente.id}}">
+			      			<input type="hidden" id="reserva_id" name="reserva_id" value="{{consumosCliente.reserva.id}}"">
+			      			<input type="hidden" id="cant_cuotas" name="cant_cuotas"  value="{{consumosCliente.reserva.valorTotal}}">
+			      			<input type="hidden" id="tipo_pago_id" name="tipo_pago_id"  value="{{consumosCliente.TipoPago.id}}">
+			      			<a href="#" class="btn btn-info">Volver</a>
+			        		<button type="submit" class="btn btn-primary">Ver/Imprimir Factura</button>
+
+			      		</div>
+			      	</div>
+			    </fieldset>
+			</form>	
+		</div>
+	</div>
+</div>
+
+
+{%endblock%}
+{% block footer %}  {{ parent() }}  {% endblock %}

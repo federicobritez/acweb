@@ -8,7 +8,7 @@ namespace AppBundle\Entity;
 class FacturaConsumo
 {
     /**
-     * @var string
+     * @var integer
      */
     private $numeroTarjeta;
 
@@ -23,7 +23,7 @@ class FacturaConsumo
     private $nombreApellidoTarjeta;
 
     /**
-     * @var string
+     * @var integer
      */
     private $dniTitular;
 
@@ -33,7 +33,7 @@ class FacturaConsumo
     private $cuil;
 
     /**
-     * @var string
+     * @var integer
      */
     private $codSeguridad;
 
@@ -42,11 +42,16 @@ class FacturaConsumo
      */
     private $id;
 
+    /**
+     * @var \AppBundle\Entity\ConsumosCliente
+     */
+    private $consumosCliente;
+
 
     /**
      * Set numeroTarjeta
      *
-     * @param string $numeroTarjeta
+     * @param integer $numeroTarjeta
      *
      * @return FacturaConsumo
      */
@@ -60,7 +65,7 @@ class FacturaConsumo
     /**
      * Get numeroTarjeta
      *
-     * @return string
+     * @return integer
      */
     public function getNumeroTarjeta()
     {
@@ -118,7 +123,7 @@ class FacturaConsumo
     /**
      * Set dniTitular
      *
-     * @param string $dniTitular
+     * @param integer $dniTitular
      *
      * @return FacturaConsumo
      */
@@ -132,7 +137,7 @@ class FacturaConsumo
     /**
      * Get dniTitular
      *
-     * @return string
+     * @return integer
      */
     public function getDniTitular()
     {
@@ -166,7 +171,7 @@ class FacturaConsumo
     /**
      * Set codSeguridad
      *
-     * @param string $codSeguridad
+     * @param integer $codSeguridad
      *
      * @return FacturaConsumo
      */
@@ -180,7 +185,7 @@ class FacturaConsumo
     /**
      * Get codSeguridad
      *
-     * @return string
+     * @return integer
      */
     public function getCodSeguridad()
     {
@@ -195,6 +200,30 @@ class FacturaConsumo
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set consumosCliente
+     *
+     * @param \AppBundle\Entity\ConsumosCliente $consumosCliente
+     *
+     * @return FacturaConsumo
+     */
+    public function setConsumosCliente(\AppBundle\Entity\ConsumosCliente $consumosCliente = null)
+    {
+        $this->consumosCliente = $consumosCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get consumosCliente
+     *
+     * @return \AppBundle\Entity\ConsumosCliente
+     */
+    public function getConsumosCliente()
+    {
+        return $this->consumosCliente;
     }
 }
 

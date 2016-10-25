@@ -1,38 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
   <entity name="AppBundle\Entity\FacturaConsumo" table="factura_consumo">
+    <indexes>
+      <index name="fk_factura_consumo_consumos_cliente1_idx" columns="consumos_cliente_id"/>
+    </indexes>
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="numeroTarjeta" type="string" column="numero_tarjeta" length="45" nullable="true">
+    <field name="numeroTarjeta" type="integer" column="numero_tarjeta" nullable="false">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="validaHasta" type="string" column="valida_hasta" length="45" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="validaHasta" type="string" column="valida_hasta" length="45" nullable="true">
+    <field name="nombreApellidoTarjeta" type="string" column="nombre_apellido_tarjeta" length="45" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="nombreApellidoTarjeta" type="string" column="nombre_apellido_tarjeta" length="45" nullable="true">
+    <field name="dniTitular" type="integer" column="dni_titular" nullable="false">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="cuil" type="string" column="cuil" length="45" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="dniTitular" type="string" column="dni_titular" length="45" nullable="true">
+    <field name="codSeguridad" type="integer" column="cod_seguridad" nullable="false">
       <options>
-        <option name="fixed"/>
+        <option name="unsigned"/>
       </options>
     </field>
-    <field name="cuil" type="string" column="cuil" length="45" nullable="true">
-      <options>
-        <option name="fixed"/>
-      </options>
-    </field>
-    <field name="codSeguridad" type="string" column="cod_seguridad" length="45" nullable="true">
-      <options>
-        <option name="fixed"/>
-      </options>
-    </field>
+    <many-to-one field="consumosCliente" target-entity="ConsumosCliente" fetch="LAZY">
+      <join-columns>
+        <join-column name="consumos_cliente_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
   </entity>
 </doctrine-mapping>

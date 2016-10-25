@@ -34,6 +34,7 @@
                     <td>${{item.montoAbonado}}</td>
                     <td>
                         <form action="{{ path('usuario_ver_factura') }}" method="post">
+                            <input type="hidden" name="id_consumo" value={{item.id}}>
                             <input type="hidden" name="reserva_id" value="{{item.reserva.id}}">
                             <input type="hidden" name="tipo_pago_id" value="{{item.tipoPago.id}}">
                             <input type="hidden" name="cant_cuotas" value="{{item.tipoPago.cantCuotas}}">

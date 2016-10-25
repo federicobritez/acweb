@@ -47,7 +47,6 @@ use AppBundle\Entity\ReservasHabitaciones;
 use AppBundle\Entity\Habitaciones;
 use AppBundle\Entity\TipoPago;
 use AppBundle\Entity\ConsumosCliente;
-use AppBundle\Entity\FacturaConsumo;
 
 class DefaultController extends Controller
 {
@@ -93,7 +92,7 @@ class DefaultController extends Controller
 
                 $cliente = $user->getCliente();
                 if($cliente != null){
-                    $this->get('session')->set('cliente_nombre', $cliente->getNombre());
+                    $this->get('session')->set('cliente_nombre', $cliente->getNombre()." ".$cliente->getApellido());
                     $this->get('session')->set('cliente_id', $cliente->getId());
                 }
                 return $this->redirectToRoute('usuario_panel');
@@ -103,8 +102,8 @@ class DefaultController extends Controller
     }
 
 
-    /**
-     * Render AcWeb page. 
+     /**
+     * Render AcWeb page. Recibe los datos del servicio comprado. Genera la factura
      *
      * @Route("/usuarioEditarCliente", name="usuario_editar_cliente" )
      *
@@ -114,13 +113,12 @@ class DefaultController extends Controller
      * @return Response
      */
     public function usuarioEditarClienteAction(Request $request){
-        /*  El cliente
-        */
-        $cliente = $this->getCliente(array('id'=> $this->get('session')->get('cliente_id')));
 
-        return $this->render(sprintf('acweb/%s.html.twig', "usuarioEditarCliente"),
-                              array("cliente" => $cliente));
+        $cliente = $this->getCliente(array('id'=> $this->get('session')->get('cliente_id'))); 
+
+        return $this->render(sprintf('acweb/%s.html.twig', "usuarioEditarCliente"),array("cliente" => $cliente));
     }
+
 
     /**
      * Render AcWeb page. Carga el panel de Usurio con información de sus consumos, reservas, facturas, etc
@@ -258,209 +256,18 @@ class DefaultController extends Controller
      */
     public function usuarioReservarAction(Request $request, $page="null"){
 
-
-      $em = $this->getDoctrine()->getManager();
-
-      if($page == "cancelar"){
-          $idReserva = $request->get("id_reserva");
-          $reserva = $this->getReserva(array("id"=>$idReserva));
-          if($reserva !=null){
-              $reserva->setEstadoReserva($this->getEstadoReserva(array('id' => 4)));
-          }
-          $em->persist($reserva);
-          $em->flush();
-
-      }
-
-
       if($page == "null"){
           return $this->redirectToRoute("usuario_panel");
       }
 
-      if(in_array($page, array("posada","paseo_nautico","camping","pesca","guia_pesca","restaurant","cabalgata"))){
-
-          $arrFechas     = explode("-",$request->get("fecha")); // => "21/10/2016 - 28/10/2016"
-          if(count($arrFechas) >1){
-            $fechaInicio   = trim($arrFechas[0]);
-            $fechaFin      = trim($arrFechas[1]);  
-          }
-          else{
-            $fechaInicio   = trim($arrFechas[0]);
-            $fechaFin   = $fechaInicio;
-          }
-          $cant          = $request->get("cant");
-          $habitaciones  = $request->get("habitaciones");
-          $idServicio    = $request->get("id_servicio");
-          $idHorario     = $request->get("horario");
-          $cliente       = $this->getCliente(array('id'=> $this->get('session')->get('cliente_id')));
-
-          $servicio = $this->getServicios($idServicio);
-
-          $reserva = new Reserva();
-          $reserva->setFechaReserva(new \DateTime(date("Y-m-d H:i:s")));
-          $reserva->setFechaDesde(\DateTime::createFromFormat("d/m/Y",$fechaInicio));
-          $reserva->setFechaHasta(\DateTime::createFromFormat("d/m/Y",$fechaFin));
-          $reserva->setCliente($cliente);
-          $reserva->setCantPersonas($cant);
-          $reserva->setServicio($servicio);
-
-          //$totalValorReservas += $valorReserva;
-            
-
-          /* Seteamos el estado por default que es Esperando Confirmacion*/
-          $estadoReserva = $this->getDoctrine()->getRepository('AppBundle:EstadoReserva')->find(3);
-          $reserva->setEstadoReserva($estadoReserva);
-    
-          $em->persist($reserva);
-          $em->flush();               
-
-          $rha=array();
-          if($habitaciones != null && count($habitaciones) > 0){
-            foreach($habitaciones as $idHabit){
-                    
-                    $habitacion = $this->getDoctrine()->getRepository('AppBundle:Habitaciones')->find($idHabit);
-                    $rh = new ReservasHabitaciones();
-                    $rh->setReserva($reserva);
-                    $rh->setHabitaciones($habitacion);
-                    array_push($rha, $rh);
-                    $em->persist($rh);
-                    $em->flush();
-                }
-          }          
-
-          $horario = null;
-          if($idHorario != null){
-            $horario  = $em->getRepository('AppBundle:HorariosServicio')->find($idHorario);
-          }
-          //
-          $horarios_reserva = null;
-          if($horario != null){
-                  $horarios_reserva = new HorariosReserva();
-                $horarios_reserva->setReserva($reserva);
-                $horarios_reserva->setHorariosServicio($horario);
-                
-                //$em->persist($horarios_reserva);
-                //$em->flush();       
-           }
-
-          $valorReserva = $this->calcularValorReserva($reserva);
-          
-          $reserva->setValorTotal($valorReserva);
-          $em->persist($reserva);
-          $em->flush();
-
-          /*
-          $aDatos = array("reserva"=>$reserva, "habitaciones" =>$rha ,"horario"=>$horarios_reserva, "request"=>$request);
-
+      if($page == "posada"){
           return $this->render(sprintf('acweb/%s.html.twig', "debug"),
-                                array('request'=>$aDatos));
-          */
-          return $this->redirectToRoute("usuario_panel");
+            array('request'=>$request));
         
       }
 
       return $this->redirectToRoute("usuario_panel");
     }
-
-
-    /**
-     * Render AcWeb page. 
-     *
-     * @Route("/usuarioPagoReserva/{page}", name="usuario_pago_reservar" ,defaults={"page"="null"} )
-     *
-     * @param Request $request
-     * @param string  $page    Page name
-     *
-     * @return Response
-     */
-    public function usuarioPagoReservaAction(Request $request, $page="null"){
-
-
-        if($page == "pagar"){
-          $em = $this->getDoctrine()->getManager(); 
-
-          $idReserva      = $request->get("id_reserva");     
-          $idTipoPago     = $request->get("id_tipo_pago"); //"tipoPago" => "4_12"
-          $cuota          = $request->get("cuotas");
-          $nombreApellido = $request->get("nombre");
-          $numeroTarjeta  = $request->get("num_tarjeta");
-          $mesVencimiento = $request->get("vencimiento_mes");
-          $anioVencimiento= $request->get("vencimiento_anio");
-          $codSeguridad   = $request->get("cod_seguridad");          
-
-          $montoTotal = $request->get("monto_abonado");
-          $monto_abonado = $request->get("monto_abonado");
-
-          $respuesta="";  
-
-          /*Obtengo la reserva*/
-          $reserva = $this->getReserva(array("id"=>$idReserva));
-
-          if($reserva == null){
-              $respuesta= "ERROR";
-               return $this->render(sprintf('acweb/%s.html.twig', "debug"),
-                                array('request'=>$request));
-          }
-          else{
-
-              $tipoPago = $this->getDoctrine()->getRepository('AppBundle:TipoPago')->findOneBy(array('id'=>$idTipoPago));
-
-              $consumosCliente = new ConsumosCliente();
-              $consumosCliente->setCliente($reserva->getCliente());
-              $consumosCliente->setServicio($reserva->getServicio());
-              $consumosCliente->setMontoAbonado($monto_abonado);
-              $consumosCliente->setSaldo($montoTotal-$monto_abonado);
-              $consumosCliente->setTipoPago($tipoPago);
-              $consumosCliente->setFecha(new \DateTime(date("Y-m-d H:i:s")));
-              $consumosCliente->setReserva($reserva);
-
-
-              $em->persist($consumosCliente);$em->flush();
-
-
-              $facturaConsumo = new FacturaConsumo();
-              $facturaConsumo->setNumeroTarjeta( $numeroTarjeta);
-              $facturaConsumo->setValidaHasta( $mesVencimiento."-".$anioVencimiento);
-              $facturaConsumo->setNombreApellidoTarjeta($nombreApellido);
-              $facturaConsumo->setDniTitular($reserva->getCliente()->getDni());
-              $facturaConsumo->setCuil("30".$reserva->getCliente()->getDni()."6");
-              $facturaConsumo->setCodSeguridad($codSeguridad);
-              $facturaConsumo->setConsumosCliente($consumosCliente);
-
-
-              $em->persist($consumosCliente);$em->flush();
-
-              //Marcamos como confirmada la reserva :
-
-              $reserva->setEstadoReserva($this->getEstadoReserva(array('id'=>1)));
-
-              $em->persist($reserva);$em->flush();
-
-              $aDebug = array('consumo' => $consumosCliente, 'factura' => $facturaConsumo, 'request' => $request);
-
-              return $this->render(sprintf('acweb/%s.html.twig', "usuarioDetallePago"),
-                                    array('consumosCliente'=>$consumosCliente,'facturaConsumo'=>$facturaConsumo));
-          }
-         
-        }
-        elseif ($page == "null") {
-            $idReserva = $request->get("id_reserva");
-
-            $reserva = $this->getReserva(array("id"=>$idReserva));
-            $servicio = $reserva->getServicio();
-
-            $formasPago = $this->getFormasPagoServicio(array("servicio" => $servicio->getId()));
-
-
-
-            return $this->render(sprintf('acweb/%s.html.twig', "usuarioPagoReserva"),
-                                    array('formasDePago'=>$formasPago,
-                                          'reserva'=> $reserva));
-
-        }
-
-    }
-
 
 
     /**
@@ -477,7 +284,6 @@ class DefaultController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $idConsumo = $request->get('id_consumo');
         $reserva_id = $request->get('reserva_id');
         $tipoPago_id = $request->get('tipo_pago_id');
         $coutas = $request->get('cant_cuotas');
@@ -490,21 +296,19 @@ class DefaultController extends Controller
 
         $tipoPago = $em->getRepository('AppBundle:TipoPago')->find($tipoPago_id);
 
-        $consumo = $em->getRepository('AppBundle:ConsumosCliente')->find($idConsumo);
-
         $saldo =  array();
 
-        $saldo["subtotal"] = $consumo->getReserva()->getValorTotal();
+        $saldo["subtotal"] = $this->calcularValorReserva($reserva);
 
-        $interes = ($consumo->getTipoPago()->getInteres()/100)* ($saldo["subtotal"] * 1.21) ;
-
+        $interes = ($tipoPago->getInteres()/100)* $saldo["subtotal"];
+                
         $saldo["interes"] = $interes;
 
         $saldo["iva"] = 0.21 * $saldo["subtotal"];
 
-        $saldo["total"] = $saldo["subtotal"]* (1.21) + $saldo["interes"] ;
+        $saldo["total"] = $saldo["subtotal"] + $saldo["interes"]  + $saldo["iva"];
 
-        $serverTime = $consumo->getFecha();//new \DateTime(date("Y-m-d H:i:s"));
+        $serverTime = new \DateTime(date("Y-m-d H:i:s"));
 
         return $this->render(sprintf('acweb/%s.html.twig', "usuarioVerFactura"),
                                 array('reserva' => $reserva, 
@@ -570,7 +374,7 @@ class DefaultController extends Controller
       $nombreCliente = $this->get('session')->get('cliente_nombre');
       $idCliente = $this->get('session')->get('cliente_id');
       
-      $this->sendEmailAction($nombreCliente, $idCliente, 'ac.ecoturismo@gmail.com', $asunto, $mensaje);
+      $this->sendEmailAction($nombreCliente, $idCliente, $emailCliente, $asunto, $mensaje);
 
       return $this->render(sprintf('acweb/%s.html.twig', "usuarioConsultas"));
     }
@@ -600,7 +404,7 @@ class DefaultController extends Controller
     * @return var float
     */
 
-    public function calcularValorReserva($reserva,$aHabitaciones = null){
+    public function calcularValorReserva($reserva){
 
         /*El valor se calcula:
             Total = ((V.unitarioServicio)*CantPersonasReserva)*Cantidad de Dias  
@@ -615,25 +419,9 @@ class DefaultController extends Controller
         $dias = intval($intervalo->format('%R%a'))+1; //Sumamos un dia mas porque 
 
         $precioUnitario = $reserva->getServicio()->getValorUnitario();
+        $cantPersonas = $reserva->getCantPersonas();
 
-        $idServicio = $reserva->getServicio()->getId();
-
-        $cant = 0;
-
-        switch ($idServicio) {
-          case 2:
-              $habitaciones = $this->getHabitacionesDeReserva($reserva->getId());
-              foreach ($habitaciones as $h) {
-                  $cant += $h->getValorHabitacion();// Contamos las habitaciones, no las personas
-              }
-             break;
-
-          default:
-            $cant = $reserva->getCantPersonas(); // Los demas son valores por persona
-            break;
-        }
-
-        return $precioUnitario*$dias*$cant;
+        return $precioUnitario*$dias*$cantPersonas;
 
     }
 
@@ -666,11 +454,9 @@ class DefaultController extends Controller
 
         //$qb->select('hh')->from('AppBundle:Habitaciones','hh')->leftJoin('AppBundle:ReservasHabitaciones','rh','WITH','hh.id = rh.habitaciones')->leftJoin('AppBundle:Reserva','rr','WITH','rr.fechaDesde >= :fecha')->add('where', $qb->expr()->isNull('rr.id'))->setParameter('fecha','2016-03-28');
 
-        $dbname = $em->getConnection()->getDatabase();
-
-        $sql = ' Select hh.id from '.$dbname.'.habitaciones hh 
-        left join '.$dbname.'.reservas_habitaciones rh ON  hh.id = rh.habitaciones_id
-        left join '.$dbname.'.reserva rr ON  rh.reserva_id = rr.id AND  rr.fecha_desde BETWEEN :fechaInicio AND :fechaFin
+        $sql = ' Select hh.id from ecoturismo.habitaciones hh 
+        left join ecoturismo.reservas_habitaciones rh ON  hh.id = rh.habitaciones_id
+        left join ecoturismo.reserva rr ON  rh.reserva_id = rr.id AND  rr.fecha_desde BETWEEN :fechaInicio AND :fechaFin
         WHERE rr.id IS NULL; ';
 
         $stmt = $em->getConnection()->prepare($sql);
@@ -683,9 +469,9 @@ class DefaultController extends Controller
               array_push($aIds, intval($value['id']));
         }
 
-        $sql = ' Select hh.id from '.$dbname.'.habitaciones hh 
-        left join '.$dbname.'.reservas_habitaciones rh ON  hh.id = rh.habitaciones_id
-        left join '.$dbname.'.reserva rr ON  rh.reserva_id = rr.id AND  rr.fecha_hasta BETWEEN :fechaInicio AND :fechaFin
+        $sql = ' Select hh.id from ecoturismo.habitaciones hh 
+        left join ecoturismo.reservas_habitaciones rh ON  hh.id = rh.habitaciones_id
+        left join ecoturismo.reserva rr ON  rh.reserva_id = rr.id AND  rr.fecha_hasta BETWEEN :fechaInicio AND :fechaFin
         WHERE rr.id IS NULL; ';
 
         $stmt = $em->getConnection()->prepare($sql);
@@ -736,22 +522,10 @@ class DefaultController extends Controller
 
     }
 
-    public function getFormasPagoServicio($array_filtro=array()){
-      
-      return $this->getDoctrine()->getRepository('AppBundle:FormasDePago')->findBy($array_filtro,array('tipoPago' => 'ASC'));
-
-    }
-
     public function getEstadoReserva($array_filtro=array()){
 
-      $estadoReserva = $this->getDoctrine()->getRepository('AppBundle:EstadoReserva')->findOneBy($array_filtro,array('id' => 'ASC'));
+      $estadoReserva = $this->getDoctrine()->getRepository('AppBundle:EstadoReserva')->findBy($array_filtro,array('id' => 'ASC'));
       return $estadoReserva;
-    }
-
-    public function getReserva($array_filtro=array()){
-
-      $Reserva = $this->getDoctrine()->getRepository('AppBundle:Reserva')->findOneBy($array_filtro,array('id' => 'ASC'));
-      return $Reserva;
     }
 
     public function getUsuario($array_filtro=array()){
@@ -759,19 +533,6 @@ class DefaultController extends Controller
       $em = $this->getDoctrine()->getManager();
       return  $em->getRepository('AppBundle:Usuario')->findOneBy($array_filtro);
       
-    }
-
-    public function  getHabitacionesDeReserva($reservaId){
-
-      $rhs = $this->getDoctrine()->getRepository('AppBundle:ReservasHabitaciones')->findBy(array('reserva' => $reservaId));
-      $habitaciones = array();
-      if($rhs !=null){
-
-        foreach ($rhs as $rh) {
-          array_push($habitaciones, $rh->getHabitaciones());
-        }
-      }
-      return $habitaciones;
     }
 
 
@@ -836,7 +597,7 @@ class DefaultController extends Controller
     /**
     * Ajax Pagos
     *
-    * @Route("/ajaxServicios/pagarReserva", name="ajax_pagar_reserva")
+    * @Route("/ajaxServicios/pagorReserva", name="ajax_pagar_reserva")
     *
     * @param Request $request
     *
@@ -845,31 +606,22 @@ class DefaultController extends Controller
 
     public function ajaxPagarReservaAction(Request $request){
 
-        $em = $this->getDoctrine()->getManager(); 
-
-        $idReserva      = $request->get("id_reserva");     
-        $idTipoPago     = $request->get("id_tipo_pago"); //"tipoPago" => "4_12"
-        $cuota          = $request->get("cuotas");
-        $nombreApellido = $request->get("nombre");
-        $numeroTarjeta  = $request->get("num_tarjeta");
-        $mesVencimiento = $request->get("vencimiento_mes");
-        $anioVencimiento= $request->get("vencimiento_anio");
-        $codSeguridad   = $request->get("cod_seguridad");          
-
+        $em = $this->getDoctrine()->getManager();           
+        $id_reserva = $request->get("id_reserva");
+        $id_tipopago = $request->get("id_tipopago");
         $montoTotal = $request->get("monto_abonado");
         $monto_abonado = $request->get("monto_abonado");
 
         $respuesta="";  
 
         /*Obtengo la reserva*/
-        $reserva = $this->getReserva(array("id"=>$idReserva));
+        $reserva = $this->getDoctrine()->getRepository('AppBundle:Reserva')->find($id_reserva);
 
         if($reserva == null){
             $respuesta= "ERROR";
         }
         else{
-
-            $tipoPago = $this->getDoctrine()->getRepository('AppBundle:TipoPago')->find($idTipoPago);
+            $tipoPago = $this->getDoctrine()->getRepository('AppBundle:TipoPago')->find($id_tipopago);
 
             $consumosCliente = new ConsumosCliente();
             $consumosCliente->setCliente($reserva->getCliente());
@@ -884,23 +636,10 @@ class DefaultController extends Controller
 
             $em->flush();
 
-            $facturaConsumo = new FacturaConsumo();
-            $facturaConsumo->setNumeroTarjeta( $numeroTarjeta);
-            $facturaConsumo->setValidaHasta( $mesVencimiento."-".$anioVencimiento);
-            $facturaConsumo->setNombreApellidoTarjeta($nombreApellido);
-            $facturaConsumo->setDniTitular($reserva->getCliente()->getDni());
-            $facturaConsumo->setCuil("30".$reserva->getCliente()->getDni()."6");
-            $facturaConsumo->setCodSeguridad($codSeguridad);
-            $facturaConsumo->setConsumoCliente($consumosCliente);
-
-            $em->persist($consumosCliente);
-
-            $em->flush();
-
             $respuesta= "OK";
         }
-        
-        return new JsonResponse(array('mje' => $respuesta));
+
+       return new JsonResponse(array('mje' => $respuesta));
     }
 
     /**
@@ -1049,7 +788,7 @@ class DefaultController extends Controller
     {
       $message = \Swift_Message::newInstance()
         ->setSubject('[Consulta] Cliente:'.$idCliente.' - '.$asunto)
-        ->setFrom("ac.ecoturismo@gmail.com")
+        ->setFrom("$emailCliente")
         ->setTo("ac.ecoturismo@gmail.com")
         ->setBody($mensaje)
       ;

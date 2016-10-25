@@ -20,22 +20,22 @@
     </div>
     <div class="row">
 		<div class="col-lg-8">
-		<form class="form-horizontal" method="post" action="{{ path('usuario_pago_reservar', {'page': 'pagar'}) }}">
+		<form class="form-horizontal" method="POST" action="{{ path('usuario_pago_reservar', {'page': 'pagar'}) }}">
 			<h3>Formas de pago</h3>
 			<fieldset>
 				 <div class="form-group">
 					<label for="select" class="col-lg-2 control-label">Metodo de Pago</label>
 			      	<div class="col-lg-10">
-				        <select class="form-control" id="tipo_pago" name="tipoPago" onChange="setCantCuotas(this)">
+				        <select class="form-control" id="tipo_pago" name="tipoPago" onChange="setCantCuotas()">
 				          	{% for item in formasDePago%}
-				          		<option value="{{item.TipoPago.id}}_{{item.TipoPago.cantCuotas}}">{{item.TipoPago.descripcion}}</option>
+				          		<option value="{{item.TipoPago.id}}_{{item.TipoPago.cantCuotas}}_{{item.TipoPago.interes}}">{{item.TipoPago.descripcion}}</option>
 				          	{% endfor %}
 			        	</select>
 			     	</div>
 			     </div>
 			     
 			     <div class="form-group">
-					<label for="select" class="col-lg-2 control-label">Cuotas</label>
+					<label for="select" class="col-lg-2 control-label" >Cuotas</label>
 			      	<div class="col-lg-10">
 				        <select class="form-control" name="cuotas" id="cuotas">
 			        	</select>
@@ -95,6 +95,14 @@
 
 				<div class="form-group">
 			      <div class="col-lg-10 col-lg-offset-2">
+			      	<h4>Subtotal Neto : <strong id="subtotal_neto" class="text-success">$ {{reserva.valorTotal}} </strong></h4>
+			      	<h4>Subtotal con IVA (21%) : <strong id="subtotal_iva" class="text-success">${{(reserva.valorTotal * 1.21)|number_format(2)}} </strong></h4>
+			      	<h4>Total con Interes : <strong id="total_calculado" class="text-info"> ${{(reserva.valorTotal * 1.21)|number_format(2)}}</strong></h4>
+			      	<input type="hidden" id="id_reserva" name="id_reserva" value="{{reserva.id}}"">
+			      	<input type="hidden" id="valor_total" name="valor_total"  value="{{reserva.valorTotal}}">
+			      	<input type="hidden" id="id_tipo_pago" name="id_tipo_pago"  value="">
+			      	<input type="hidden" id="sel_cuotas" name="sel_cuotas"  value="">
+			      	<input type="hidden" id="monto_abonado" name="monto_abonado"  value="">
 			        <button type="reset" class="btn btn-default">Cancel</button>
 			        <button type="submit" class="btn btn-primary">Pagar</button>
 			      </div>
@@ -111,15 +119,23 @@
 {%endblock%}
 {% block footer %}  {{ parent() }}  {% endblock %}
 {% block script %}{{ parent() }}  
-	<script type="text/javascript">
+
+	<!--  accounting Number and Monoy Format-->
+    <script src="/assets/js/accounting.js/accounting.min.js"></script>
+
+
+	<script>
 		
-		function setCantCuotas(o){
+		function setCantCuotas(){
 
-			idTp_cantCoutas = $('#tipo_pago').val().split("_");
-			console.debug(idTp_cantCoutas);
-			cantMax = parseInt(idTp_cantCoutas[1]);
-			console.debug(cantMax);
+			var idTp_cantCoutas = $('#tipo_pago').val().split("_");
+			var idTipoPago =parseInt(idTp_cantCoutas[0]);
 
+			var cantMax = parseInt(idTp_cantCoutas[1]);
+			var porcentajeInteres = parseInt(idTp_cantCoutas[2]);
+
+
+			$('#id_tipo_pago').val(idTipoPago);
 			$('#cuotas').empty();
 			for(i=1 ; i<=cantMax; i++){
 				console.debug(i);
@@ -128,6 +144,25 @@
 				    text: i
 				}));
 			}
+
+          	var total_calculado = $('#valor_total').val();
+
+          	console.debug("total:"+total_calculado);
+          	var interes = (100+ eval(porcentajeInteres))/100;
+          	console.debug("Monto del interes:"+interes);
+
+          	total_calculado = total_calculado * interes * 1.21;
+
+          	total_calculado = parseFloat(Math.round(total_calculado * 100) / 100).toFixed(2);
+
+          	$('#monto_abonado').val(total_calculado);
+          	$('#total_calculado').text(accounting.formatMoney(total_calculado, "$", 2, ".", ","));
 		}
+
+		
+
+
+
+		
 	</script>
 {% endblock %}
