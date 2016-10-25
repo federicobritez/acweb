@@ -63,43 +63,71 @@ class DefaultController extends Controller
     }
 
 
+
+
+
     /**
      * Render AcWeb page. Control de acceso por login. El usuario debe tener asociado un cliente 
      *
-     * @Route("/login", name="login" )
+     * @Route("/login/{page}", name="login" , defaults={"page"="null"} )
      *
      * @param Request $request
      *
      *
      * @return Response
      */
-    public function loginAction(Request $request){
+    public function loginAction(Request $request, $page="null"){
 
-        $em = $this->getDoctrine()->getManager();
-        $nombre = $request->get('inputUsuario');
-        $pass = $request->get('inputPassword');
-        $user =  $this->getUsuario(array('usuario' => $nombre));
+        if($page == "salir"){
+            if($this->get('session') != null ){
+                $this->get('session')->clear();
+                $this->get('session')->invalidate();
+                return $this->render(sprintf('acweb/%s.html.twig', "login"),array("estado"=>"desconectado"));
+            }
+        }
+        else{
+          if($this->get('session') != null ){
+              return $this->render(sprintf('acweb/%s.html.twig', "login"),array("estado"=>"conectado"));
+          }
 
-        if($user != null ){
-            if($user->getClave() == $pass){
+          $em = $this->getDoctrine()->getManager();
 
-                if($this->get('session') == null){
-                   $session = new Session();
-                   $session->start();
-                }
+          $nombre_email = $request->get('inputUsuario');
+          $pass = $request->get('inputPassword');
+          $user =  $this->getUsuario(array('usuario' => $nombre_email));
 
-                $this->get('session')->set('usuario_nombre', $user->getUsuario());
-                $this->get('session')->set('usuario_template', $user->getPerfil()->getVista()->getNombrePlantilla());
+          /*Lo busco por email*/
+          if($user == null){
+            $cliente = $this->getCliente(array('correo'=> $nombre_email));
+            if($cliente != null){
+              $user = $this->getUsuario(array('cliente' => $cliente->getId()));  
+            }
+            else{
+              return $this->render(sprintf('acweb/%s.html.twig', "login"),array("estado"=>"invalido"));
+            }
+          }
 
-                $cliente = $user->getCliente();
-                if($cliente != null){
-                    $this->get('session')->set('cliente_nombre', $cliente->getNombre());
-                    $this->get('session')->set('cliente_id', $cliente->getId());
-                }
-                return $this->redirectToRoute('usuario_panel');
-            }       
-        } 
-        return $this->render(sprintf('acweb/%s.html.twig', "login"));
+          if($user != null ){
+              if($user->getClave() == $pass){
+
+                  if($this->get('session') == null){
+                     $session = new Session();
+                     $session->start();
+                  }
+
+                  $this->get('session')->set('usuario_nombre', $user->getUsuario());
+                  $this->get('session')->set('usuario_template', $user->getPerfil()->getVista()->getNombrePlantilla());
+
+                  $cliente = $user->getCliente();
+                  if($cliente != null){
+                      $this->get('session')->set('cliente_nombre', $cliente->getNombre());
+                      $this->get('session')->set('cliente_id', $cliente->getId());
+                  }
+                  return $this->redirectToRoute('usuario_panel');
+              }
+          } 
+        }
+        return $this->render(sprintf('acweb/%s.html.twig', "login"),array("estado"=>"invalido"));
     }
 
 
@@ -143,12 +171,12 @@ class DefaultController extends Controller
         /*  Las Reservas
         */
         $qb = $em->createQueryBuilder();
-        $qb->select('rr')->from('AppBundle:Reserva', 'rr')->andWhere("rr.cliente=:idcliente")->andWhere("rr.fechaDesde>=:hoy")->setParameter("idcliente",$cliente->getId())->setParameter("hoy", date("Y-m-d 00:00"))->orderBy('rr.fechaDesde','DESC');
+        $qb->select('rr')->from('AppBundle:Reserva', 'rr')->andWhere("rr.cliente=:idcliente")->andWhere("rr.fechaDesde>=:hoy")->setParameter("idcliente",$cliente->getId())->setParameter("hoy", date("Y-m-d 00:00"))->orderBy('rr.fechaDesde','ASC');
         $reservasFuturas = $qb->getQuery()->getResult();
 
 
         $qb = $em->createQueryBuilder();
-        $qb->select('rr')->from('AppBundle:Reserva', 'rr')->andWhere("rr.cliente=:idcliente")->andWhere("rr.fechaDesde<:hoy")->setParameter("idcliente",$cliente->getId())->setParameter("hoy", date("Y-m-d 00:00"))->orderBy('rr.fechaDesde','DESC');
+        $qb->select('rr')->from('AppBundle:Reserva', 'rr')->andWhere("rr.cliente=:idcliente")->andWhere("rr.fechaDesde<:hoy")->setParameter("idcliente",$cliente->getId())->setParameter("hoy", date("Y-m-d 00:00"))->orderBy('rr.fechaDesde','ASC');
         $reservasAnteriores = $qb->getQuery()->getResult();
 
         // Paso por session la cantidad de ReservasAnteriores
@@ -165,6 +193,8 @@ class DefaultController extends Controller
         $qb->select('rr')->from('AppBundle:Reserva', 'rr')->leftJoin('AppBundle:ConsumosCliente', 'cc','WITH','rr.id = cc.reserva')->andWhere("cc.reserva IS NULL")->andWhere("rr.cliente=:idcliente")->setParameter("idcliente",$cliente->getId());
 
         $reservasImpagas = $qb->getQuery()->getResult();
+
+        $this->get('session')->set('cant_reservas_pendientes', count($reservasFuturas));
 
         /*  Los Consumos Reservables del cliente
         */

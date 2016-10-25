@@ -31,11 +31,17 @@
                     <td>{{item.cantPersonas}}</td>
                     <td>${{item.valorTotal}}</td>
                     <td>
+                        {% set  class_cancelar = 'disabled' %}
+                        {% set  class_confirmar = 'disabled' %}
                         {% if item.estadoReserva.descripcion =="CANCELADA"  or item.estadoReserva.descripcion =="VENCIDA" %}
                             <p class="text-danger">{{item.estadoReserva.descripcion}}</p>
                         {% elseif item.estadoReserva.descripcion =="ESPERANDO_CONFIRMACION" %}
+                            {% set  class_cancelar = '' %}
+                            {% set  class_confirmar = '' %}
                             <p class="text-warning">{{item.estadoReserva.descripcion}}</p>
-                        {% else %}
+                        {% elseif item.estadoReserva.descripcion =="CONFIRMADA"%}
+                            {% set  class_cancelar = 'disabled' %}
+                            {% set  class_confirmar = 'disabled' %}
                             <p class="text-success">{{item.estadoReserva.descripcion}}</p>
                         {% endif%}
                         <!--
@@ -52,9 +58,11 @@
                     </td>
                     <td> 
                         <form method="post" action="{{ path('usuario_pago_reservar', {'page': 'null'}) }}"">
+                            
+
                             <input type="hidden" name="id_reserva"  value="{{item.id}}">
-                            <a class="btn btn-warning" role= "menuitem" data-toggle="modal" data-target=".bs-cancelar-modal-sm" onclick="setInfoReserva({{item.id}})">Cancelar</a>
-                            <button class="btn btn-success">Confirmar</button>
+                            <a class="btn btn-warning {{class_cancelar}}" role= "menuitem" data-toggle="modal" data-target=".bs-cancelar-modal-sm" onclick="setInfoReserva({{item.id}})">Cancelar</a>
+                            <button class="btn btn-success {{class_confirmar}}">Confirmar</button>
                         </form>
                     </td>
                 </tr>

@@ -9,13 +9,13 @@
 
 <div class="row">
     <div class="col-md-6 col-sm-5" id="login">
-        <form class="form-horizontal" action="{{ path('login', {'page': ''}) }}" method="post" >
+        <form class="form-horizontal" action="{{ path('login', {'page': 'null'}) }}" method="post" >
           <fieldset>
             <legend>Entrar </legend>
             <div class="form-group" >
               <label for="inputUsuario" class="col-lg-2 control-label">Usuario</label>
               <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputUsuario" name="inputUsuario" placeholder="Email">
+                <input type="text" class="form-control" id="inputUsuario" name="inputUsuario" placeholder="Usuario o Email">
               </div>
             </div>
             <div class="form-group">
@@ -31,6 +31,7 @@
             </div>
             <div class="form-group">
               <div class="col-lg-10 col-lg-offset-2">
+                <input type="hidden" name="estado" id="estado" value="{{estado}}">
                 <button type="reset" class="btn btn-default">Cancelar</button>
                 <button type="submit" class="btn btn-primary">Ingresar</button>
                 <hr>
@@ -78,11 +79,11 @@
                                 </label>
                             </div>
                             <div class="col-lg-3 control-label">
-                                <label for="register:phone">Teléfono</label>
+                                <label for="register:phone">Dni</label>
                                 <label class="input margin-bottom-10">
                                     <i class="ico-append fa fa-phone"></i>
-                                    <input type="text" placeholder="teléfono">
-                                    <b class="tooltip tooltip-bottom-right">Teléfono (opcional)</b>
+                                    <input type="text" placeholder="Dni">
+                                    <b class="tooltip tooltip-bottom-right">DNI</b>
                                 </label>
                             </div>
 
@@ -225,6 +226,41 @@
             $('#login').show();
             $('#register').hide();
         }
+    </script>
+
+    <script>
+        // A $( document ).ready() block.
+        $( document ).ready(function() {
+            var estado = $('#estado').val();
+            if(estado == "desconectado"){
+
+                 new PNotify({
+                    title: 'Sesión Terminada',
+                    text: 'Su sesión ha sido cerrada correctamente',
+                    type: 'success',                    
+                    styling: 'bootstrap3'
+                    });
+            }
+            if(estado == "conectado"){
+
+                 new PNotify({
+                    title: 'Sesión Conectada',
+                    text: 'Su sesión aún sigue activa',
+                    type: 'info',                    
+                    styling: 'bootstrap3'
+                    });
+            }
+            if(estado == "invalido"){
+
+                 new PNotify({
+                    title: 'Ingreso Inválido',
+                    text: 'Los datos proporcionados no pertenecen al un usuario habilitado',
+                    type: 'error',                    
+                    styling: 'bootstrap3'
+                    });
+            }
+        });
+        
     </script>
 
 
