@@ -64,7 +64,7 @@
         {% if app.session.get('cliente_nombre') is null %}
           <li><a>Sesión terminada</a></li>
         {% else   %}
-        <li><a href="{{ path('usuario_consultas', {'page': ''}) }}">Consultas</a></li>
+        <!--<li><a href="{{ path('usuario_consultas', {'page': ''}) }}">Consultas</a></li>-->
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Opciones <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
@@ -99,8 +99,8 @@
 
             <ul class="nav nav-pills">
               <li class="active"><a href="{{ path('usuario_panel', {'page': ''}) }}">Mis Reservas <span class="badge">{{app.session.get('cant_reservas_pendientes')}}</span></a></li>
-              <li><a href="{{ path('usuario_reservas_servicios', {'page': ''}) }}">Nueva Reserva <span class="badge"></span></a></li>
-              <li><a href="{{ path('usuario_listar_factura', {'page': ''}) }}">Facturas <span class="badge">3</span></a></li>   
+              <li class="active"><a href="{{ path('usuario_reservas_servicios', {'page': ''}) }}">Nueva Reserva <span class="badge"></span></a></li>
+              <li class="active"><a href="{{ path('usuario_listar_factura', {'page': ''}) }}">Facturas <span class="badge">{{app.session.get('cant_consumos')}}</span></a></li>   
             </ul>
             <!--
             <div class="btn-group btn-group-justified">
@@ -176,6 +176,9 @@
 
 
 </body>
-<!-- Lime Talk Live Chat start --> <script type="text/javascript"> var limetalk = (function () { var lc = document.createElement("script"); lc.type = "text/javascript"; lc.async = true; lc.src = "//www.limetalk.com/livechat/a08d69df9710b53c0b3d28eba6cc1449"; document.getElementsByTagName("head")[0].appendChild(lc); var fnr = function(fn) { var l = limetalk; if (l.readyList) { l.ready(fn); } else { l.rl = l.rl || []; l.rl.push(fn); } }; fnr.ready = fnr; return fnr; })(); </script> <!-- Lime Talk Live Chat end -->
+
+<!-- Lime Talk Live Chat start --> <script type="text/javascript"> var limetalk = (function () { var lc = document.createElement("script"); lc.type = "text/javascript"; lc.async = true; lc.src = "//www.limetalk.com/livechat/690aa5be3467a2f32f25bc3ae91cbec7"; document.getElementsByTagName("head")[0].appendChild(lc); var fnr = function(fn) { var l = limetalk; if (l.readyList) { l.ready(fn); } else { l.rl = l.rl || []; l.rl.push(fn); } }; fnr.ready = fnr; return fnr; })(); </script> <!-- Lime Talk Live Chat end -->
+
+
 
 </html>

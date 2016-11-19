@@ -63,6 +63,7 @@
                                 <div class="panel-body ">
                                     <div class="col-lg-11">
                                         <div class="well">
+                                          <legend>Descripcion:</legend><p>{{servicios['restaurant'].servicio.descripcion}}</p>
                                           <form class="form-horizontal" id="form_restaurant" method="POST" action="{{ path('usuario_reservar', {'page': 'restaurant'}) }}">
                                                 <input type="hidden" name="id_servicio" value="{{servicios['restaurant'].servicio.id}}">
                                                 <div class="form-group col-lg-4">
@@ -94,7 +95,7 @@
                                     
                                                 <div class="form-group">
                                                     <div class="col-lg-10 col-lg-offset-8">
-                                                        <button type="reset" class="btn btn-default">Reset</button>
+                                                        <button type="reset" class="btn btn-default">Resetear</button>
                                                         <button type="submit" class="btn btn-primary">Reservar</button>
                                                     </div>
                                                 </div>
@@ -115,6 +116,7 @@
                                 <div class="panel-body ">
                                     <div class="col-lg-11">
                                         <div class="well">
+                                          <legend>Descripcion:</legend><p>{{servicios['cabalgata'].servicio.descripcion}}</p>
                                           <form class="form-horizontal" id="form_cabalgata" method="POST" action="{{ path('usuario_reservar', {'page': 'cabalgata'}) }}">
                                                 <input type="hidden" name="id_servicio" value="{{servicios['cabalgata'].servicio.id}}">
                                                 <div class="form-group col-lg-4">
@@ -168,6 +170,7 @@
                                 <div class="panel-body ">
                                     <div class="col-lg-11">
                                         <div class="well">
+                                          <legend>Descripcion:</legend><p>{{servicios['posada'].servicio.descripcion}}</p>
                                           <form class="form-horizontal" id="form_posada" method="POST" action="{{ path('usuario_reservar', {'page': 'posada'}) }}">
                                                 <input type="hidden" name="id_servicio" value="{{servicios['posada'].servicio.id}}">
                                                 <div class="form-group col-lg-4">
@@ -228,6 +231,7 @@
                                 <div class="panel-body ">
                                     <div class="col-lg-11">
                                         <div class="well">
+                                          <legend>Descripcion:</legend><p>{{servicios['guia_pesca'].servicio.descripcion}}</p>
                                           <form class="form-horizontal" id="form_guia_pesca" method="POST" action="{{ path('usuario_reservar', {'page': 'guia_pesca'}) }}">
                                            <input type="hidden" name="id_servicio" value="{{servicios['guia_pesca'].servicio.id}}">
                                                 <div class="form-group col-lg-4">
@@ -271,6 +275,7 @@
                                 <div class="panel-body ">
                                     <div class="col-lg-11">
                                         <div class="well">
+                                          <legend>Descripcion:</legend><p>{{servicios['paseo_nautico'].servicio.descripcion}}</p>
                                           <form class="form-horizontal" id="form_paseo_nautico" method="POST" action="{{ path('usuario_reservar', {'page': 'paseo_nautico'}) }}">
                                            <input type="hidden" name="id_servicio" value="{{servicios['paseo_nautico'].servicio.id}}">
                                                 <div class="form-group col-lg-4">
@@ -321,6 +326,7 @@
                                 <div class="panel-body ">
                                     <div class="col-lg-11">
                                         <div class="well">
+                                          <legend>Descripcion:</legend><p>{{servicios['pesca'].servicio.descripcion}}</p>
                                           <form class="form-horizontal" id="form_pesca" method="POST" action="{{ path('usuario_reservar', {'page': 'pesca'}) }}">
                                            <input type="hidden" name="id_servicio" value="{{servicios['pesca'].servicio.id}}">
                                                 <div class="form-group col-lg-4">
@@ -361,6 +367,7 @@
                                 <div class="panel-body ">
                                     <div class="col-lg-11">
                                         <div class="well">
+                                          <legend>Descripcion:</legend><p>{{servicios['camping'].servicio.descripcion}}</p>
                                           <form class="form-horizontal" id="form_camping" method="POST" action="{{ path('usuario_reservar', {'page': 'camping'}) }}">
                                            <input type="hidden" name="id_servicio" value="{{servicios['camping'].servicio.id}}">
                                                 <div class="form-group col-lg-4">
@@ -576,7 +583,7 @@
             dataType: 'json',
             success: function (response){              
 
-                console.debug(response.habitaciones);
+                //console.debug(response.habitaciones);
 
                 var json_habitaciones = $.parseJSON(response.habitaciones);
 

@@ -1,17 +1,17 @@
 # This file is auto-generated during the composer install
 parameters:
-    database_host: 127.0.0.1
+    database_host: sql108.byetcluster.com
     database_port: 3306
-    database_name: ecotour_db
-    database_user: ecotour_acweb
-    database_password: eNuwDZWU
+    database_name: rfgd_18997805_ecoturismo
+    database_user: rfgd_18997805
+    database_password: ecorp2016
 
     secret: e032df277de93c37cc2c41eb4775126c141b71d3
 
     mailer_transport: smtp
-    mailer_host: 64.233.190.108
+    mailer_host: smtp.gmail.com
     mailer_user: ac.ecoturismo@gmail.com
     mailer_password: acweb2016
     mailer_auth_mode: login
-    mailer_port: 465
+    mailer_port: 587
     mailer_encryption:  ssl
